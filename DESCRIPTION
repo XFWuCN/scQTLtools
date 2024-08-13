@@ -1,0 +1,66 @@
+Package: scQTLtools
+Type: Package
+Title: An R package for single-cell eQTL analysis and visualization
+Version: 0.99.0
+Authors@R: c(
+    person(given = "Xiaofeng", 
+           family = "Wu",    
+           email = "1427972815@qq.com", 
+           role  = c("aut", "cre", "cph"), 
+           comment = c(ORCID = "0009-0003-6254-5575")),
+    person(given = "Xin",      
+           family = "Huang", 
+           email = "1097567240@qq.com",   
+           role  = c("aut", "cph")),
+    person(given = "Jingtong", 
+           family = "Kang",  
+           email = "1203178107@qq.com",     
+           role = "com"),
+    person(given = "Siwen",    
+           family = "Xu",    
+           email = "siwxu@gdpu.edu.cn",      
+           role  = c("aut", "cph"))
+    )
+Description: This package specializes in analyzing and visualizing eQTL at the
+    single-cell level. It can read gene expression matrices or Seurat data, 
+    along with genotype data. It offers a function for cis-eQTL analysis to 
+    detect eQTL within a given range, and another function to fit models with
+    three methods. Using this package, users can also generate single-cell
+    level visualization result.
+Depends: R (>= 4.4.1.0)
+Imports:
+    ggplot2(>= 3.5.1),
+    Matrix (>= 1.7-0),
+    stats (>= 4.4.1),
+    progress(>= 1.2.3),
+    stringr(>= 1.5.1),
+    dplyr(>= 1.1.4),
+    SeuratObject(>= 5.0.2),
+    methods(>= 4.4.1),
+    magrittr(>= 2.0.3),
+    patchwork(>= 1.2.0),
+    DESeq2 (>= 1.44.0),
+    AnnotationDbi(>= 1.66.0),
+    VGAM (>= 1.1-11),
+    limma (>= 3.60.4),
+    biomaRt(>= 2.60.1),
+    org.Hs.eg.db (>= 3.19.1),
+    org.Mm.eg.db (>= 3.19.1),
+    gamlss (>= 5.4-22)
+Suggests: 
+    BiocStyle,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.2.1.1)
+License: MIT + file LICENSE
+URL: https://github.com/XFWuCN/scQTLtools
+VignetteBuilder: knitr
+BugReports: https://github.com/XFWuCN/scQTLtools/issues
+biocViews: Software,GeneExpression,GeneticVariability,SNP,
+        DifferentialExpression,GenomicVariation,VariantDetection,Genetics,
+        FunctionalGenomics,SystemsBiology,Regression,SingleCell,Normalization,
+        Visualization
+Encoding: UTF-8
+RoxygenNote: 7.3.2
+LazyData: false
+Config/testthat/edition: 3

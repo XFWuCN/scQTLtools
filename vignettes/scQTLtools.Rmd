@@ -1,7 +1,29 @@
-# scQTLtools:An R package for single-cell eQTL analysis.
+---
+title: "scQTLtools:An R package for single-cell eQTL analysis."
+author: 
+- Xiaofeng Wu
+- Xin Huang
+- Jingtong Kang
+- Siwen Xu
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    number_sections: true
+    self_contained: yes
+    css: header-styles.css
+    highlight: pygments
+    style: symbol
+    df_print: kable
+vignette: >
+  %\VignetteIndexEntry{cisSceQTL:An R package for single-cell eQTL analysis.}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
 
-
-## Introduction
+# Introduction
 Expression quantitative trait loci (eQTL) analysis links variations in 
 gene expression levels to genotypes. This package attempts to identify genetic
 variants that affect the expression of genes at a single-cell level, and can 
@@ -17,7 +39,7 @@ If you find this tool useful, please cite:
 
 ------------------------------------------------------------------------
 
-## Installation
+# Installation
 
 ```{r, eval = FALSE}
 if (!require("BiocManager"))
@@ -26,17 +48,17 @@ BiocManager::install("scQTLtools")
 ```
 
 
-## Overview of the package
+# Overview of the package
 
 scQTLtools functions can be categorized into mainly single-cell eQTL analysis 
 and Visualization modules. Each of these functions and a short description is 
 summarized as shown below.
 
 
-***[Overview](vignettes/Overview.svg)***
+![ ](Overview.svg){width=90%}
 
 
-## Required input files
+# Required input files
 The input file requires genotype data, as well as either a gene expression 
 matrix or a SeuratObject.
 
@@ -65,7 +87,7 @@ data(testSNP2)
 ```
 
 
-## Create eqtl object
+# Create eqtl object
 The createQTLObject class is an R object designed to store data related to eQTL
 analysis, encompassing data lists, result data frames, and slots for 
 biClassify, species, and group information.
@@ -108,7 +130,7 @@ eqtl_seurat <- createQTLObject(
 ```
 
 
-## Normalize gene expression matrix
+# Normalize gene expression matrix
 Use `normalizeGene()` to normalize the gene expression matrix.
 
 **Example**
@@ -120,7 +142,7 @@ eqtl_matrix  <- normalizeGene(
 ```
 
 
-## Identify the valid gene snp pairs
+# Identify the valid gene snp pairs
 Here we use `filterGeneSNP()` to filter snp gene pairs.
 
 **Example**
@@ -142,7 +164,7 @@ eqtl_seurat <- filterGeneSNP(
 ```
 
 
-## Call single cell eQTL
+# Call single cell eQTL
 Here we use `callQTL()` to do single cell eQTL analysis.
 
 **Example**
@@ -210,7 +232,7 @@ eqtl3_matrix <- callQTL(
 ```
 
 
-## Visualize the result.
+# Visualize the result.
 Here we use `visualizeQTL()` to visualize the result. There are four types of
 plots available to visualize sc-eQTL results. Users can choose "histplot",
 "violin", "boxplot", or "QTLplot". 
@@ -249,3 +271,32 @@ visualizeQTL(
     plottype = "QTLplot",
     removeoutlier = TRUE)
 ```
+
+
+# References
+1. Miao, Z., Deng, K.e., Wang, X., Zhang, X., Berger, B., 2018. DEsingle for
+detecting three types of differential expression in single-cell RNA-seq data.
+Bioinformatics 34 (18), 3223–3224.
+<https://doi.org/10.1093/bioinformatics/bty332>
+2. Hu, Y., Xi, X., Yang, Q., Zhang, X., 2020. SCeQTL: An R package for
+identifying eQTL from single-cell parallel sequencing data. BMC Bioinformatics
+21, 1–12. <https://doi.org/10.1186/s12859-020-3534-6>
+3. Nathan, A., Asgari, S., Ishigaki, K. et al. Single-cell eQTL models reveal
+dynamic T cell state dependence of disease loci. Nature 606, 120–128 (2022).
+<https://doi.org/10.1038/s41586-022-04713-1>
+4. Ma, T. ,  Li, H. , &  Zhang, X. . (2021). Discovering single-cell eQTLs from
+scRNA-seq data only. Cold Spring Harbor Laboratory.
+5. Schmiedel, B. J., Gonzalez-Colin, C., Fajardo, V., Rocha, J., Madrigal, A.,
+Ramírez-Suástegui, C., Bhattacharyya, S., Simon, H., Greenbaum, J. A., Peters,
+B., Seumois, G., Ay, F., Chandra, V., & Vijayanand, P. (2022). Single-cell eQTL
+analysis of activated T cell subsets reveals activation and cell type-dependent
+effects of disease-risk variants. Science immunology, 7(68), eabm2508.
+<https://doi.org/10.1126/sciimmunol.abm2508>
+
+
+# Session Info
+
+```{r}
+sessionInfo()
+```
+
