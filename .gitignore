@@ -15,3 +15,7 @@ vignettes/*.html
 
 # rproj
 *.Rproj
+.Rdata
+.httr-oauth
+.DS_Store
+.quarto
