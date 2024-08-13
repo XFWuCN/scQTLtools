@@ -1,0 +1,16 @@
+citHeader("scQTLtools can be cited as:")
+
+citEntry(
+   entry="article",
+   title = "scQTLtools:An R package for single-cell eQTL analysis.",
+   author = c(
+              person("Xiaofeng", "Wu"),
+              person("Xin Huang"),
+              person("Jingtong Kang"),
+              person("Siwen Xu")
+                       ),
+   journal = "NULL",
+   year = 2024,
+   doi = "NULL",
+   textVersion = "X Wu, X Huang, J Kang, S Xu"
+)
