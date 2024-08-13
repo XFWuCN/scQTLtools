@@ -1,0 +1,17 @@
+# RStudio files
+.Rproj.user
+
+# History files
+.Rhistory
+
+# Session Data files
+.RData
+
+# User-specific files
+.Ruserdata
+
+# Produced vignettes
+vignettes/*.html
+
+# rproj
+*.Rproj
