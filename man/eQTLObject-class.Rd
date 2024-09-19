@@ -22,7 +22,7 @@ biClassify, species, and grouping information.
 \item{\code{rawData}}{A gene expression dataframe, the row names represent gene IDs
 and the column names represent cell IDs.}
 
-\item{\code{filterData}}{list. gene expression matrix after normalizing.}
+\item{\code{filterData}}{Gene expression matrix after normalizing.}
 
 \item{\code{eQTLResult}}{The result dataframe obtained the sc-eQTL results.}
 

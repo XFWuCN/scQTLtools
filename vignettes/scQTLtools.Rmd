@@ -24,10 +24,19 @@ vignette: >
 ---
 
 # Introduction
-Expression quantitative trait loci (eQTL) analysis links variations in 
-gene expression levels to genotypes. This package attempts to identify genetic
-variants that affect the expression of genes at a single-cell level, and can 
-also do cis-eQTL analysis, visualize the results. 
+Expression quantitative trait loci (eQTL) analysis links variations in gene 
+expression levels to genotypes. This package, scQTLtools, attempts to identify 
+genetic variants that affect the gene expression at a single-cell level. It 
+also supports cis-eQTL analysis, and provides visualization of the results. 
+
+## Rationale for Bioconductor Submission
+By seeking inclusion in Bioconductor, we aim to integrate scQTLtools into a 
+well-established ecosystem that is widely used by researchers in 
+bioinformatics. Bioconductor's rigorous standards for package quality and its 
+focus on reproducibility will enhance the credibility of scQTLtools. 
+Additionally, being part of Bioconductor will provide access to a broader user 
+base and foster collaboration with other developers, contributing to the 
+ongoing improvement and validation of the package.
 
 ## Citation
 
@@ -47,25 +56,75 @@ if (!require("BiocManager"))
 BiocManager::install("scQTLtools")
 ```
 
-
 # Overview of the package
 
-scQTLtools functions can be categorized into mainly single-cell eQTL analysis 
-and Visualization modules. Each of these functions and a short description is 
-summarized as shown below.
+The functions in scQTLtools can be categorized into data pre-process, sc-eQTL 
+calling and visualization modules. 
 
+## General Workflow
+
+Each module is summarized as shown below.
 
 ![ ](Overview.svg){width=90%}
 
+scQTLtools supports input from both gene expression matrices, Seurat objects, 
+and SingleCellExperiment objects. It offers three data fitting models and 
+enables the analysis of genotype matrices in two forms: ALT and REF, or AA, Aa,
+and aa. Additionally, the package includes functionality to filter Gene-SNP 
+pairs that are closely positioned in the genome, as nearby SNPs are more likely
+to influence gene expression. Moreover, visualization at the single-cell level
+demonstrates the specificity of eQTLs across distinct cell types or cellular 
+states.
+
+## Comparison and advantages compared to similar works
+
+We compared scQTLtools to other packages with similar functionality, including 
+eQTLsingle, SCeQTL, MatrixEQTL, and iBMQ, as shown in the table below.
+
+![ ](Comparison.jpg){width=100%}
+
+Among these tools, scQTLtools stands out for its comprehensive features:
+
+(1) scQTLtools accepts SingleCellExperiment objects and Seurat objects as
+input data formats, which are particularly beneficial for users working with
+single-cell RNA-seq data, and promote the interoperability with the current
+Bioconductor ecosystem. 
+
+(2) scQTLtools supports both binary and triple classification genotype 
+matrices, enhancing its applicability across different genetic studies. 
+
+(3) scQTLtools offers extensive data pre-processing capabilities, including 
+quality control filtering for SNPs and genes, normalization of expression data, 
+and customization of SNP-gene pair distances. This ensures high-quality and 
+well-prepared input data for subsequent analysis. 
+
+(4) scQTLtools provides three kinds of fitting models, which cater to various 
+data distributions and analysis needs. This diversity allows users to select 
+the most appropriate model for their specific dataset. 
+
+(5) scQTLtools includes a range of visualization tools, these options 
+facilitate detailed exploration and interpretation of eQTL results at the 
+single-cell level. 
+
+(6) scQTLtools supports grouping by both cell type and cell state, which is 
+crucial for analyzing the nuanced effects of genetic variants on gene 
+expression within heterogeneous cell populations.
+
+Overall, scQTLtools offers a comprehensive suite of features that enhance the 
+analysis and interpretation of eQTLs.
+
 
 # Required input files
-The input file requires genotype data, as well as either a gene expression 
-matrix or a SeuratObject.
+The input file requires genotype data, as well as a gene expression matrix or 
+a Seurat object, or a SingleCellExperiment object.
 
 - gene expression matrix: describes gene expressions, the row names represent
 gene IDs or SYMBOL and the column names represent cell IDs.
-- SeuratObject: a Seurat object, `yourseurat@assays$RNA@data` is the gene 
+- Seurat object: a Seurat object, `yourSeurat@assays$RNA@data` is the gene 
 expression matrix after normalizing.
+- SingleCellExperiment object: a SingleCellExperiment object, 
+`assays(yoursce)$counts)` is raw gene expression matrix, and 
+`assays(sce)$normcounts`is the gene expression matrix after normalizing.
 - genotype matrix: A genotype matrix where each row is one variant and each 
 column is one sample, and the scoring method is 0/1/2/3, 0 represents missing
 values, 1 represents ref/ref, 2 represents alt/alt, and 3 represents ref/alt.
@@ -116,7 +175,7 @@ eqtl_matrix_bi <- createQTLObject(
     group = NULL)
 ```
 
-Users can use Seuratobjct instead of gene expression matrix. 
+Users can use Seurat object instead of gene expression matrix. 
 
 **Example**
 
@@ -127,6 +186,22 @@ eqtl_seurat <- createQTLObject(
     biClassify = FALSE,
     species = 'human',
     group = "celltype")
+```
+
+Users can also take SingleCellExperiment object as input. 
+
+**Example**
+
+```{r createObject_sceobject, message=FALSE}
+# create a sce
+library(SingleCellExperiment)
+sce <- SingleCellExperiment(assays = list(counts = testGene))
+eqtl_sce <- createQTLObject(
+    snpMatrix = testSNP,
+    genedata = sce,
+    biClassify = FALSE,
+    species = 'human',
+    group = NULL)
 ```
 
 
@@ -141,6 +216,11 @@ eqtl_matrix  <- normalizeGene(
     method = "logNormalize")
 ```
 
+```{r Normalize_sceobject, message=FALSE}
+eqtl_sce  <- normalizeGene(
+    eQTLObject = eqtl_sce, 
+    method = "logNormalize")
+```
 
 # Identify the valid gene snp pairs
 Here we use `filterGeneSNP()` to filter snp gene pairs.
@@ -158,6 +238,14 @@ eqtl_matrix <- filterGeneSNP(
 ```{r filter_seuratobject, message=FALSE}
 eqtl_seurat <- filterGeneSNP(
     eQTLObject = eqtl_seurat,
+    snpNumOfCellsPercent = 2,
+    expressionMin = 0,
+    expressionNumOfCellsPercent = 2)
+```
+
+```{r filter_sceobject, message=FALSE}
+eqtl_sce <- filterGeneSNP(
+    eQTLObject = eqtl_sce,
     snpNumOfCellsPercent = 2,
     expressionMin = 0,
     expressionNumOfCellsPercent = 2)
@@ -184,6 +272,18 @@ eqtl1_matrix <- callQTL(
 ```{r callQTL1_seuratobject, message=FALSE}
 eqtl1_seurat <- callQTL(
     eQTLObject = eqtl_seurat,
+    gene_ids = NULL,
+    downstream = NULL,
+    upstream = NULL,
+    pAdjustMethod = "bonferroni",
+    useModel = "linear",
+    pAdjustThreshold = 0.05,
+    logfcThreshold = 0.025)
+```
+
+```{r callQTL1_sceobject, message=FALSE}
+eqtl1_sce <- callQTL(
+    eQTLObject = eqtl_sce,
     gene_ids = NULL,
     downstream = NULL,
     upstream = NULL,
@@ -239,15 +339,22 @@ plots available to visualize sc-eQTL results. Users can choose "histplot",
 
 **Example**
 
+violin plot:
+
 ```{r visualizeQTL_matrix, message=FALSE}
 visualizeQTL(
     eQTLObject = eqtl1_matrix,
     SNPid = "1:632647",
     Geneid = "RPS27",
     groupName = NULL,
-    plottype = "QTLplot",
+    plottype = "violin",
     removeoutlier = TRUE)
 ```
+
+QTLplot:
+
+With cell annotiation information of Seurat object or SingleCellExperiment 
+object, we can discover that the eQTL varies across different cell types.
 
 ```{r visualizeQTL_seuratobject, message=FALSE}
 visualizeQTL(
@@ -272,6 +379,18 @@ visualizeQTL(
     removeoutlier = TRUE)
 ```
 
+boxplot:
+
+```{r visualizeQTL_sceobject, message=FALSE}
+visualizeQTL(
+    eQTLObject = eqtl1_sce,
+    SNPid = "1:632647",
+    Geneid = "RPS27",
+    groupName = NULL,
+    plottype = "boxplot",
+    removeoutlier = TRUE)
+```
+
 
 # References
 1. Miao, Z., Deng, K.e., Wang, X., Zhang, X., Berger, B., 2018. DEsingle for
@@ -292,7 +411,10 @@ B., Seumois, G., Ay, F., Chandra, V., & Vijayanand, P. (2022). Single-cell eQTL
 analysis of activated T cell subsets reveals activation and cell type-dependent
 effects of disease-risk variants. Science immunology, 7(68), eabm2508.
 <https://doi.org/10.1126/sciimmunol.abm2508>
-
+6. Imholte, G. C. ,  Marie-Pier, S. B. , Labbe Aurélie,  
+Deschepper, C. F. , &  Raphael, G. . (2013). Ibmq: a r/bioconductor package for
+integrated bayesian modeling of eqtl data. Bioinformatics(21), 2797-2798.
+<https://doi.org/10.1093/bioinformatics/btt485>
 
 # Session Info
 

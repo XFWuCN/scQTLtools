@@ -19,7 +19,8 @@ createQTLObject(
 \item{snpMatrix}{A genotype matrix where each row is one variant and
 each column is one sample, and the scoring method is 0/1/2/3.}
 
-\item{genedata}{A gene expression matrix or a seuratobject.}
+\item{genedata}{A gene expression matrix or a Seurat object, or a
+SingleCellExperiment object.}
 
 \item{biClassify}{The user chooses whether to convert the counting method of
 the snpMatrix to 0/1/2, TRUE indicates conversion,

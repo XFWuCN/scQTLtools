@@ -12,7 +12,7 @@ setClassUnion(name = "AnyMatrixOrDataframe",
 #' @name eQTLObject-class
 #' @slot rawData A gene expression dataframe, the row names represent gene IDs
 #' and the column names represent cell IDs.
-#' @slot filterData list. gene expression matrix after normalizing.
+#' @slot filterData Gene expression matrix after normalizing.
 #' @slot eQTLResult The result dataframe obtained the sc-eQTL results.
 #' @slot biClassify The user chooses whether to convert the counting method of
 #' the snpMatrix to 0, 1, 2, TRUE indicates conversion, and FALSE indicates no
@@ -76,7 +76,8 @@ setMethod(f = "show", signature = "eQTLObject",
 #'
 #' @param snpMatrix A genotype matrix where each row is one variant and
 #' each column is one sample, and the scoring method is 0/1/2/3.
-#' @param genedata A gene expression matrix or a seuratobject.
+#' @param genedata A gene expression matrix or a Seurat object, or a
+#' SingleCellExperiment object.
 #' @param biClassify The user chooses whether to convert the counting method of
 #' the snpMatrix to 0/1/2, TRUE indicates conversion,
 #' and FALSE indicates no conversion, default is no conversion.
@@ -86,6 +87,8 @@ setMethod(f = "show", signature = "eQTLObject",
 #' @param ... other parameters
 #' @importFrom SeuratObject GetAssayData
 #' @importFrom methods is new
+#' @importFrom SingleCellExperiment colData
+#' @importFrom SummarizedExperiment assayNames
 #' @return eQTLObject
 #' @export
 #'
@@ -102,15 +105,43 @@ createQTLObject <- function(snpMatrix,
                             genedata,
                             biClassify = FALSE,
                             species = NULL,
-                            group = NULL, ...) {
+                            group = NULL,
+                            ...) {
     if (is(genedata, "Seurat")) {
-        raw_expressionMatrix <- GetAssayData(genedata, layer = "counts")
-        expressionMatrix <- as.matrix(GetAssayData(genedata, layer = "data"))
+        raw_expressionMatrix <- GetAssayData(genedata,
+                                            assay = "RNA",
+                                            layer = "counts")
+        options(warn = -1)
+        if (nrow(GetAssayData(genedata, assay = "RNA", layer = "data")) > 0) {
+            expressionMatrix <- as.matrix(GetAssayData(genedata,
+                                                    assay = "RNA",
+                                                    layer = "data"))
+        } else {
+            message("No normalized counts in your object,
+            you can achieve data normalization with `normalizeGene()`.")
+            expressionMatrix <- NULL
+        }
+        options(warn = 1)
+    } else if (is(genedata, "SingleCellExperiment")){
+        if ("counts" %in% assayNames(genedata)) {
+            raw_expressionMatrix <- assay(genedata, "counts")
+        } else {
+            stop("No raw count data found named 'counts'!
+                Please check if it has been renamed.")
+        }
+        if ("normcounts" %in% assayNames(genedata)) {
+            expressionMatrix <- assay(genedata, "normcounts")
+        } else {
+            message("No Normalized counts found named 'normcounts',
+            you can achieve data normalization with `normalizeGene()`,
+            or check if it is has been renamed.")
+            expressionMatrix <- NULL
+        }
     } else if (is.matrix(genedata) |
                 is.data.frame(genedata) |
                 is(genedata, "dgCMatrix")) {
-    raw_expressionMatrix <- genedata
-    expressionMatrix <- NULL
+        raw_expressionMatrix <- genedata
+        expressionMatrix <- NULL
     } else {
         stop("Please enter the data in the correct format!")
     }
@@ -153,8 +184,11 @@ createQTLObject <- function(snpMatrix,
         if (is(genedata, "Seurat")) {
             metadata <- genedata@meta.data[group]
             colnames(metadata) <- "group"
-    } else {
-        stop("Cannot find 'group'")
+        } else if (is(genedata, "SingleCellExperiment")) {
+            metadata <- colData(genedata, group)
+            colnames(metadata) <- "group"
+        } else {
+            stop("Cannot find 'group'")
         }
     }
 

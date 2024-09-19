@@ -25,6 +25,16 @@ test_that("createQTLObject handles Seurat object input correctly", {
   expect_equal(nrow(eqtl@groupBy), 500)
 })
 
+test_that("createQTLObject handles SingelCellExperiment object input correctly", {
+  library(SingleCellExperiment)
+  sce <- SingleCellExperiment(assays = list(counts = testGene))
+  eqtl <- createQTLObject(snpMatrix = testSNP, genedata = sce)
+  expect_equal(nrow(eqtl@rawData$rawExpMat), 100)
+  expect_equal(ncol(eqtl@rawData$rawExpMat), 2705)
+  expect_equal(nrow(eqtl@rawData$snpMat), 1000)
+  expect_equal(ncol(eqtl@rawData$snpMat), 2705)
+})
+
 test_that("createQTLObject handles incorrect input gracefully", {
   expect_error(createQTLObject(snpMatrix = testSNP, genedata = "invalid_input"))
 })

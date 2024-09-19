@@ -6,7 +6,7 @@
 \alias{scQTLtools-package}
 \title{scQTLtools: An R package for single-cell eQTL analysis and visualization}
 \description{
-This package specializes in analyzing and visualizing eQTL at the single-cell level. It can read gene expression matrices or Seurat data, along with genotype data. It offers a function for cis-eQTL analysis to detect eQTL within a given range, and another function to fit models with three methods. Using this package, users can also generate single-cell level visualization result.
+This package specializes in analyzing and visualizing eQTL at the single-cell level. It can read gene expression matrices or Seurat data, or SingleCellExperiment object along with genotype data. It offers a function for cis-eQTL analysis to detect eQTL within a given range, and another function to fit models with three methods. Using this package, users can also generate single-cell level visualization result.
 }
 \seealso{
 Useful links:
