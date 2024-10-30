@@ -2,24 +2,28 @@
 % Please edit documentation in R/createSNPsLoc-callQTL.R
 \name{createSNPsLoc}
 \alias{createSNPsLoc}
-\title{Create SNP location dataframe}
+\title{Create SNP location dataframe.}
 \usage{
-createSNPsLoc(snpList, snpDataset)
+createSNPsLoc(snpList, snpDataset, snpBiomart = "ENSEMBL_MART_SNP")
 }
 \arguments{
 \item{snpList}{a list of SNPs id.}
 
 \item{snpDataset}{SNP dataset chosen from ENSEMBL}
+
+\item{snpBiomart}{the name of snp mart.}
 }
 \value{
 data.frame
 }
 \description{
-Create SNP location dataframe
+Create SNP location dataframe.
 }
 \examples{
 snpList <- c('rs546', 'rs549', 'rs568', 'rs665', 'rs672')
 snpDataset <- 'hsapiens_snp'
+snpBiomart <- "ENSEMBL_MART_SNP"
 snp_loc <- createSNPsLoc(snpList = snpList,
-                         snpDataset = snpDataset)
+                         snpDataset = snpDataset,
+                         snpBiomart = snpBiomart)
 }

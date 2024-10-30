@@ -19,3 +19,8 @@ vignettes/*.html
 .httr-oauth
 .DS_Store
 .quarto
+/doc/
+/Meta/
+
+# other
+/tests/testthat/Rplots.pdf

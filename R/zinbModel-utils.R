@@ -18,7 +18,7 @@
 #' @export
 #' @examples
 #' data(testEQTL)
-#' Gene <- rownames(slot(testEQTL, "filterData")$normExpMat)
+#' Gene <- rownames(slot(testEQTL, "filterData")$expMat)
 #' SNP <- rownames(slot(testEQTL, "filterData")$snpMat)
 #' zinbResult <- zinbModel(
 #'   eQTLObject = testEQTL,
@@ -34,24 +34,21 @@ zinbModel <- function(
     biClassify = FALSE,
     pAdjustMethod = "bonferroni",
     pAdjustThreshold = 1e-5) {
-    if (length(eQTLObject@filterData) == 0) {
-        stop("Please filter the data first.")
-    }
 
-    expressionMatrix <- round(eQTLObject@filterData$expMat * 1000)
-    snpMatrix <- eQTLObject@filterData$snpMat
-    unique_group <- unique(eQTLObject@groupBy$group)
+    expressionMatrix <- round(get_filter_data(eQTLObject)[["expMat"]] * 1000)
+    snpMatrix <- get_filter_data(eQTLObject)[["snpMat"]]
+    unique_group <- unique(load_group_info(eQTLObject)[["group"]])
 
     result_all <- data.frame()
 
-    message("Start calling eQTL")
-    for (j in unique_group) {
-        split_cells <- rownames(eQTLObject@groupBy)[
-            eQTLObject@groupBy$group == j]
-        expressionMatrix_split <- expressionMatrix[, split_cells]
-        snpMatrix_split <- snpMatrix[, split_cells]
+    message("Start the sc-eQTLs calling.")
+    result_all <- do.call(rbind, lapply(unique_group, function(j) {
+        split_cells <- rownames(load_group_info(eQTLObject)
+                                )[load_group_info(eQTLObject)[["group"]] == j]
+        expressionMatrix_split <- expressionMatrix[, split_cells, drop = FALSE]
+        snpMatrix_split <- snpMatrix[, split_cells, drop = FALSE]
 
-    if (biClassify == TRUE) {
+    if (biClassify) {
         snpMatrix_split[snpMatrix_split == 3] <- 2
 
         eQTLcalling <- function(i) {
@@ -60,8 +57,8 @@ zinbModel <- function(
             }
 
         snpid <- snpIDs[i]
-        ref_cells <- colnames(snpMatrix_split)[snpMatrix_split[snpid, ] == 1]
-        alt_cells <- colnames(snpMatrix_split)[snpMatrix_split[snpid, ] == 2]
+        ref_cells <- get_cell_groups(snpMatrix_split, snpid, biClassify)[[1]]
+        alt_cells <- get_cell_groups(snpMatrix_split, snpid, biClassify)[[2]]
 
         if (length(ref_cells) > 0 && length(alt_cells) > 0) {
             genes <- geneIDs
@@ -90,10 +87,11 @@ zinbModel <- function(
                 Remark = character(),
                 stringsAsFactors = FALSE)
 
-        for (gene in genes) {
-            gene.cnt <- gene.cnt + 1
-            counts_1 <- unlist(expressionMatrix_split[gene, ref_cells])
-            counts_2 <- unlist(expressionMatrix_split[gene, alt_cells])
+        results_snp_list <- lapply(genes, function(gene) {
+
+            counts_1 <- get_counts(expressionMatrix_split, gene, ref_cells)
+            counts_2 <- get_counts(expressionMatrix_split, gene, alt_cells)
+
             results_gene <- data.frame(
                 group = j,
                 SNPid = snpid,
@@ -198,12 +196,10 @@ zinbModel <- function(
             results_gene[1, "prob_2"] <- prob_2
             results_gene[1, "chi"] <- chi
             results_gene[1, "pvalue"] <- pvalue
-
-            results_snp <- rbind(results_snp, results_gene)
-        }
-
-            # return
-            return(results_snp)
+            return(results_gene)
+        })
+        results_snp <- do.call(rbind, results_snp_list)
+        return(results_snp)
         } else {
             results_snp <- data.frame()
         }
@@ -234,18 +230,16 @@ zinbModel <- function(
         Remark = character(),
         stringsAsFactors = FALSE)
 
-        message(j, ":")
-        message("0%   10   20   30   40   50   60   70   80   90   100%")
-        message("[----|----|----|----|----|----|----|----|----|----|")
-        pb <- progress_bar$new(
-            total = length(snpIDs),
-            format = "[:bar]",
-            clear = FALSE,
-            width = 51)
-    for (i in seq_len(length(snpIDs))) {
-        result <- rbind(result, eQTLcalling(i))
-        pb$tick()
-    }
+        pb <- initialize_progress_bar(length(snpIDs), j)
+
+        results_list <- lapply(seq_along(snpIDs), function(i) {
+            result <- eQTLcalling(i)
+            pb$tick()
+            return(result)
+    })
+
+        # 合并结果
+        result <- do.call(rbind, results_list)
     colnames(result)[colnames(result) == "sample_size_1"] <- "sample_size_Ref"
     colnames(result)[colnames(result) == "sample_size_2"] <- "sample_size_Alt"
     colnames(result)[colnames(result) == "theta_1"] <- "theta_Ref"
@@ -258,16 +252,17 @@ zinbModel <- function(
     colnames(result)[colnames(result) == "prob_2"] <- "prob_Alt"
     colnames(result)[colnames(result) == "total_mean_1"] <- "total_mean_Ref"
     colnames(result)[colnames(result) == "total_mean_2"] <- "total_mean_Alt"
-    } else if (biClassify == FALSE) {
+    } else {
         eQTLcalling <- function(i) {
             if (i %% 100 == 0) {
                 gc()
             }
 
         snpid <- snpIDs[i]
-        AA_cells <- colnames(snpMatrix_split)[snpMatrix_split[snpid, ] == 1]
-        Aa_cells <- colnames(snpMatrix_split)[snpMatrix_split[snpid, ] == 3]
-        aa_cells <- colnames(snpMatrix_split)[snpMatrix_split[snpid, ] == 2]
+        AA_cells <- get_cell_groups(snpMatrix_split, snpid, biClassify)[[1]]
+        aa_cells <- get_cell_groups(snpMatrix_split, snpid, biClassify)[[2]]
+        Aa_cells <- get_cell_groups(snpMatrix_split, snpid, biClassify)[[3]]
+
 
         if (length(AA_cells) > 0 &&
             length(Aa_cells) > 0 &&
@@ -303,11 +298,12 @@ zinbModel <- function(
             Remark = character(),
             stringsAsFactors = FALSE)
 
-        for (gene in genes) {
-            gene.cnt <- gene.cnt + 1
-            counts_1 <- unlist(expressionMatrix_split[gene, AA_cells])
-            counts_2 <- unlist(expressionMatrix_split[gene, Aa_cells])
-            counts_3 <- unlist(expressionMatrix_split[gene, aa_cells])
+        results_snp_list <- lapply(genes, function(gene) {
+
+            counts_1 <- get_counts(expressionMatrix_split, gene, AA_cells)
+            counts_2 <- get_counts(expressionMatrix_split, gene, Aa_cells)
+            counts_3 <- get_counts(expressionMatrix_split, gene, aa_cells)
+
             results_gene <- data.frame(
                 group = j,
                 SNPid = snpid,
@@ -428,12 +424,9 @@ zinbModel <- function(
             results_gene[1, "prob_3"] <- prob_3
             results_gene[1, "chi"] <- chi
             results_gene[1, "pvalue"] <- pvalue
-
-            results_snp <- rbind(results_snp, results_gene)
-            }
-
-        # return
-        return(results_snp)
+            return(results_gene)
+            })
+        results_snp <- do.call(rbind, results_snp_list)
         } else {
             results_snp <- data.frame()
         }
@@ -468,20 +461,16 @@ zinbModel <- function(
         Remark = character(),
         stringsAsFactors = FALSE)
 
-        message(j, ":")
-        message("0%   10   20   30   40   50   60   70   80   90   100%")
-        message("[----|----|----|----|----|----|----|----|----|----|")
-        pb <- progress_bar$new(
-            total = length(snpIDs),
-            format = "[:bar]",
-            clear = FALSE,
-            width = 51)
-    for (i in seq_len(length(snpIDs))) {
-        result <- rbind(result, eQTLcalling(i))
-        pb$tick()
-        }
+        pb <- initialize_progress_bar(length(snpIDs), j)
 
-        message("finished!")
+        results_list <- lapply(seq_along(snpIDs), function(i) {
+            result <- eQTLcalling(i)
+            pb$tick()
+            return(result)
+        })
+        result <- do.call(rbind, results_list)
+
+        message("Finished!")
 
     # change column names
     colnames(result)[colnames(result) == "sample_size_1"] <- "sample_size_AA"
@@ -502,29 +491,9 @@ zinbModel <- function(
     colnames(result)[colnames(result) == "total_mean_1"] <- "total_mean_AA"
     colnames(result)[colnames(result) == "total_mean_2"] <- "total_mean_Aa"
     colnames(result)[colnames(result) == "total_mean_3"] <- "total_mean_aa"
-    } else {
-    stop("biClassify can only be selected as 'TRUE' or 'FALSE'")
     }
 
-
-    # p-value correction methods
-    if (!pAdjustMethod %in% c(
-        "bonferroni",
-        "holm",
-        "hochberg",
-        "hommel",
-        "BH")) {
-stop("Invalid p-adjusted method. Please choose from 'bonferroni', 'holm',
-'hochberg', 'hommel', or'fdr or BH'.")
-    }
-
-    # adjust p-value
-    result[, "adjusted_pvalue"] <- p.adjust(result[, "pvalue"],
-                                            method = pAdjustMethod)
-    result <- result[order(result[, "adjusted_pvalue"]), ]
-    rownames(result) <- NULL
-    result <- result[result$adjusted_pvalue <= pAdjustThreshold, ]
-    result_all <- rbind(result_all, result)
-    }
+    result <- adjust_pvalues(result, pAdjustThreshold, pAdjustMethod)
+    }))
     return(result_all)
 }

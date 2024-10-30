@@ -14,7 +14,7 @@
 log_normalize <- function(expressionMatrix) {
     normalizedData <- log1p(sweep(expressionMatrix,
                                 2,
-                                Matrix::colSums(expressionMatrix),
+                                colSums(expressionMatrix),
                                 FUN = "/") * 1e4)
     return(normalizedData)
 }

@@ -4,12 +4,14 @@
 \alias{checkSNPList}
 \title{Check if the SNP ids in the input genotype matrix are valid.}
 \usage{
-checkSNPList(snpList, snpDataset)
+checkSNPList(snpList, snpDataset, snpBiomart)
 }
 \arguments{
 \item{snpList}{a list of SNPs id.}
 
 \item{snpDataset}{SNP dataset chosen from ENSEMBL}
+
+\item{snpBiomart}{the name of snp mart.}
 }
 \value{
 SNP location dataframe
@@ -21,8 +23,6 @@ Check if the SNP ids in the input genotype matrix are valid.
 data(testSNP2)
 snpList <- rownames(testSNP2)
 snpDataset <- 'hsapiens_snp'
-snps_loc <- checkSNPList(
-  snpList = snpList,
-  snpDataset = snpDataset
-  )
+snps_loc <- checkSNPList(snpList = snpList,
+                        snpDataset = snpDataset)
 }

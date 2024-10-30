@@ -28,8 +28,9 @@ filterGeneSNP <- function(eQTLObject,
                         snpNumOfCellsPercent = 2,
                         expressionMin = 0,
                         expressionNumOfCellsPercent = 2) {
-    if (!is.null(eQTLObject@rawData$normExpMat)) {
-        nor_expressionMatrix <- as.data.frame(eQTLObject@rawData$normExpMat)
+    if (!is.null(get_raw_data(eQTLObject)[["normExpMat"]])) {
+        nor_expressionMatrix <-
+            as.data.frame(get_raw_data(eQTLObject)[["normExpMat"]])
         expression.number.of.cells <- ceiling(
         (expressionNumOfCellsPercent / 100) * ncol(nor_expressionMatrix)
     )
@@ -37,18 +38,19 @@ filterGeneSNP <- function(eQTLObject,
         apply(nor_expressionMatrix > expressionMin, 1, sum) >=
         expression.number.of.cells
     ]
-    filtered_expressionMatrix <- nor_expressionMatrix[valid_genes, ]
+    filtered_expressionMatrix <- nor_expressionMatrix[valid_genes, ,
+                                drop = FALSE]
     filtered_expressionMatrix <- as.matrix(filtered_expressionMatrix)
     } else {
         stop("Please normalize the raw expression data first.")
     }
 
-    snpMatrix <- as.data.frame(eQTLObject@rawData$snpMat)
+    snpMatrix <- as.data.frame(get_raw_data(eQTLObject)[["snpMat"]])
     snp.list <- rownames(snpMatrix)
     snp.number.of.cells <- ceiling(
         (snpNumOfCellsPercent / 100) * ncol(snpMatrix)
         )
-    biClassify <- eQTLObject@biClassify
+    biClassify <- load_biclassify_info(eQTLObject)
 
     if (biClassify == TRUE) {
         snpMatrix[snpMatrix == 3] <- 2
@@ -66,7 +68,7 @@ filterGeneSNP <- function(eQTLObject,
         })
     ]
 
-    filtered_snpMatrix <- snpMatrix[filtered_snp_ids, ]
+    filtered_snpMatrix <- snpMatrix[filtered_snp_ids, , drop = FALSE]
     } else if (biClassify == FALSE) {
         snp_counts <- apply(snpMatrix, 1, function(row) {
             c(sum(row == 1), sum(row == 3), sum(row == 2))
@@ -81,13 +83,12 @@ filterGeneSNP <- function(eQTLObject,
         })
     ]
 
-    filtered_snpMatrix <- snpMatrix[filtered_snp_ids, ]
+    filtered_snpMatrix <- snpMatrix[filtered_snp_ids, , drop = FALSE]
     filtered_snpMatrix <- as.matrix(filtered_snpMatrix)
     }
 
-    eQTLObject@filterData <- list(
-        expMat = filtered_expressionMatrix,
-        snpMat = filtered_snpMatrix
-    )
-        return(eQTLObject)
+    eQTLObject <- set_filter_data(eQTLObject, filtered_expressionMatrix,
+                                    "expMat")
+    eQTLObject <- set_filter_data(eQTLObject, filtered_snpMatrix, "snpMat")
+    return(eQTLObject)
 }

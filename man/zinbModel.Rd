@@ -38,7 +38,7 @@ Zinb model fitting the gene expression matrix.
 }
 \examples{
 data(testEQTL)
-Gene <- rownames(slot(testEQTL, "filterData")$normExpMat)
+Gene <- rownames(slot(testEQTL, "filterData")$expMat)
 SNP <- rownames(slot(testEQTL, "filterData")$snpMat)
 zinbResult <- zinbModel(
   eQTLObject = testEQTL,

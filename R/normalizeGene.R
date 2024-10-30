@@ -18,14 +18,14 @@
 #' data(testEQTL)
 #' eqtl <- normalizeGene(testEQTL, method = "logNormalize")
 normalizeGene <- function(eQTLObject, method = "logNormalize") {
-    expressionMatrix <- eQTLObject@rawData$rawExpMat
+    expressionMatrix <- get_raw_data(eQTLObject)[["rawExpMat"]]
     method <- method
     if (!method %in% c("logNormalize", "CPM", "TPM", "DESeq", "limma")) {
         stop("Invalid method.
         Please choose from 'logNormalize', 'CPM, 'TPM', 'DESeq' or 'limma' .")
     }
     rowsum <- apply(expressionMatrix, 1, sum)
-    expressionMatrix <- expressionMatrix[rowsum != 0, ]
+    expressionMatrix <- expressionMatrix[rowsum != 0, , drop = FALSE]
 
     normalizedData <- switch(method,
                             logNormalize = log_normalize(expressionMatrix),
@@ -39,6 +39,6 @@ normalizeGene <- function(eQTLObject, method = "logNormalize") {
             paste(dim(normalizedData),
                     collapse = " "),
             "\n")
-    eQTLObject@rawData$normExpMat <- normalizedData
+    eQTLObject <- set_raw_data(eQTLObject, normalizedData, "normExpMat")
     return(eQTLObject)
 }

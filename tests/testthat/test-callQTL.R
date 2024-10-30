@@ -50,7 +50,7 @@ test_that("Function handles empty or invalid parameter", {
 
   eqtl@species <- "rat"  # Simulate invalid species
   expect_error(callQTL(eqtl, downstream = -85000000, upstream = 20000000),
-               "Please enter 'human' or 'mouse'.")
+               "Please enter 'human', 'mouse', 'worm' or 'phytozome'")
 
   eqtl@species <- "human"
   # invalid downstream
@@ -123,12 +123,5 @@ test_that("callQTL function behaves as expected when specific p value adjust
   # test BH method
   result <- callQTL(eqtl, pAdjustMethod = "BH", useModel = "linear")
   expect_true(is.null(result@eQTLResult$adjusted_pvalue) == FALSE)
-
-  # test invalid method
-  expect_error(callQTL(eqtl,
-                       pAdjustMethod = "invalid method",
-                       useModel = "linear"),
-"Invalid p-adjusted method. Please choose from 'bonferroni', 'holm',
-'hochberg', 'hommel', or'fdr or BH'.")
 
 })

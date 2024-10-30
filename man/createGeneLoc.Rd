@@ -2,25 +2,48 @@
 % Please edit documentation in R/createGeneLoc-callQTL.R
 \name{createGeneLoc}
 \alias{createGeneLoc}
-\title{Create gene location dataframe}
+\title{Create gene location dataframe.}
 \usage{
-createGeneLoc(geneList, geneDataset)
+createGeneLoc(
+  geneList,
+  geneDataset,
+  OrgDb,
+  geneBiomart = "ENSEMBL_MART_ENSEMBL",
+  host = "https://www.ensembl.org",
+  gene_attributes = c("external_gene_name", "chromosome_name", "start_position",
+    "end_position"),
+  filters = "external_gene_name"
+)
 }
 \arguments{
-\item{geneList}{a gene id or a list of genes id}
+\item{geneList}{A gene id or a list of genes id.}
 
 \item{geneDataset}{Gene dataset chosen from the biomart.}
+
+\item{OrgDb}{OrgDb name:"org.Hs.eg.db", "org.Mm.eg.db", "org.Ce.eg.db",
+"org.At.tair.db".}
+
+\item{geneBiomart}{the name of gene mart.}
+
+\item{host}{Host to connect to.}
+
+\item{gene_attributes}{the outputs of a biomaRt query.}
+
+\item{filters}{what we use as inputs for a biomaRt query.}
 }
 \value{
 data.frame
 }
 \description{
-Create gene location dataframe
+Create gene location dataframe.
 }
 \examples{
 data(testGene)
 geneList <- rownames(testGene)
 geneDataset <- 'hsapiens_gene_ensembl'
+library(GOSemSim)
+OrgDb <- load_OrgDb("org.Hs.eg.db")
 gene_loc <- createGeneLoc(geneList = geneList,
-                          geneDataset = geneDataset)
+                          geneDataset = geneDataset,
+                          OrgDb = OrgDb)
 }

@@ -31,16 +31,5 @@ draw_boxplot <- function(df, unique_group) {
         theme_bw() +
         scale_fill_brewer(palette = "Dark2") +
         labs(title = unique_group, x = "", y = "Expression") +
-    theme(
-        axis.text.x = element_text(size = 15, color = "black"),
-        axis.text.y = element_text(size = 12, color = "black"),
-        axis.ticks = element_line(size = 0.2, color = "black"),
-        axis.ticks.length = unit(0.2, "cm"),
-        plot.title = element_text(hjust = 0.5, size = 14),
-        legend.position = "none",
-        panel.background = element_blank(),
-        panel.grid = element_blank(),
-        axis.title = element_text(size = 15),
-        axis.text = element_text(size = 12)
-    )
+        plots_theme_opts()
 }

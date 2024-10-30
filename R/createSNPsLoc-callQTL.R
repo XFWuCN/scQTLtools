@@ -1,18 +1,23 @@
-#' Create SNP location dataframe
+#' Create SNP location dataframe.
 #'
 #' @param snpList a list of SNPs id.
 #' @param snpDataset SNP dataset chosen from ENSEMBL
+#' @param snpBiomart the name of snp mart.
 #' @importFrom biomaRt useMart getBM
 #' @return data.frame
 #' @export
 #' @examples
 #' snpList <- c('rs546', 'rs549', 'rs568', 'rs665', 'rs672')
 #' snpDataset <- 'hsapiens_snp'
+#' snpBiomart <- "ENSEMBL_MART_SNP"
 #' snp_loc <- createSNPsLoc(snpList = snpList,
-#'                          snpDataset = snpDataset)
-createSNPsLoc <- function(snpList, snpDataset) {
-    snp_mart <- useMart(biomart = "ENSEMBL_MART_SNP", dataset = snpDataset)
-
+#'                          snpDataset = snpDataset,
+#'                          snpBiomart = snpBiomart)
+createSNPsLoc <- function(snpList,
+                        snpDataset,
+                        snpBiomart = "ENSEMBL_MART_SNP") {
+    snp_mart <- useMart(biomart = snpBiomart,
+                        dataset = snpDataset)
     snps_loc <- getBM(attributes = c("refsnp_id", "chr_name", "chrom_start"),
                         filters = "snp_filter",
                         values = snpList,

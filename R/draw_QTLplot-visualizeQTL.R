@@ -34,14 +34,5 @@ draw_QTLplot <- function(df, unique_group) {
                     stroke = NA, shape = 21, size = 1.8, alpha = 1.2) +
         theme_bw() +
         labs(title = unique_group, y = "Expression", x = "") +
-        theme(axis.text.x = element_text(size = 15, color = "black"),
-                axis.text.y = element_text(size = 12, color = "black"),
-                axis.ticks = element_line(size = 0.2, color = "black"),
-                axis.ticks.length = unit(0.2, "cm"),
-                plot.title = element_text(hjust = 0.5, size = 14),
-                legend.position = "none",
-                panel.background = element_blank(),
-                panel.grid = element_blank(),
-                axis.title = element_text(size = 15),
-                axis.text = element_text(size = 12))
+        plots_theme_opts()
 }

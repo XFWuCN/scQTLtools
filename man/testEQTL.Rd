@@ -6,8 +6,12 @@
 \title{Test eqtl object}
 \format{
 A simple \code{object}.
+
+A \code{eqtlObject} read by the `readRDS` function.
 }
 \usage{
+data(testEQTL)
+
 data(testEQTL)
 }
 \description{
@@ -15,8 +19,12 @@ An `eqtlObject` created by the `createQTLObject` function, where the raw
 expression matrix is normalized using `normalizeGene()`, and both the
 genotype matrix and the normalized gene expression matrix are filtered
 by `filterGeneSNP()`.
+
+testEQTL.rds is the RDS format versions of the original testEQTL.rda,
+providing the same normalized eQTL object for easier loading and use in R.
 }
 \examples{
+data(testEQTL)
 data(testEQTL)
 }
 \keyword{datasets}

@@ -29,7 +29,7 @@ remove_outliers <- function(exprsMat,
                             A_cells,
                             B_cells,
                             C_cells = NULL) {
-    sample_gene <- exprsMat[Geneid, ]
+    sample_gene <- exprsMat[Geneid, , drop = FALSE]
     sample_no_zero <- sample_gene[sample_gene != 0]
     med <- median(unlist(sample_no_zero))
     mad <- mad(unlist(sample_no_zero))

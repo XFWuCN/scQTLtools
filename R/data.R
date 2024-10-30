@@ -59,3 +59,28 @@
 #' @examples
 #' data(testEQTL)
 "testEQTL"
+
+#' R Data Serialization of testEQTL.
+#'
+#' testEQTL.rds is the RDS format versions of the original testEQTL.rda,
+#' providing the same normalized eQTL object for easier loading and use in R.
+#' @docType data
+#' @usage data(testEQTL)
+#' @format A \code{eqtlObject} read by the `readRDS` function.
+#' @keywords datasets
+#' @examples
+#' data(testEQTL)
+"testEQTL"
+
+#' R Data Serialization of testSeurat.
+#'
+#'testSeurat.rds datasets are the RDS format versions of the original
+#'testSeurat.rda files, providing the preprocessed Seurat object for easier
+#'loading and use in R.
+#' @docType data
+#' @usage data(testSeurat)
+#' @format A \code{Seurat} read by the `readRDS` function.
+#' @keywords datasets
+#' @examples
+#' data(testSeurat)
+"testSeurat"

@@ -17,8 +17,8 @@
 #' @importFrom Matrix Matrix
 #' @importFrom stringr str_split
 #' @importFrom dplyr mutate_all mutate
-#' @import org.Hs.eg.db
-#' @import org.Mm.eg.db
+#' @importFrom GOSemSim load_OrgDb
+#' @importFrom stats na.omit
 #' @import magrittr
 #' @return A dataframe, each row describes eQTL discovering result of a
 #' SNP-Gene pair.
@@ -45,30 +45,58 @@ callQTL <- function(eQTLObject,
                     logfcThreshold = 0.1) {
     options(warn = -1)
 
-    if (length(eQTLObject@filterData) == 0) {
+    if (length(get_filter_data(eQTLObject)) == 0) {
         stop("Please filter the data first.")
     } else {
-    expressionMatrix <- eQTLObject@filterData$expMat
-    snpMatrix <- eQTLObject@filterData$snpMat
+    expressionMatrix <- get_filter_data(eQTLObject)[["expMat"]]
+    snpMatrix <- get_filter_data(eQTLObject)[["snpMat"]]
     }
 
-    biClassify <- eQTLObject@biClassify
-    species <- eQTLObject@species
+    biClassify <- load_biclassify_info(eQTLObject)
+    species <- load_species_info(eQTLObject)
 
     if (is.null(gene_ids) && is.null(upstream) && is.null(downstream)) {
     NULL
     } else {
     if (!is.null(species) && species != "") {
+        geneBiomart <- "ENSEMBL_MART_ENSEMBL"
+        snpBiomart <- "ENSEMBL_MART_SNP"
+        host <- "https://www.ensembl.org"
+        gene_attributes <- c("external_gene_name",
+                            "chromosome_name",
+                            "start_position",
+                            "end_position")
+        filters <- "external_gene_name"
         if (species == "human") {
             snpDataset <- "hsapiens_snp"
             geneDataset <- "hsapiens_gene_ensembl"
-            OrgDb <- org.Hs.eg.db
-    } else if (species == "mouse") {
+            OrgDb <- load_OrgDb("org.Hs.eg.db")
+        } else if (species == "mouse") {
             snpDataset <- "mmusculus_snp"
             geneDataset <- "mmusculus_gene_ensembl"
-            OrgDb <- org.Mm.eg.db
+            OrgDb <- load_OrgDb("org.Mm.eg.db")
+        } else if (species == "worm") {
+            geneBiomart <- "parasite_mart"
+            geneDataset <- "wbps_gene"
+            OrgDb <- load_OrgDb("org.Ce.eg.db")
+            host <- "https://parasite.wormbase.org"
+            gene_attributes <- c("external_gene_id",
+                                "chromosome_name",
+                                "start_position",
+                                "end_position")
+            filters <- "gene_name"
+        } else if (species == "phytozome") {
+            geneBiomart <- "phytozome_mart"
+            geneDataset <- "phytozome"
+            OrgDb <- load_OrgDb("org.At.tair.db")
+            host <- "https://phytozome-next.jgi.doe.gov"
+            gene_attributes <- c("gene_name1",
+                                "chr_name",
+                                "gene_chrom_start",
+                                "gene_chrom_end")
+            filters <- "gene_name_filter"
         } else {
-            stop("Please enter 'human' or 'mouse'.")
+            stop("Please enter 'human', 'mouse', 'worm' or 'phytozome'.")
         }
     } else {
         stop("The 'species' variable is NULL or empty.")
@@ -81,7 +109,9 @@ callQTL <- function(eQTLObject,
     if (is.null(gene_ids) && is.null(upstream) && is.null(downstream)) {
         matched_gene <- geneList
         matched_snps <- snpList
-    } else if (!is.null(gene_ids) && is.null(upstream) && is.null(downstream)) {
+    } else if (!is.null(gene_ids) &&
+                is.null(upstream) &&
+                is.null(downstream)) {
         matched_snps <- snpList
     if (all(gene_ids %in% geneList)) {
         matched_gene <- gene_ids
@@ -94,69 +124,37 @@ callQTL <- function(eQTLObject,
     if (downstream > 0) {
         stop("downstream should be negative.")
     }
-    snps_loc <- checkSNPList(snpList, snpDataset)
-    gene_loc <- createGeneLoc(geneList, geneDataset)
+    snps_loc <- checkSNPList(snpList, snpDataset, snpBiomart)
+    gene_loc <- createGeneLoc(geneList, geneDataset, OrgDb, geneBiomart, host,
+                            gene_attributes, filters)
 
-    matched_gene <- c()
-    matched_snps <- c()
+    gene_ranges <- data.frame(
+        gene_start = gene_loc$start_position + downstream,
+        gene_end = gene_loc$end_position + upstream,
+        chr = gene_loc$chromosome_name,
+        gene_id = gene_loc[, 1]
+    )
 
-    for (i in seq_len(nrow(gene_loc))) {
-        gene_start1 <- gene_loc$start_position[i] + downstream
-        gene_end1 <- gene_loc$end_position[i] + upstream
+    matches <- lapply(seq_len(nrow(gene_ranges)), function(i) {
+        snp_matches <- snps_loc[snps_loc$chr_name == gene_ranges$chr[i] &
+                            snps_loc$position >= gene_ranges$gene_start[i] &
+                            snps_loc$position <= gene_ranges$gene_end[i], ]
+        if (nrow(snp_matches) > 0) {
+            return(data.frame(snp_id = snp_matches$refsnp_id,
+                                gene = gene_ranges$gene_id[i]))
+        } else {
+        return(NULL)
+                }
+    })
 
-        for (j in seq_len(nrow(snps_loc))) {
-            snp_chr <- snps_loc$chr_name[j]
-            snp_pos <- snps_loc$position[j]
+    matches_df <- do.call(rbind, matches)
+    matches_df <- na.omit(matches_df)
+    matched_snps <- unique(matches_df$snp_id)
+    matched_gene <- unique(matches_df$gene)
 
-        if (snp_chr == gene_loc$chromosome_name[i] &&
-            snp_pos >= gene_start1 && snp_pos <= gene_end1) {
-                matched_snps <- c(matched_snps, snps_loc$refsnp_id[j])
-                matched_gene <- c(matched_gene, gene_loc[i, 1])
-            }
-        }
-    }
-    matched_snps <- unique(matched_snps)
-    matched_gene <- unique(matched_gene)
-    } else if (!is.null(gene_ids) &&
-                !is.null(upstream) &&
-                !is.null(downstream)) {
-    if (downstream > 0) {
-        stop("downstream should be negative.")
-    }
-
-    snps_loc <- checkSNPList(snpList)
-
-    if (all(gene_ids %in% geneList)) {
-        geneList <- gene_ids
-    } else {
-    stop("The input gene_ids contain non-existent gene IDs.Please re-enter.")
-    }
-    gene_loc <- createGeneLoc(geneList)
-
-    matched_gene <- c()
-    matched_snps <- c()
-
-    for (i in seq_len(nrow(gene_loc))) {
-        gene_start1 <- gene_loc$start_position[i] + downstream
-        gene_end1 <- gene_loc$end_position[i] + upstream
-
-        for (j in seq_len(nrow(snps_loc))) {
-            snp_chr <- snps_loc$chr_name[j]
-            snp_pos <- snps_loc$position[j]
-
-        while (snp_chr == gene_loc$chromosome_name[i] &&
-            snp_pos >= gene_start1 && snp_pos <= gene_end1) {
-                matched_snps <- c(matched_snps, snps_loc$refsnp_id[j])
-                matched_gene <- c(matched_gene, gene_loc[i, 1])
-            }
-        }
-    }
-    matched_snps <- unique(matched_snps)
-    matched_gene <- unique(matched_gene)
     } else {
         stop("Please enter upstream and downstream simultaneously.")
-        }
-
+    }
 
     if (useModel == "zinb") {
     result <- zinbModel(eQTLObject = eQTLObject,
@@ -189,7 +187,7 @@ callQTL <- function(eQTLObject,
         }
 
     options(warn = 0)
-    eQTLObject@useModel <- useModel
-    eQTLObject@eQTLResult <- result
+    eQTLObject <- set_model_info(eQTLObject, useModel)
+    eQTLObject <- set_result_info(eQTLObject, result)
     return(eQTLObject)
     }

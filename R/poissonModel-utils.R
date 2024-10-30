@@ -18,7 +18,7 @@
 #' @export
 #' @examples
 #' data(testEQTL)
-#' Gene <- rownames(slot(testEQTL, "filterData")$normExpMat)
+#' Gene <- rownames(slot(testEQTL, "filterData")$expMat)
 #' SNP <- rownames(slot(testEQTL, "filterData")$snpMat)
 #' poissonResult <- poissonModel(
 #'   eQTLObject = testEQTL,
@@ -37,154 +37,86 @@ poissonModel <- function(
     pAdjustMethod = "bonferroni",
     pAdjustThreshold = 0.05,
     logfcThreshold = 0.1) {
-    if (length(eQTLObject@filterData) == 0) {
-        stop("Please filter the data first.")
-    }
 
-    expressionMatrix <- round(eQTLObject@filterData$expMat * 1000)
-    snpMatrix <- eQTLObject@filterData$snpMat
-    unique_group <- unique(eQTLObject@groupBy$group)
+    expressionMatrix <- round(get_filter_data(eQTLObject)[["expMat"]] * 1000)
+    snpMatrix <- get_filter_data(eQTLObject)[["snpMat"]]
+    unique_group <- unique(load_group_info(eQTLObject)[["group"]])
 
     result_all <- data.frame()
 
-    message("Start calling eQTL")
-    for (k in unique_group) {
-        result <- data.frame(
-            SNPid = character(),
-            group = character(),
-            Geneid = character(),
-            pvalue = double(),
-            adjusted_pvalue = double(),
-            b = double(),
-            abs_b = double(),
-            Remark = character(),
-            stringsAsFactors = FALSE)
+    message("Start the sc-eQTLs calling.")
+    result_all <- do.call(rbind, lapply(unique_group, function(k) {
+    result <- data.frame(
+        SNPid = character(),
+        group = character(),
+        Geneid = character(),
+        pvalue = double(),
+        adjusted_pvalue = double(),
+        b = double(),
+        abs_b = double(),
+        Remark = character(),
+        stringsAsFactors = FALSE)
 
-    split_cells <- rownames(eQTLObject@groupBy)[eQTLObject@groupBy$group == k]
-    expressionMatrix_split <- expressionMatrix[, split_cells]
-    snpMatrix_split <- snpMatrix[, split_cells]
+    split_cells <- rownames(load_group_info(eQTLObject)
+                            )[load_group_info(eQTLObject)[["group"]] == k]
+    expressionMatrix_split <- expressionMatrix[, split_cells, drop = FALSE]
+    snpMatrix_split <- snpMatrix[, split_cells, drop = FALSE]
+
+    replace_2_and_3 <- function(x) {
+        ifelse(x == 2, 3, ifelse(x == 3, 2, x))
+    }
 
     if (biClassify == FALSE) {
-        message(k, ":")
-        message("0%   10   20   30   40   50   60   70   80   90   100%")
-        message("[----|----|----|----|----|----|----|----|----|----|")
-        pb <- progress_bar$new(
-            total = length(snpIDs),
-            format = "[:bar]",
-            clear = FALSE,
-            width = 51)
-        for (i in seq_len(length(snpIDs))) {
-            snpid <- snpIDs[i]
-            snp_mat <- snpMatrix_split[snpid, ]
-            snp_mat <- as.data.frame(snp_mat)
-            snp_mat$cells <- rownames(snp_mat)
-
-        replace_2_and_3 <- function(x) {
-            ifelse(x == 2, 3, ifelse(x == 3, 2, x))
-        }
-
-        snp_mat_new <- snp_mat %>%
+        snpMatrix_split <- as.data.frame(snpMatrix_split)
+        snpMatrix_split <- snpMatrix_split %>%
             mutate_all(list(~ replace_2_and_3(.)))
+        snpMatrix_split <- as.matrix(snpMatrix_split)
+    } else {
+    snpMatrix_split[snpMatrix_split == 3] <- 2
+    }
 
-        for (j in seq_len(length(geneIDs))) {
-            gene_id <- geneIDs[j]
-            gene_mat <- expressionMatrix_split[gene_id, ]
-            gene_mat <- as.data.frame(gene_mat)
-            gene_mat$cells <- rownames(gene_mat)
+    pb <- initialize_progress_bar(length(snpIDs), k)
 
-            combined_df <- merge(snp_mat_new, gene_mat, by = "cells")
+    result_list <- lapply(seq_len(length(snpIDs)), function(i) {
+        snp_mat <- process_matrix(snpIDs[i], snpMatrix_split, "snp_mat")
+
+        gene_results <- lapply(seq_len(length(geneIDs)), function(j) {
+            gene_mat <- process_matrix(geneIDs[j], expressionMatrix_split,
+                                        "gene_mat")
+
+            combined_df <- merge(snp_mat, gene_mat, by = "cells")
             combined_df <- subset(combined_df, snp_mat != 0)
 
-            lmodel <- stats::glm(combined_df$gene_mat ~ combined_df$snp_mat,
-                                family = poisson())
+            lmodel <- glm(combined_df$gene_mat ~ combined_df$snp_mat,
+                        family = poisson())
 
             if(length(summary(lmodel)$coefficients[, "Pr(>|z|)"]) >= 2) {
                 lmout_pvalue <- summary(lmodel)$coefficients[2, "Pr(>|z|)"]
                 lmout_b <- summary(lmodel)$coefficients[2, "Estimate"]
                 new_row <- data.frame(
-                    SNPid = snpid,
+                    SNPid = snpIDs[i],
                     group = k,
                     Geneid = geneIDs[j],
                     pvalue = lmout_pvalue,
                     b = lmout_b)
-            result <- rbind(result, new_row)
+            return(new_row)
+            } else {
+                return(NULL)
             }
-        }
+        })
         pb$tick()
-        }
-        message("finished!")
-    } else if (biClassify == TRUE) {
-        snpMatrix_split[snpMatrix_split == 3] <- 2
+        gene_results <- do.call(rbind, gene_results)
+        gene_results <- gene_results[vapply(gene_results,
+                                            is.null,
+                                            logical(1)) == FALSE, ]
+        return(gene_results)
+})
+    result <- do.call(rbind, result_list)
+    message("Finished!")
 
-        message(k, ":")
-        message("0%   10   20   30   40   50   60   70   80   90   100%")
-        message("[----|----|----|----|----|----|----|----|----|----|")
-        pb <- progress_bar$new(
-            total = length(snpIDs),
-            format = "[:bar]",
-            clear = FALSE,
-            width = 51)
-    for (i in seq_len(length(snpIDs))) {
-        snpid <- snpIDs[i]
-        snp_mat <- snpMatrix_split[snpid, ]
-        snp_mat <- as.data.frame(snp_mat)
-        snp_mat$cells <- rownames(snp_mat)
-
-        for (j in seq_len(length(geneIDs))) {
-            gene_id <- geneIDs[j]
-            gene_mat <- expressionMatrix_split[gene_id, ]
-            gene_mat <- as.data.frame(gene_mat)
-            gene_mat$cells <- rownames(gene_mat)
-
-            combined_df <- merge(snp_mat, gene_mat, by = "cells")
-            combined_df <- subset(combined_df, snp_mat != 0)
-
-            lmodel <- stats::glm(combined_df$gene_mat ~ combined_df$snp_mat,
-                                family = poisson())
-        if(length(summary(lmodel)$coefficients[, "Pr(>|z|)"]) >= 2) {
-            lmout_pvalue <- summary(lmodel)$coefficients[2, "Pr(>|z|)"]
-            lmout_b <- summary(lmodel)$coefficients[2, "Estimate"]
-            new_row <- data.frame(
-            SNPid = snpid,
-            group = k,
-            Geneid = geneIDs[j],
-            pvalue = lmout_pvalue,
-            b = lmout_b)
-            result <- rbind(result, new_row)
-        }
-        }
-        pb$tick()
-    }
-        message("finished!")
-    } else {
-        stop("biClassify can only be selected as 'TRUE' or 'FALSE'")
-    }
-
-
-    # p-value correction methods
-    if (!pAdjustMethod %in% c(
-        "bonferroni",
-        "holm",
-        "hochberg",
-        "hommel",
-        "BH")) {
-stop("Invalid p-adjusted method. Please choose from 'bonferroni', 'holm',
-'hochberg', 'hommel', or'fdr or BH'.")
-    }
-
-    # adjust p-value
-    result[, "adjusted_pvalue"] <- p.adjust(result[, "pvalue"], method = "BH")
-    result <- result[order(result[, "adjusted_pvalue"]), ]
-    rownames(result) <- NULL
-    result <- result[result$adjusted_pvalue <= pAdjustThreshold, ]
-
-    # abs_b
-    result <- result %>%
-        mutate(abs_b = abs(result[, "b"]))
-
-    result <- result[result$abs_b >= logfcThreshold, ]
-
-    result_all <- rbind(result_all, result)
-    }
+    result <- adjust_pvalues(result, pAdjustThreshold, pAdjustMethod)
+    result <- filter_by_abs_b(result, logfcThreshold)
+    }))
     return(result_all)
 }
+

@@ -12,7 +12,7 @@
 #' data(testGene)
 #' limma_normalize(testGene)
 limma_normalize <- function(expressionMatrix) {
-    normalizedData <- limma::normalizeBetweenArrays(expressionMatrix,
+    normalizedData <- normalizeBetweenArrays(expressionMatrix,
                                                     method = "quantile")
     return(normalizedData)
 }

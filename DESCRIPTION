@@ -1,7 +1,7 @@
 Package: scQTLtools
 Type: Package
 Title: An R package for single-cell eQTL analysis and visualization
-Version: 0.99.0
+Version: 0.99.1
 Authors@R: c(
     person(given = "Xiaofeng", 
            family = "Wu",    
@@ -44,15 +44,18 @@ Imports:
     VGAM (>= 1.1-11),
     limma (>= 3.61.9),
     biomaRt(>= 2.61.3),
-    org.Hs.eg.db (>= 3.19.1),
-    org.Mm.eg.db (>= 3.19.1),
     gamlss (>= 5.4-22),
     SingleCellExperiment(>= 1.27.2),
-    SummarizedExperiment(>= 1.35.1)
+    SummarizedExperiment(>= 1.32.0),
+    GOSemSim(>= 2.31.2)
 Suggests: 
     BiocStyle,
     knitr,
     rmarkdown,
+    org.Hs.eg.db,
+    org.Mm.eg.db,
+    org.Ce.eg.db,
+    org.At.tair.db,
     testthat (>= 3.2.1.1)
 License: MIT + file LICENSE
 URL: https://github.com/XFWuCN/scQTLtools

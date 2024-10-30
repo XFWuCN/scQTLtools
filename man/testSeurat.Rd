@@ -6,14 +6,23 @@
 \title{Test SeuratObject}
 \format{
 A \code{object}
+
+A \code{Seurat} read by the `readRDS` function.
 }
 \usage{
+data(testSeurat)
+
 data(testSeurat)
 }
 \description{
 A Seurat object for single-cell RNA-seq data.
+
+testSeurat.rds datasets are the RDS format versions of the original
+testSeurat.rda files, providing the preprocessed Seurat object for easier
+loading and use in R.
 }
 \examples{
+data(testSeurat)
 data(testSeurat)
 }
 \keyword{datasets}

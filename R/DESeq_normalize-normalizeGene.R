@@ -17,7 +17,7 @@ DESeq_normalize <- function(expressionMatrix) {
     dds <- DESeqDataSetFromMatrix(countData = expressionMatrix,
                                 colData = sampleDataframe,
                                 design = ~1)
-    dds <- DESeq2::DESeq(dds)
-    normalizedData <- DESeq2::counts(dds, normalized = TRUE)
+    dds <- DESeq(dds)
+    normalizedData <- counts(dds, normalized = TRUE)
     return(normalizedData)
 }

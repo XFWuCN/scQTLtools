@@ -7,7 +7,7 @@ author:
 - Siwen Xu
 date: "`r Sys.Date()`"
 output: 
-  html_document:
+  BiocStyle::html_document:
     toc: true
     toc_depth: 3
     toc_float: true
@@ -17,6 +17,7 @@ output:
     highlight: pygments
     style: symbol
     df_print: kable
+  BiocStyle::pdf_document: default
 vignette: >
   %\VignetteIndexEntry{cisSceQTL:An R package for single-cell eQTL analysis.}
   %\VignetteEngine{knitr::rmarkdown}

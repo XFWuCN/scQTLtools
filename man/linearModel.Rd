@@ -42,7 +42,7 @@ Linear model fitting the gene expression matrix and genotype matrix.
 }
 \examples{
 data(testEQTL)
-Gene <- rownames(slot(testEQTL, "filterData")$normExpMat)
+Gene <- rownames(slot(testEQTL, "filterData")$expMat)
 SNP <- rownames(slot(testEQTL, "filterData")$snpMat)
 linearResult <- linearModel(
   eQTLObject = testEQTL,

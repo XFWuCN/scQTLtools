@@ -49,25 +49,28 @@ setMethod(f = "show", signature = "eQTLObject",
             definition = function(object) {
             cat("An object of class eQTLObject\n")
             cat("rawData:\n")
-            cat(nrow(object@rawData$rawExpMat),
-                "features across", ncol(object@rawData$rawExpMat),
+            cat(nrow(get_raw_data(object)[["rawExpMat"]]),
+                "features across", ncol(get_raw_data(object)[["rawExpMat"]]),
                 "samples in expressionMatrix\n")
-            cat(nrow(object@rawData$snpMat), "SNPs across",
-                ncol(object@rawData$snpMat), "samples in snpMatrix\n")
-            if (length(object@filterData) != 0) {
+            cat(nrow(get_raw_data(object)[["snpMat"]]),
+                "SNPs across",
+                ncol(get_raw_data(object)[["snpMat"]]),
+                "samples in snpMatrix\n")
+            if (length(get_filter_data(object)) != 0) {
                 cat("filterData:\n")
-                cat(nrow(object@filterData$expMat),
-                    "features across", ncol(object@filterData$expMat),
+                cat(nrow(get_filter_data(object)[["expMat"]]),
+                    "features across",
+                    ncol(get_filter_data(object)[["expMat"]]),
                     "samples in expressionMatrix\n")
-                cat(nrow(object@filterData$snpMat),
+                cat(nrow(get_filter_data(object)[["snpMat"]]),
                     "SNPs across",
-                    ncol(object@filterData$snpMat),
+                    ncol(get_filter_data(object)[["snpMat"]]),
                     "samples in snpMatrix")
             }
-            if (length(object@useModel) != 0) {
-                cat("model used: ", object@useModel)
+            if (length(get_model_info(object)) != 0) {
+                cat("model used: ", get_model_info(object))
             }
-            })
+    })
 
 
 #' createObject:Create the eQTLObject.
@@ -182,7 +185,7 @@ createQTLObject <- function(snpMatrix,
         rownames(metadata) <- expr_colnames
     } else {
         if (is(genedata, "Seurat")) {
-            metadata <- genedata@meta.data[group]
+            metadata <- genedata[[group]]
             colnames(metadata) <- "group"
         } else if (is(genedata, "SingleCellExperiment")) {
             metadata <- colData(genedata, group)
