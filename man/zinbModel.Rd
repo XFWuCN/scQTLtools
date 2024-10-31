@@ -10,7 +10,7 @@ zinbModel(
   snpIDs,
   biClassify = FALSE,
   pAdjustMethod = "bonferroni",
-  pAdjustThreshold = 1e-05
+  pAdjustThreshold = 0.05
 )
 }
 \arguments{
@@ -24,8 +24,8 @@ zinbModel(
 the snpMatrix to 0/1/2, TRUE indicates conversion, and FALSE indicates no
 conversion, default is no conversion.}
 
-\item{pAdjustMethod}{Methods for p-value adjusting, one of "bonferroni",
-"holm", "hochberg", "hommel" or "BH". The default option is "bonferroni".}
+\item{pAdjustMethod}{Methods for p-value adjusting, one of 'bonferroni',
+'holm', 'hochberg', 'hommel' or 'BH'. The default option is 'bonferroni'.}
 
 \item{pAdjustThreshold}{Only SNP-Gene pairs with adjusted p-values meeting
 the threshold will be displayed. Default by 0.05.}
@@ -38,13 +38,13 @@ Zinb model fitting the gene expression matrix.
 }
 \examples{
 data(testEQTL)
-Gene <- rownames(slot(testEQTL, "filterData")$expMat)
-SNP <- rownames(slot(testEQTL, "filterData")$snpMat)
+Gene <- rownames(slot(testEQTL, 'filterData')$expMat)
+SNP <- rownames(slot(testEQTL, 'filterData')$snpMat)
 zinbResult <- zinbModel(
   eQTLObject = testEQTL,
   geneIDs = Gene,
   snpIDs = SNP,
   biClassify = FALSE,
-  pAdjustMethod = "bonferroni",
+  pAdjustMethod = 'bonferroni',
   pAdjustThreshold = 0.05)
 }

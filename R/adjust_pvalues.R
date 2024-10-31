@@ -18,9 +18,10 @@
 #'   pvalue = c(0.001, 0.04, 0.03, 0.0005))
 #' pAdjustMethod <- "BH"
 #' pAdjustThreshold <- 0.05
-#' adjusted_result <- adjust_pvalues(example_data, pAdjustThreshold,
-#'                                     pAdjustMethod)
-adjust_pvalues <- function(result, pAdjustThreshold, pAdjustMethod) {
+#' adjusted_result <- adjust_pvalues(example_data, pAdjustMethod,
+#' pAdjustThreshold)
+adjust_pvalues <- function(result, pAdjustMethod = "bonferroni",
+                            pAdjustThreshold = 0.05) {
     if (!pAdjustMethod %in% c(
         "bonferroni",
         "holm",
@@ -38,5 +39,6 @@ adjust_pvalues <- function(result, pAdjustThreshold, pAdjustMethod) {
     rownames(result) <- NULL
     result <- result[result$adjusted_pvalue <=
                         pAdjustThreshold, , drop = FALSE]
+    result <- result[!is.na(result$adjusted_pvalue), , drop = FALSE]
     return(result)
 }

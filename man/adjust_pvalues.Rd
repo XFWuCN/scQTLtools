@@ -5,16 +5,16 @@
 \title{Adjust p-values and perform threshold filtering based on the adjusted
 p-values.}
 \usage{
-adjust_pvalues(result, pAdjustThreshold, pAdjustMethod)
+adjust_pvalues(result, pAdjustMethod = "bonferroni", pAdjustThreshold = 0.05)
 }
 \arguments{
 \item{result}{Dataframe that contains gene-SNP pairs' information.}
 
-\item{pAdjustThreshold}{Only SNP-Gene pairs with adjusted p-values meeting
-the threshold will be displayed. Default by 0.05.}
-
 \item{pAdjustMethod}{Methods for p-value adjusting, one of "bonferroni",
 "holm", "hochberg", "hommel" or "BH". The default option is "bonferroni".}
+
+\item{pAdjustThreshold}{Only SNP-Gene pairs with adjusted p-values meeting
+the threshold will be displayed. Default by 0.05.}
 }
 \value{
 A dataframe that has been adjusted and filtered, containing
@@ -31,6 +31,6 @@ example_data <- data.frame(
   pvalue = c(0.001, 0.04, 0.03, 0.0005))
 pAdjustMethod <- "BH"
 pAdjustThreshold <- 0.05
-adjusted_result <- adjust_pvalues(example_data, pAdjustThreshold,
-                                    pAdjustMethod)
+adjusted_result <- adjust_pvalues(example_data, pAdjustMethod,
+pAdjustThreshold)
 }

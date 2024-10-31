@@ -265,7 +265,7 @@ eqtl1_matrix <- callQTL(
     downstream = NULL,
     upstream = NULL,
     pAdjustMethod = "bonferroni",
-    useModel = "poisson",
+    useModel = "linear",
     pAdjustThreshold = 0.05,
     logfcThreshold = 0.1)
 ```

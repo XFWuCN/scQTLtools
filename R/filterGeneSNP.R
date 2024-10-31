@@ -28,22 +28,9 @@ filterGeneSNP <- function(eQTLObject,
                         snpNumOfCellsPercent = 2,
                         expressionMin = 0,
                         expressionNumOfCellsPercent = 2) {
-    if (!is.null(get_raw_data(eQTLObject)[["normExpMat"]])) {
-        nor_expressionMatrix <-
-            as.data.frame(get_raw_data(eQTLObject)[["normExpMat"]])
-        expression.number.of.cells <- ceiling(
-        (expressionNumOfCellsPercent / 100) * ncol(nor_expressionMatrix)
-    )
-        valid_genes <- rownames(nor_expressionMatrix)[
-        apply(nor_expressionMatrix > expressionMin, 1, sum) >=
-        expression.number.of.cells
-    ]
-    filtered_expressionMatrix <- nor_expressionMatrix[valid_genes, ,
-                                drop = FALSE]
-    filtered_expressionMatrix <- as.matrix(filtered_expressionMatrix)
-    } else {
-        stop("Please normalize the raw expression data first.")
-    }
+    filtered_expressionMatrix <- filter_expr(eQTLObject = eQTLObject,
+                    expressionMin = expressionMin,
+                    expressionNumOfCellsPercent = expressionNumOfCellsPercent)
 
     snpMatrix <- as.data.frame(get_raw_data(eQTLObject)[["snpMat"]])
     snp.list <- rownames(snpMatrix)
@@ -51,14 +38,12 @@ filterGeneSNP <- function(eQTLObject,
         (snpNumOfCellsPercent / 100) * ncol(snpMatrix)
         )
     biClassify <- load_biclassify_info(eQTLObject)
-
     if (biClassify == TRUE) {
         snpMatrix[snpMatrix == 3] <- 2
 
         snp_counts <- apply(snpMatrix, 1, function(row) {
             c(sum(row == 1), sum(row == 2))
         })
-
     snp_counts_df <- as.data.frame(t(snp_counts))
     names(snp_counts_df) <- c("count_ref", "count_alt")
 
@@ -67,13 +52,11 @@ filterGeneSNP <- function(eQTLObject,
         all(row > snp.number.of.cells)
         })
     ]
-
     filtered_snpMatrix <- snpMatrix[filtered_snp_ids, , drop = FALSE]
     } else if (biClassify == FALSE) {
         snp_counts <- apply(snpMatrix, 1, function(row) {
             c(sum(row == 1), sum(row == 3), sum(row == 2))
     })
-
     snp_counts_df <- as.data.frame(t(snp_counts))
     names(snp_counts_df) <- c("count_AA", "count_Aa", "count_aa")
 
@@ -82,7 +65,6 @@ filterGeneSNP <- function(eQTLObject,
             all(row > snp.number.of.cells)
         })
     ]
-
     filtered_snpMatrix <- snpMatrix[filtered_snp_ids, , drop = FALSE]
     filtered_snpMatrix <- as.matrix(filtered_snpMatrix)
     }
@@ -91,4 +73,28 @@ filterGeneSNP <- function(eQTLObject,
                                     "expMat")
     eQTLObject <- set_filter_data(eQTLObject, filtered_snpMatrix, "snpMat")
     return(eQTLObject)
+}
+
+
+# @rdname filterGeneSNP_internals
+filter_expr <- function(eQTLObject,
+                        expressionMin,
+                        expressionNumOfCellsPercent){
+    if (!is.null(get_raw_data(eQTLObject)[["normExpMat"]])) {
+        nor_expressionMatrix <-
+            as.data.frame(get_raw_data(eQTLObject)[["normExpMat"]])
+        expression.number.of.cells <- ceiling(
+            (expressionNumOfCellsPercent / 100) * ncol(nor_expressionMatrix)
+        )
+        valid_genes <- rownames(nor_expressionMatrix)[
+            apply(nor_expressionMatrix > expressionMin, 1, sum) >=
+            expression.number.of.cells
+        ]
+        filtered_expressionMatrix <- nor_expressionMatrix[valid_genes, ,
+                                                        drop = FALSE]
+        filtered_expressionMatrix <- as.matrix(filtered_expressionMatrix)
+    } else {
+        stop("Please normalize the raw expression data first.")
+    }
+    return(filtered_expressionMatrix)
 }

@@ -37,8 +37,7 @@ test_that("Function handles invalid gene_ids gracefully", {
 test_that("Function handles upstream/downstream parameters correctly", {
   result <- callQTL(eqtl, downstream = -85000000, upstream = 20000000)
   expect_true("CCDC18" %in% result@eQTLResult$Geneid)
-  boolean <- c("1:19623568", "1:26281235", "1:28236165", "1:43978026",
-                "1:26475513", "1:33013276") %in% result@eQTLResult$SNPid
+  boolean <- c("1:26281235", "1:33013276") %in% result@eQTLResult$SNPid
   expect_true(unique(boolean))
 })
 

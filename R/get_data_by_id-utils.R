@@ -48,7 +48,7 @@ get_cell_groups <- function(snpMatrix, SNPid, biClassify) {
             colnames(snpMatrix)[snpMatrix[SNPid, ] == 2]))
     } else {
     return(list(colnames(snpMatrix)[snpMatrix[SNPid, ] == 1],
-                colnames(snpMatrix)[snpMatrix[SNPid, ] == 2],
-                colnames(snpMatrix)[snpMatrix[SNPid, ] == 3]))
+                colnames(snpMatrix)[snpMatrix[SNPid, ] == 3],
+                colnames(snpMatrix)[snpMatrix[SNPid, ] == 2]))
     }
 }

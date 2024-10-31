@@ -91,7 +91,7 @@ setMethod(f = "show", signature = "eQTLObject",
 #' @importFrom SeuratObject GetAssayData
 #' @importFrom methods is new
 #' @importFrom SingleCellExperiment colData
-#' @importFrom SummarizedExperiment assayNames
+#' @importFrom SummarizedExperiment assayNames assay
 #' @return eQTLObject
 #' @export
 #'
@@ -110,73 +110,16 @@ createQTLObject <- function(snpMatrix,
                             species = NULL,
                             group = NULL,
                             ...) {
-    if (is(genedata, "Seurat")) {
-        raw_expressionMatrix <- GetAssayData(genedata,
-                                            assay = "RNA",
-                                            layer = "counts")
-        options(warn = -1)
-        if (nrow(GetAssayData(genedata, assay = "RNA", layer = "data")) > 0) {
-            expressionMatrix <- as.matrix(GetAssayData(genedata,
-                                                    assay = "RNA",
-                                                    layer = "data"))
-        } else {
-            message("No normalized counts in your object,
-            you can achieve data normalization with `normalizeGene()`.")
-            expressionMatrix <- NULL
-        }
-        options(warn = 1)
-    } else if (is(genedata, "SingleCellExperiment")){
-        if ("counts" %in% assayNames(genedata)) {
-            raw_expressionMatrix <- assay(genedata, "counts")
-        } else {
-            stop("No raw count data found named 'counts'!
-                Please check if it has been renamed.")
-        }
-        if ("normcounts" %in% assayNames(genedata)) {
-            expressionMatrix <- assay(genedata, "normcounts")
-        } else {
-            message("No Normalized counts found named 'normcounts',
-            you can achieve data normalization with `normalizeGene()`,
-            or check if it is has been renamed.")
-            expressionMatrix <- NULL
-        }
-    } else if (is.matrix(genedata) |
-                is.data.frame(genedata) |
-                is(genedata, "dgCMatrix")) {
-        raw_expressionMatrix <- genedata
-        expressionMatrix <- NULL
-    } else {
-        stop("Please enter the data in the correct format!")
-    }
+    expr <- extract_expr(genedata = genedata)
+    raw_expressionMatrix <- expr[["raw_expressionMatrix"]]
+    expressionMatrix <- expr[["expressionMatrix"]]
 
-    if (sum(is.na(raw_expressionMatrix)) > 0) {
-        stop("NA detected in 'expressionMatrix'")
-            gc()
-    }
-    if (sum(raw_expressionMatrix < 0) > 0) {
-        stop("Negative value detected in 'expressionMatrix'")
-    }
-    if (all(raw_expressionMatrix == 0)) {
-        stop("All elements of 'expressionMatrix' are zero")
-    }
+    check_raw_expr(expressionMatrix = raw_expressionMatrix)
+    check_cell_names(expressionMatrix = raw_expressionMatrix,
+                    snpMatrix = snpMatrix)
 
-    # Check if the cell name is duplicated
-    if (anyDuplicated(colnames(raw_expressionMatrix)) == 0 &
-        anyDuplicated(colnames(snpMatrix)) == 0) {
-        NULL
-    } else {
-        stop("There are duplicate values in the cell names.")
-    }
-
-    # Check whether the cell count and name of expressionMatrix match
     expr_colnames <- colnames(raw_expressionMatrix)
     snp_colnames <- colnames(snpMatrix)
-    if (all(expr_colnames %in% snp_colnames) &&
-        all(snp_colnames %in% expr_colnames)) {
-        NULL
-    } else {
-        stop("Column names do not match!")
-    }
 
     # Extract cell grouping information from Seurat into metadata
     if (is.null(group)) {
@@ -194,7 +137,6 @@ createQTLObject <- function(snpMatrix,
             stop("Cannot find 'group'")
         }
     }
-
     raw_expressionMatrix <- as.matrix(raw_expressionMatrix)
     snpMatrix <- as.matrix(snpMatrix)
 
@@ -206,4 +148,86 @@ createQTLObject <- function(snpMatrix,
                 species = species,
                 groupBy = metadata)
     return(assay)
+}
+
+
+# @rdname createQTLObject_internals
+check_raw_expr <- function(expressionMatrix){
+    if (sum(is.na(expressionMatrix)) > 0) {
+        stop("NA detected in 'expressionMatrix'")
+        gc()
+    }
+    if (sum(expressionMatrix < 0) > 0) {
+        stop("Negative value detected in 'expressionMatrix'")
+    }
+    if (all(expressionMatrix == 0)) {
+        stop("All elements of 'expressionMatrix' are zero")
+    }
+}
+
+
+# @rdname createQTLObject_internals
+check_cell_names <- function(expressionMatrix, snpMatrix){
+    # Check if the cell name is duplicated
+    if (anyDuplicated(colnames(expressionMatrix)) == 0 &
+        anyDuplicated(colnames(snpMatrix)) == 0) {
+        NULL
+    } else {
+        stop("There are duplicate values in the cell names.")
+    }
+
+    # Check whether the cell count and name of expressionMatrix match
+    expr_colnames <- colnames(expressionMatrix)
+    snp_colnames <- colnames(snpMatrix)
+    if (all(expr_colnames %in% snp_colnames) &&
+        all(snp_colnames %in% expr_colnames)) {
+        NULL
+    } else {
+        stop("Column names do not match!")
+    }
+}
+
+
+# @rdname createQTLObject_internals
+extract_expr <- function(genedata){
+    if (is(genedata, "Seurat")) {
+        raw_expressionMatrix <- GetAssayData(genedata,
+                                            assay = "RNA",
+                                            layer = "counts")
+        options(warn = -1)
+        if (nrow(GetAssayData(genedata, assay = "RNA", layer = "data")) > 0) {
+            expressionMatrix <- as.matrix(GetAssayData(genedata,
+                                                        assay = "RNA",
+                                                        layer = "data"))
+        } else {
+            message("No normalized counts in your object,
+                you can achieve data normalization with `normalizeGene()`.")
+            expressionMatrix <- NULL
+        }
+        options(warn = 1)
+    } else if (is(genedata, "SingleCellExperiment")){
+        if ("counts" %in% assayNames(genedata)) {
+            raw_expressionMatrix <- assay(genedata, "counts")
+        } else {
+            stop("No raw count data found named 'counts'!
+                Please check if it has been renamed.")
+        }
+        if ("normcounts" %in% assayNames(genedata)) {
+            expressionMatrix <- assay(genedata, "normcounts")
+        } else {
+            message("No Normalized counts found named 'normcounts',
+                you can achieve data normalization with `normalizeGene()`,
+                or check if it is has been renamed.")
+            expressionMatrix <- NULL
+        }
+    } else if (is.matrix(genedata) |
+                is.data.frame(genedata) |
+                is(genedata, "dgCMatrix")) {
+        raw_expressionMatrix <- genedata
+        expressionMatrix <- NULL
+    } else {
+        stop("Please enter the data in the correct format!")
+    }
+    return(list(raw_expressionMatrix = raw_expressionMatrix,
+                expressionMatrix = expressionMatrix))
 }

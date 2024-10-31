@@ -44,20 +44,50 @@ callQTL <- function(eQTLObject,
                     pAdjustThreshold = 0.05,
                     logfcThreshold = 0.1) {
     options(warn = -1)
-
     if (length(get_filter_data(eQTLObject)) == 0) {
         stop("Please filter the data first.")
     } else {
-    expressionMatrix <- get_filter_data(eQTLObject)[["expMat"]]
-    snpMatrix <- get_filter_data(eQTLObject)[["snpMat"]]
+        expressionMatrix <- get_filter_data(eQTLObject)[["expMat"]]
+        snpMatrix <- get_filter_data(eQTLObject)[["snpMat"]]
     }
-
     biClassify <- load_biclassify_info(eQTLObject)
     species <- load_species_info(eQTLObject)
-
     if (is.null(gene_ids) && is.null(upstream) && is.null(downstream)) {
-    NULL
+        NULL
     } else {
+        info <- species_db_info(species)
+        geneBiomart <- info[["geneBiomart"]]
+        snpBiomart <- info[["snpBiomart"]]
+        host <- info[["host"]]
+        gene_attributes <- info[["gene_attributes"]]
+        snpDataset <- info[["snpDataset"]]
+        geneDataset <- info[["geneDataset"]]
+        filters <- info[["filters"]]
+        OrgDb <- info[["OrgDb"]]
+    }
+    snpList <- rownames(snpMatrix)
+    geneList <- rownames(expressionMatrix)
+    matchID <- match_gene_snp(gene_ids, upstream, downstream, snpList, geneList,
+                                geneBiomart, snpBiomart, host, gene_attributes,
+                                snpDataset, geneDataset, filters, OrgDb)
+    matched_gene <- matchID[["matched_gene"]]
+    matched_snps <- matchID[["matched_snps"]]
+    result <- run_model_result(eQTLObject = eQTLObject,
+                                geneIDs = matched_gene,
+                                snpIDs = matched_snps,
+                                useModel = useModel,
+                                pAdjustMethod = pAdjustMethod,
+                                pAdjustThreshold = pAdjustThreshold,
+                                logfcThreshold = logfcThreshold)
+    options(warn = 0)
+    eQTLObject <- set_model_info(eQTLObject, useModel)
+    eQTLObject <- set_result_info(eQTLObject, result)
+    return(eQTLObject)
+    }
+
+
+# @rdname callQTL_internals
+species_db_info <- function(species){
     if (!is.null(species) && species != "") {
         geneBiomart <- "ENSEMBL_MART_ENSEMBL"
         snpBiomart <- "ENSEMBL_MART_SNP"
@@ -100,17 +130,22 @@ callQTL <- function(eQTLObject,
         }
     } else {
         stop("The 'species' variable is NULL or empty.")
-        }
     }
+    return(list(geneBiomart = geneBiomart, snpBiomart = snpBiomart,
+                host = host, gene_attributes = gene_attributes,
+                snpDataset = snpDataset, geneDataset = geneDataset,
+                filters = filters, OrgDb = OrgDb))
+}
 
-    snpList <- rownames(snpMatrix)
-    geneList <- rownames(expressionMatrix)
 
+# @rdname callQTL_internals
+match_gene_snp <- function(gene_ids, upstream, downstream, snpList, geneList,
+                            geneBiomart, snpBiomart, host, gene_attributes,
+                            snpDataset, geneDataset, filters, OrgDb){
     if (is.null(gene_ids) && is.null(upstream) && is.null(downstream)) {
         matched_gene <- geneList
         matched_snps <- snpList
-    } else if (!is.null(gene_ids) &&
-                is.null(upstream) &&
+    } else if (!is.null(gene_ids) && is.null(upstream) &&
                 is.null(downstream)) {
         matched_snps <- snpList
     if (all(gene_ids %in% geneList)) {
@@ -118,76 +153,79 @@ callQTL <- function(eQTLObject,
     } else {
     stop("The input gene_ids contain non-existent gene IDs.Please re-enter.")
     }
-    } else if (is.null(gene_ids) &&
-                !is.null(upstream) &&
+    } else if (is.null(gene_ids) && !is.null(upstream) &&
                 !is.null(downstream)) {
     if (downstream > 0) {
         stop("downstream should be negative.")
     }
     snps_loc <- checkSNPList(snpList, snpDataset, snpBiomart)
-    gene_loc <- createGeneLoc(geneList, geneDataset, OrgDb, geneBiomart, host,
-                            gene_attributes, filters)
-
+    gene_loc <- createGeneLoc(geneList, geneDataset, OrgDb, geneBiomart,
+                                host, gene_attributes, filters)
     gene_ranges <- data.frame(
         gene_start = gene_loc$start_position + downstream,
         gene_end = gene_loc$end_position + upstream,
         chr = gene_loc$chromosome_name,
         gene_id = gene_loc[, 1]
     )
-
     matches <- lapply(seq_len(nrow(gene_ranges)), function(i) {
         snp_matches <- snps_loc[snps_loc$chr_name == gene_ranges$chr[i] &
-                            snps_loc$position >= gene_ranges$gene_start[i] &
-                            snps_loc$position <= gene_ranges$gene_end[i], ]
+                        snps_loc$position >= gene_ranges$gene_start[i] &
+                        snps_loc$position <= gene_ranges$gene_end[i], ]
         if (nrow(snp_matches) > 0) {
             return(data.frame(snp_id = snp_matches$refsnp_id,
                                 gene = gene_ranges$gene_id[i]))
         } else {
-        return(NULL)
-                }
+            return(NULL)
+        }
     })
-
-    matches_df <- do.call(rbind, matches)
-    matches_df <- na.omit(matches_df)
-    matched_snps <- unique(matches_df$snp_id)
-    matched_gene <- unique(matches_df$gene)
-
+        matches_df <- do.call(rbind, matches)
+        matches_df <- na.omit(matches_df)
+        matched_snps <- unique(matches_df$snp_id)
+        matched_gene <- unique(matches_df$gene)
     } else {
         stop("Please enter upstream and downstream simultaneously.")
     }
+    return(list(matched_gene = matched_gene, matched_snps = matched_snps))
+}
 
+
+# @rdname callQTL_internals
+run_model_result <- function(eQTLObject,
+                            geneIDs,
+                            snpIDs,
+                            useModel,
+                            pAdjustMethod,
+                            pAdjustThreshold,
+                            logfcThreshold){
+    biClassify <- load_biclassify_info(eQTLObject)
     if (useModel == "zinb") {
-    result <- zinbModel(eQTLObject = eQTLObject,
-                        geneIDs = matched_gene,
-                        snpIDs = matched_snps,
-                        biClassify = biClassify,
-                        pAdjustMethod = pAdjustMethod,
-                        pAdjustThreshold = pAdjustThreshold)
+        result <- zinbModel(
+            eQTLObject = eQTLObject,
+            geneIDs = geneIDs,
+            snpIDs = snpIDs,
+            biClassify = biClassify,
+            pAdjustMethod = pAdjustMethod,
+            pAdjustThreshold = pAdjustThreshold)
     } else if (useModel == "poisson") {
-    result <- poissonModel(
-        eQTLObject = eQTLObject,
-        geneIDs = matched_gene,
-        snpIDs = matched_snps,
-        biClassify = biClassify,
-        pAdjustMethod = pAdjustMethod,
-        pAdjustThreshold = pAdjustThreshold,
-        logfcThreshold = logfcThreshold
-        )
+        result <- poissonModel(
+            eQTLObject = eQTLObject,
+            geneIDs = geneIDs,
+            snpIDs = snpIDs,
+            biClassify = biClassify,
+            pAdjustMethod = pAdjustMethod,
+            pAdjustThreshold = pAdjustThreshold,
+            logfcThreshold = logfcThreshold)
     } else if (useModel == "linear") {
-    result <- linearModel(
-        eQTLObject = eQTLObject,
-        geneIDs = matched_gene,
-        snpIDs = matched_snps,
-        biClassify = biClassify,
-        pAdjustMethod = pAdjustMethod,
-        pAdjustThreshold = pAdjustThreshold,
-        logfcThreshold = logfcThreshold)
+        result <- linearModel(
+            eQTLObject = eQTLObject,
+            geneIDs = geneIDs,
+            snpIDs = snpIDs,
+            biClassify = biClassify,
+            pAdjustMethod = pAdjustMethod,
+            pAdjustThreshold = pAdjustThreshold,
+            logfcThreshold = logfcThreshold)
     } else {
         stop("Invalid model Please choose from 'zinb','poisson',or 'linear'.")
-        }
-
-    options(warn = 0)
-    eQTLObject <- set_model_info(eQTLObject, useModel)
-    eQTLObject <- set_result_info(eQTLObject, result)
-    return(eQTLObject)
     }
+    return(result)
+}
