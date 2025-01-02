@@ -8,6 +8,10 @@ eqtl <- createQTLObject(snpMatrix = testSNP,
 
 eqtl <- normalizeGene(eqtl, method = "logNormalize")
 
+test_that("Function handles empty filterData", {
+  expect_error(callQTL(eqtl), "Please filter the data first.")
+})
+
 eqtl <- filterGeneSNP(eQTLObject = eqtl,
                       snpNumOfCellsPercent = 2,
                       expressionMin = 0,
@@ -58,17 +62,10 @@ test_that("Function handles empty or invalid parameter", {
   # do not enter upstream and downstream simultaneously
   expect_error(callQTL(eqtl, upstream = 20000000),
                "Please enter upstream and downstream simultaneously.")
-
-  eqtl@filterData <- list()  # Simulate empty filterData
-  expect_error(callQTL(eqtl), "Please filter the data first.")
 })
 
 
 test_that("Function returns correct output with valid SNP matrix rownames", {
-  eqtl <- filterGeneSNP(eQTLObject = eqtl,
-                        snpNumOfCellsPercent = 2,
-                        expressionMin = 0,
-                        expressionNumOfCellsPercent = 2)
   eqtl@filterData$snpMat <- eqtl@filterData$snpMat[1:5,]  # Simulate SNP matrix
   rownames(eqtl@filterData$snpMat) <- c("rs546",
                                         "rs549",
