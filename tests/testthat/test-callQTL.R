@@ -30,7 +30,7 @@ test_that("Function returns correct output with valid gene_ids inputs", {
 
 test_that("Function handles invalid gene_ids gracefully", {
   expect_error(callQTL(eqtl, gene_ids = c("invalid_gene")),
-    "The input gene_ids contain non-existent gene IDs.Please re-enter.")
+    "The input gene_ids contain non-existent gene IDs. Please re-enter.")
 })
 
 
@@ -49,7 +49,7 @@ test_that("Function handles empty or invalid parameter", {
 
   eqtl@species <- "rat"  # Simulate invalid species
   expect_error(callQTL(eqtl, downstream = -85000000, upstream = 20000000),
-               "Please enter 'human', 'mouse', 'worm' or 'phytozome'")
+               "Please enter 'human' or 'mouse'.")
 
   eqtl@species <- "human"
   # invalid downstream

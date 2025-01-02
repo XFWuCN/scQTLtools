@@ -10,6 +10,8 @@ callQTL(
   gene_ids = NULL,
   downstream = NULL,
   upstream = NULL,
+  gene_mart = NULL,
+  snp_mart = NULL,
   pAdjustMethod = "bonferroni",
   useModel = "zinb",
   pAdjustThreshold = 0.05,
@@ -26,6 +28,12 @@ the start position of genes.}
 
 \item{upstream}{Being used to match SNPs within a base range defined by the
 end position of genes.}
+
+\item{gene_mart}{An object of class Mart representing the BioMart database
+to connect to. If NULL, the function will use the Ensembl Gene BioMart.}
+
+\item{snp_mart}{An object of class Mart representing the BioMart database to
+connect to. If NULL, the function will use the Ensembl SNP BioMart.}
 
 \item{pAdjustMethod}{Methods for p-value adjusting, one of 'bonferroni',
 'holm', 'hochberg', 'hommel' or 'BH'. Default by 'bonferroni'.}
@@ -49,11 +57,20 @@ A function designed to identify eQTLs from scRNA-seq data.
 }
 \examples{
 data(testEQTL)
+library(biomaRt)
+gene_mart <- useEnsembl(biomart = "genes",
+                        dataset = "hsapiens_gene_ensembl",
+                        mirror = 'asia')
+snp_mart <- useEnsembl(biomart = "snps",
+                        dataset = "hsapiens_snp",
+                        mirror = 'asia')
 eqtl <- callQTL(
   eQTLObject = testEQTL,
   gene_ids = NULL,
   downstream = NULL,
   upstream = NULL,
+  gene_mart = gene_mart,
+  snp_mart = snp_mart,
   pAdjustMethod = 'bonferroni',
   useModel = 'linear',
   pAdjustThreshold = 0.05,

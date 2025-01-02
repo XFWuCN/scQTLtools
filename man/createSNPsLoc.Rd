@@ -4,14 +4,20 @@
 \alias{createSNPsLoc}
 \title{Create SNP location dataframe.}
 \usage{
-createSNPsLoc(snpList, snpDataset, snpBiomart = "ENSEMBL_MART_SNP")
+createSNPsLoc(snpList, snp_mart = NULL, snpDataset = "hsapiens_snp")
 }
 \arguments{
 \item{snpList}{a list of SNPs id.}
 
-\item{snpDataset}{SNP dataset chosen from ENSEMBL}
+\item{snp_mart}{An object of class `Mart` representing the BioMart database
+connect to for SNPs. If provided, this should be a `Mart` object obtained by
+calling `useEnsembl()`, which allows specifying a mirror in case of
+connection issues. If `NULL`, the function will create and use a `Mart`
+object pointing to the Ensembl SNP BioMart using the specified `snpDataset`
+and a default mirror.}
 
-\item{snpBiomart}{the name of snp mart.}
+\item{snpDataset}{A character string specifying the SNP dataset to use from
+ENSEMBL. The default is 'hsapiens_snp' for human SNPs.}
 }
 \value{
 data.frame
@@ -21,9 +27,10 @@ Create SNP location dataframe.
 }
 \examples{
 snpList <- c('rs546', 'rs549', 'rs568', 'rs665', 'rs672')
-snpDataset <- 'hsapiens_snp'
-snpBiomart <- "ENSEMBL_MART_SNP"
+library(biomaRt)
+snp_mart <- useEnsembl(biomart = "snps",
+                        dataset = "hsapiens_snp",
+                        mirror = 'asia')
 snp_loc <- createSNPsLoc(snpList = snpList,
-                         snpDataset = snpDataset,
-                         snpBiomart = snpBiomart)
+                         snp_mart = snp_mart)
 }

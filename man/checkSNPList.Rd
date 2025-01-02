@@ -4,14 +4,20 @@
 \alias{checkSNPList}
 \title{Check if the SNP ids in the input genotype matrix are valid.}
 \usage{
-checkSNPList(snpList, snpDataset, snpBiomart)
+checkSNPList(snpList, snp_mart = NULL, snpDataset = "hsapiens_snp")
 }
 \arguments{
 \item{snpList}{a list of SNPs id.}
 
-\item{snpDataset}{SNP dataset chosen from ENSEMBL}
+\item{snp_mart}{An object of class `Mart` representing the BioMart database
+connect to for SNPs. If provided, this should be a `Mart` object obtained by
+calling `useEnsembl()`, which allows specifying a mirror in case of
+connection issues. If `NULL`, the function will create and use a `Mart`
+object pointing to the Ensembl SNP BioMart using the specified `snpDataset`
+and a default mirror.}
 
-\item{snpBiomart}{the name of snp mart.}
+\item{snpDataset}{A character string specifying the SNP dataset to use from
+ENSEMBL. The default is 'hsapiens_snp' for human SNPs.}
 }
 \value{
 SNP location dataframe

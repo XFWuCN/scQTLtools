@@ -1,23 +1,33 @@
 #' Create SNP location dataframe.
 #'
 #' @param snpList a list of SNPs id.
-#' @param snpDataset SNP dataset chosen from ENSEMBL
-#' @param snpBiomart the name of snp mart.
-#' @importFrom biomaRt useMart getBM
+#' @param snp_mart An object of class `Mart` representing the BioMart database
+#' connect to for SNPs. If provided, this should be a `Mart` object obtained by
+#' calling `useEnsembl()`, which allows specifying a mirror in case of
+#' connection issues. If `NULL`, the function will create and use a `Mart`
+#' object pointing to the Ensembl SNP BioMart using the specified `snpDataset`
+#' and a default mirror.
+#' @param snpDataset A character string specifying the SNP dataset to use from
+#' ENSEMBL. The default is 'hsapiens_snp' for human SNPs.
+#' @importFrom biomaRt useEnsembl getBM
 #' @return data.frame
 #' @export
 #' @examples
 #' snpList <- c('rs546', 'rs549', 'rs568', 'rs665', 'rs672')
-#' snpDataset <- 'hsapiens_snp'
-#' snpBiomart <- "ENSEMBL_MART_SNP"
+#' library(biomaRt)
+#' snp_mart <- useEnsembl(biomart = "snps",
+#'                         dataset = "hsapiens_snp",
+#'                         mirror = 'asia')
 #' snp_loc <- createSNPsLoc(snpList = snpList,
-#'                          snpDataset = snpDataset,
-#'                          snpBiomart = snpBiomart)
+#'                          snp_mart = snp_mart)
 createSNPsLoc <- function(snpList,
-                        snpDataset,
-                        snpBiomart = "ENSEMBL_MART_SNP") {
-    snp_mart <- useMart(biomart = snpBiomart,
-                        dataset = snpDataset)
+                        snp_mart = NULL,
+                        snpDataset = 'hsapiens_snp') {
+    if(is.null(snp_mart)) {
+        snp_mart <- useEnsembl(biomart = "snps", dataset = snpDataset)
+    }
+    stopifnot(is(snp_mart, 'Mart'))
+
     snps_loc <- getBM(attributes = c("refsnp_id", "chr_name", "chrom_start"),
                         filters = "snp_filter",
                         values = snpList,

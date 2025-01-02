@@ -12,6 +12,10 @@
 #' the start position of genes.
 #' @param upstream Being used to match SNPs within a base range defined by the
 #' end position of genes.
+#' @param gene_mart An object of class Mart representing the BioMart database
+#' to connect to. If NULL, the function will use the Ensembl Gene BioMart.
+#' @param snp_mart An object of class Mart representing the BioMart database to
+#' connect to. If NULL, the function will use the Ensembl SNP BioMart.
 #' @param logfcThreshold Represents the minimum beta threshold for fitting
 #' SNP-Gene pairs.
 #' @importFrom Matrix Matrix
@@ -25,11 +29,20 @@
 #' @export
 #' @examples
 #' data(testEQTL)
+#' library(biomaRt)
+#' gene_mart <- useEnsembl(biomart = "genes",
+#'                         dataset = "hsapiens_gene_ensembl",
+#'                         mirror = 'asia')
+#' snp_mart <- useEnsembl(biomart = "snps",
+#'                         dataset = "hsapiens_snp",
+#'                         mirror = 'asia')
 #' eqtl <- callQTL(
 #'   eQTLObject = testEQTL,
 #'   gene_ids = NULL,
 #'   downstream = NULL,
 #'   upstream = NULL,
+#'   gene_mart = gene_mart,
+#'   snp_mart = snp_mart,
 #'   pAdjustMethod = 'bonferroni',
 #'   useModel = 'linear',
 #'   pAdjustThreshold = 0.05,
@@ -39,6 +52,8 @@ callQTL <- function(eQTLObject,
                     gene_ids = NULL,
                     downstream = NULL,
                     upstream = NULL,
+                    gene_mart = NULL,
+                    snp_mart = NULL,
                     pAdjustMethod = "bonferroni",
                     useModel = "zinb",
                     pAdjustThreshold = 0.05,
@@ -52,33 +67,32 @@ callQTL <- function(eQTLObject,
     }
     biClassify <- load_biclassify_info(eQTLObject)
     species <- load_species_info(eQTLObject)
+    if (is.null(species) || species == "") {
+        stop("The 'species' variable is NULL or empty.")
+    }
+    if (species == "human") {
+        snpDataset <- "hsapiens_snp"
+        geneDataset <- "hsapiens_gene_ensembl"
+        OrgDb <- "org.Hs.eg.db"
+    } else if (species == "mouse") {
+        snpDataset <- "mmusculus_snp"
+        geneDataset <- "mmusculus_gene_ensembl"
+        OrgDb <- "org.Mm.eg.db"
+    } else {
+        stop("Please enter 'human' or 'mouse'.")
+    }
     if (is.null(gene_ids) && is.null(upstream) && is.null(downstream)) {
         NULL
-    } else {
-        info <- species_db_info(species)
-        geneBiomart <- info[["geneBiomart"]]
-        snpBiomart <- info[["snpBiomart"]]
-        host <- info[["host"]]
-        gene_attributes <- info[["gene_attributes"]]
-        snpDataset <- info[["snpDataset"]]
-        geneDataset <- info[["geneDataset"]]
-        filters <- info[["filters"]]
-        OrgDb <- info[["OrgDb"]]
     }
     snpList <- rownames(snpMatrix)
     geneList <- rownames(expressionMatrix)
-    matchID <- match_gene_snp(gene_ids, upstream, downstream, snpList, geneList,
-                                geneBiomart, snpBiomart, host, gene_attributes,
-                                snpDataset, geneDataset, filters, OrgDb)
+    matchID <- match_gene_snp(gene_ids, upstream, downstream, snpList,
+            geneList, gene_mart, snp_mart, geneDataset, snpDataset, OrgDb)
     matched_gene <- matchID[["matched_gene"]]
     matched_snps <- matchID[["matched_snps"]]
-    result <- run_model_result(eQTLObject = eQTLObject,
-                                geneIDs = matched_gene,
-                                snpIDs = matched_snps,
-                                useModel = useModel,
-                                pAdjustMethod = pAdjustMethod,
-                                pAdjustThreshold = pAdjustThreshold,
-                                logfcThreshold = logfcThreshold)
+    result <- run_model_result(eQTLObject = eQTLObject, geneIDs = matched_gene,
+    snpIDs = matched_snps, useModel = useModel, pAdjustMethod = pAdjustMethod,
+    pAdjustThreshold = pAdjustThreshold, logfcThreshold = logfcThreshold)
     options(warn = 0)
     eQTLObject <- set_model_info(eQTLObject, useModel)
     eQTLObject <- set_result_info(eQTLObject, result)
@@ -87,61 +101,9 @@ callQTL <- function(eQTLObject,
 
 
 # @rdname callQTL_internals
-species_db_info <- function(species){
-    if (!is.null(species) && species != "") {
-        geneBiomart <- "ENSEMBL_MART_ENSEMBL"
-        snpBiomart <- "ENSEMBL_MART_SNP"
-        host <- "https://www.ensembl.org"
-        gene_attributes <- c("external_gene_name",
-                            "chromosome_name",
-                            "start_position",
-                            "end_position")
-        filters <- "external_gene_name"
-        if (species == "human") {
-            snpDataset <- "hsapiens_snp"
-            geneDataset <- "hsapiens_gene_ensembl"
-            OrgDb <- load_OrgDb("org.Hs.eg.db")
-        } else if (species == "mouse") {
-            snpDataset <- "mmusculus_snp"
-            geneDataset <- "mmusculus_gene_ensembl"
-            OrgDb <- load_OrgDb("org.Mm.eg.db")
-        } else if (species == "worm") {
-            geneBiomart <- "parasite_mart"
-            geneDataset <- "wbps_gene"
-            OrgDb <- load_OrgDb("org.Ce.eg.db")
-            host <- "https://parasite.wormbase.org"
-            gene_attributes <- c("external_gene_id",
-                                "chromosome_name",
-                                "start_position",
-                                "end_position")
-            filters <- "gene_name"
-        } else if (species == "phytozome") {
-            geneBiomart <- "phytozome_mart"
-            geneDataset <- "phytozome"
-            OrgDb <- load_OrgDb("org.At.tair.db")
-            host <- "https://phytozome-next.jgi.doe.gov"
-            gene_attributes <- c("gene_name1",
-                                "chr_name",
-                                "gene_chrom_start",
-                                "gene_chrom_end")
-            filters <- "gene_name_filter"
-        } else {
-            stop("Please enter 'human', 'mouse', 'worm' or 'phytozome'.")
-        }
-    } else {
-        stop("The 'species' variable is NULL or empty.")
-    }
-    return(list(geneBiomart = geneBiomart, snpBiomart = snpBiomart,
-                host = host, gene_attributes = gene_attributes,
-                snpDataset = snpDataset, geneDataset = geneDataset,
-                filters = filters, OrgDb = OrgDb))
-}
-
-
-# @rdname callQTL_internals
 match_gene_snp <- function(gene_ids, upstream, downstream, snpList, geneList,
-                            geneBiomart, snpBiomart, host, gene_attributes,
-                            snpDataset, geneDataset, filters, OrgDb){
+                            gene_mart = NULL, snp_mart = NULL, geneDataset,
+                            snpDataset, OrgDb){
     if (is.null(gene_ids) && is.null(upstream) && is.null(downstream)) {
         matched_gene <- geneList
         matched_snps <- snpList
@@ -151,16 +113,16 @@ match_gene_snp <- function(gene_ids, upstream, downstream, snpList, geneList,
     if (all(gene_ids %in% geneList)) {
         matched_gene <- gene_ids
     } else {
-    stop("The input gene_ids contain non-existent gene IDs.Please re-enter.")
+    stop("The input gene_ids contain non-existent gene IDs. Please re-enter.")
     }
     } else if (is.null(gene_ids) && !is.null(upstream) &&
                 !is.null(downstream)) {
     if (downstream > 0) {
         stop("downstream should be negative.")
     }
-    snps_loc <- checkSNPList(snpList, snpDataset, snpBiomart)
-    gene_loc <- createGeneLoc(geneList, geneDataset, OrgDb, geneBiomart,
-                                host, gene_attributes, filters)
+
+    snps_loc <- checkSNPList(snpList, snp_mart, snpDataset)
+    gene_loc <- createGeneLoc(geneList, gene_mart, geneDataset, OrgDb)
     gene_ranges <- data.frame(
         gene_start = gene_loc$start_position + downstream,
         gene_end = gene_loc$end_position + upstream,

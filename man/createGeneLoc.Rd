@@ -6,30 +6,25 @@
 \usage{
 createGeneLoc(
   geneList,
-  geneDataset,
-  OrgDb,
-  geneBiomart = "ENSEMBL_MART_ENSEMBL",
-  host = "https://www.ensembl.org",
-  gene_attributes = c("external_gene_name", "chromosome_name", "start_position",
-    "end_position"),
-  filters = "external_gene_name"
+  gene_mart = NULL,
+  geneDataset = "hsapiens_gene_ensembl",
+  OrgDb
 )
 }
 \arguments{
 \item{geneList}{A gene id or a list of genes id.}
 
-\item{geneDataset}{Gene dataset chosen from the biomart.}
+\item{gene_mart}{An object of class `Mart` representing the BioMart database
+connect to for gene. If provided, this should be a `Mart` object obtained by
+calling `useEnsembl()`, which allows specifying a mirror in case of
+connection issues. If `NULL`, the function will create and use a `Mart`
+object pointing to the Ensembl Gene BioMart using the specified
+`geneDataset` and a default mirror.}
 
-\item{OrgDb}{OrgDb name:"org.Hs.eg.db", "org.Mm.eg.db", "org.Ce.eg.db",
-"org.At.tair.db".}
+\item{geneDataset}{A character string specifying the gene dataset to use
+from ENSEMBL. The default is "hsapiens_gene_ensembl" for human genes.}
 
-\item{geneBiomart}{the name of gene mart.}
-
-\item{host}{Host to connect to.}
-
-\item{gene_attributes}{the outputs of a biomaRt query.}
-
-\item{filters}{what we use as inputs for a biomaRt query.}
+\item{OrgDb}{OrgDb name:"org.Hs.eg.db", "org.Mm.eg.db".}
 }
 \value{
 data.frame
@@ -40,10 +35,13 @@ Create gene location dataframe.
 \examples{
 data(testGene)
 geneList <- rownames(testGene)
-geneDataset <- 'hsapiens_gene_ensembl'
 library(GOSemSim)
+library(biomaRt)
 OrgDb <- load_OrgDb("org.Hs.eg.db")
+gene_mart <- useEnsembl(biomart = "genes",
+                        dataset = "hsapiens_gene_ensembl",
+                        mirror = 'asia')
 gene_loc <- createGeneLoc(geneList = geneList,
-                          geneDataset = geneDataset,
+                          gene_mart = gene_mart,
                           OrgDb = OrgDb)
 }
