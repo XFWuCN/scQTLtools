@@ -65,6 +65,10 @@ test_that("Function handles empty or invalid parameter", {
 
 
 test_that("Function returns correct output with valid SNP matrix rownames", {
+  eqtl <- filterGeneSNP(eQTLObject = eqtl,
+                        snpNumOfCellsPercent = 2,
+                        expressionMin = 0,
+                        expressionNumOfCellsPercent = 2)
   eqtl@filterData$snpMat <- eqtl@filterData$snpMat[1:5,]  # Simulate SNP matrix
   rownames(eqtl@filterData$snpMat) <- c("rs546",
                                         "rs549",
