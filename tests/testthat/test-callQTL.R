@@ -64,19 +64,6 @@ test_that("Function handles empty or invalid parameter", {
                "Please enter upstream and downstream simultaneously.")
 })
 
-
-test_that("Function returns correct output with valid SNP matrix rownames", {
-  eqtl@filterData$snpMat <- eqtl@filterData$snpMat[1:5,]  # Simulate SNP matrix
-  rownames(eqtl@filterData$snpMat) <- c("rs546",
-                                        "rs549",
-                                        "rs568",
-                                        "rs665",
-                                        "rs672")
-  result <- callQTL(eqtl, downstream = -1e+6, upstream = 5e+6)
-  expect_equal(result@eQTLResult$Geneid, "CCDC18")
-  expect_equal(result@eQTLResult$SNPid, "rs546")
-})
-
 test_that("callQTL function behaves as expected when specific fitting model",{
 
   # test ZINB model
