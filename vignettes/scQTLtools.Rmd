@@ -364,7 +364,7 @@ visualizeQTL(
 
 QTLplot:
 
-With cell annotiation information of Seurat object or SingleCellExperiment 
+With cell annotation information of Seurat object or SingleCellExperiment 
 object, we can discover that the eQTL varies across different cell types.
 
 ```{r visualizeQTL_seuratobject, message=FALSE}

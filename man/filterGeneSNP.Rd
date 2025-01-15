@@ -6,9 +6,9 @@
 \usage{
 filterGeneSNP(
   eQTLObject,
-  snpNumOfCellsPercent = 2,
+  snpNumOfCellsPercent = 10,
   expressionMin = 0,
-  expressionNumOfCellsPercent = 2
+  expressionNumOfCellsPercent = 10
 )
 }
 \arguments{

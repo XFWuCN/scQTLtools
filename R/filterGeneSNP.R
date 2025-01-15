@@ -25,9 +25,9 @@
 #'   expressionMin = 0,
 #'   expressionNumOfCellsPercent = 2)
 filterGeneSNP <- function(eQTLObject,
-                        snpNumOfCellsPercent = 2,
+                        snpNumOfCellsPercent = 10,
                         expressionMin = 0,
-                        expressionNumOfCellsPercent = 2) {
+                        expressionNumOfCellsPercent = 10) {
     filtered_expressionMatrix <- filter_expr(eQTLObject = eQTLObject,
                     expressionMin = expressionMin,
                     expressionNumOfCellsPercent = expressionNumOfCellsPercent)

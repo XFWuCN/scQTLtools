@@ -1,3 +1,3 @@
-# Changes in version 0.99.0 (2024-08-15)
+# Changes in version 0.99.9 (2025-01-16)
 
 + Submitted to Bioconductor
