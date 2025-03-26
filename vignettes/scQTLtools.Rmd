@@ -1,5 +1,5 @@
 ---
-title: "scQTLtools:An R package for single-cell eQTL analysis."
+title: "scQTLtools: An R package for single-cell eQTL analysis."
 author: 
 - Xiaofeng Wu
 - Xin Huang
@@ -19,16 +19,16 @@ output:
     df_print: kable
   BiocStyle::pdf_document: default
 vignette: >
-  %\VignetteIndexEntry{cisSceQTL:An R package for single-cell eQTL analysis.}
+  %\VignetteIndexEntry{scQTLtools: An R package for single-cell eQTL analysis.}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 # Introduction
 Expression quantitative trait loci (eQTL) analysis links variations in gene 
-expression levels to genotypes. This package, scQTLtools, attempts to identify 
-genetic variants that affect the gene expression at a single-cell level. It 
-also supports cis-eQTL analysis, and provides visualization of the results. 
+expression levels to genotypes. scQTLtools attempts to identify genetic 
+variants that affect the gene expression at a single-cell level. It also 
+supports cis-eQTL analysis, and provides visualization of the results. 
 
 ## Rationale for Bioconductor Submission
 By seeking inclusion in Bioconductor, we aim to integrate scQTLtools into a 
@@ -45,7 +45,9 @@ If you find this tool useful, please cite:
 
 ------------------------------------------------------------------------
 
-***[https://github.com/XFWu/scQTLtools](https://github.com/XFWu/scQTLtools)***
+***[https://github.com/XFWuCN/scQTLtools](https://github.com/XFWuCN/scQTLtools)***
+
+***[https://bioconductor.org/packages/3.21/bioc/html/scQTLtools.html](https://bioconductor.org/packages/3.21/bioc/html/scQTLtools.html)***
 
 ------------------------------------------------------------------------
 
@@ -59,22 +61,21 @@ BiocManager::install("scQTLtools")
 
 # Overview of the package
 
-The functions in scQTLtools can be categorized into data pre-process, sc-eQTL 
-calling and visualization modules. 
+The functions in scQTLtools can be categorized into data input, data 
+pre-process, sc-eQTL calling and visualization modules. Each of these functions
+and a short description is summarized as shown below.
 
 ## General Workflow
 
 Each module is summarized as shown below.
 
-![ ](Overview.svg){width=90%}
+![ ](Overview.jpg){width=100%}
 
-scQTLtools supports input from both gene expression matrices, Seurat objects, 
-and SingleCellExperiment objects. It offers three data fitting models and 
-enables the analysis of genotype matrices in two forms: ALT and REF, or AA, Aa,
-and aa. Additionally, the package includes functionality to filter Gene-SNP 
-pairs that are closely positioned in the genome, as nearby SNPs are more likely
-to influence gene expression. Moreover, visualization at the single-cell level
-demonstrates the specificity of eQTLs across distinct cell types or cellular 
+scQTLtools requires two key input matrices: a genotype matrix and a gene 
+expression matrix. The gene expression data object can be provided as a Seurat
+v4 or a Bioconductor SingleCellExperiment object. It enables the analysis of genotype matrices in two forms: (1) ref and alt, and (2) ref/ref, alt/alt, and ref/alt. Additionally, the package includes functionality to filter Gene-SNP
+pairs that are closely positioned in the genome, as nearby SNPs are more likely 
+to influence gene expression. Moreover, visualization at the single-cell level demonstrates the specificity of eQTLs across distinct cell types or cellular 
 states.
 
 ## Comparison and advantages compared to similar works
@@ -82,7 +83,7 @@ states.
 We compared scQTLtools to other packages with similar functionality, including 
 eQTLsingle, SCeQTL, MatrixEQTL, and iBMQ, as shown in the table below.
 
-![ ](Comparison.jpg){width=100%}
+![ ](Comparison.svg){width=100%}
 
 Among these tools, scQTLtools stands out for its comprehensive features:
 
@@ -121,11 +122,8 @@ a Seurat object, or a SingleCellExperiment object.
 
 - gene expression matrix: describes gene expressions, the row names represent
 gene IDs or SYMBOL and the column names represent cell IDs.
-- Seurat object: a Seurat object, `yourSeurat@assays$RNA@data` is the gene 
-expression matrix after normalizing.
-- SingleCellExperiment object: a SingleCellExperiment object, 
-`assays(yoursce)$counts)` is raw gene expression matrix, and 
-`assays(sce)$normcounts`is the gene expression matrix after normalizing.
+- Seurat object: a Seurat object.
+- SingleCellExperiment object: a SingleCellExperiment object.
 - genotype matrix: A genotype matrix where each row is one variant and each 
 column is one sample, and the scoring method is 0/1/2/3, 0 represents missing
 values, 1 represents ref/ref, 2 represents alt/alt, and 3 represents ref/alt.
