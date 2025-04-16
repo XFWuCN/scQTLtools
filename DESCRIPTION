@@ -1,7 +1,7 @@
 Package: scQTLtools
 Type: Package
 Title: An R package for single-cell eQTL analysis and visualization
-Version: 0.99.13
+Version: 0.99.14
 Authors@R: c(
     person(given = "Xiaofeng", 
            family = "Wu",    
@@ -11,15 +11,18 @@ Authors@R: c(
     person(given = "Xin",      
            family = "Huang", 
            email = "1097567240@qq.com",   
-           role  = c("aut", "cph")),
+           role  = c("aut", "cph"),
+           comment = c(ORCID = "0009-0005-2755-0357")),
     person(given = "Jingtong", 
            family = "Kang",  
            email = "1203178107@qq.com",     
-           role = "com"),
+           role = "com",
+           comment = c(ORCID = " 0009-0008-8343-3456")),
     person(given = "Siwen",    
            family = "Xu",    
            email = "siwxu@gdpu.edu.cn",      
-           role  = c("aut", "cph"))
+           role  = c("aut", "cph"),
+           comment = c(ORCID = " 0000-0001-7936-0639"))
     )
 Description: This package specializes in analyzing and visualizing eQTL at the
     single-cell level. It can read gene expression matrices or Seurat data, or
