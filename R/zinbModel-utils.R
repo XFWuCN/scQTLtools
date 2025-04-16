@@ -60,6 +60,7 @@ process_group <- function(eQTLObject, group, expressionMatrix, snpMatrix,
     })
     result <- do.call(rbind, results_list)
     result <- rename_columns(result, biClassify)
+    result$group <- group
     return(result)
 }
 # @rdname zinbModel-utils_internals
