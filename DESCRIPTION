@@ -1,7 +1,7 @@
 Package: scQTLtools
 Type: Package
 Title: An R package for single-cell eQTL analysis and visualization
-Version: 0.99.14
+Version: 1.1.1
 Authors@R: c(
     person(given = "Xiaofeng", 
            family = "Wu",    
