@@ -1,15 +1,15 @@
-#' Check if the SNP ids in the input genotype matrix are valid.
+#' Validate SNP IDs in the input genotype matrix.
 #'
-#' @param snpList a list of SNPs id.
-#' @param snp_mart An object of class `Mart` representing the BioMart database
-#' connect to for SNPs. If provided, this should be a `Mart` object obtained by
-#' calling `useEnsembl()`, which allows specifying a mirror in case of
-#' connection issues. If `NULL`, the function will create and use a `Mart`
-#' object pointing to the Ensembl SNP BioMart using the specified `snpDataset`
-#' and a default mirror.
-#' @param snpDataset A character string specifying the SNP dataset to use from
-#' ENSEMBL. The default is 'hsapiens_snp' for human SNPs.
-#' @return SNP location dataframe
+#' @param snpList  A list of SNPs IDs.
+#' @param snp_mart  An object of class Mart representing the BioMart SNP
+#' database to connect to. If provided, this should be a Mart object obtained
+#' by calling \code{useEnsembl()}, which allows specifying a mirror in case of
+#' connection issues. If \code{NULL}, the function will create and use a Mart
+#' object pointing to the Ensembl SNP BioMart, using the specified
+#' \code{snpDataset} and a default mirror.
+#' @param snpDataset  A character string specifying the SNP dataset to use from
+#' Ensembl. Default is \code{hsapiens_snp} for human SNPs.
+#' @return A data frame containing the genomic locations of the valid SNPs.
 #' @export
 #' @examples
 #' data(testSNP2)

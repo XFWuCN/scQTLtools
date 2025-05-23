@@ -2,22 +2,34 @@
 % Please edit documentation in R/generics.R
 \name{set_model_info}
 \alias{set_model_info}
-\title{Generic to set eQTLObject used model information}
+\alias{set_model_info,eQTLObject-method}
+\title{Set model specification in an eQTLObject}
 \usage{
 set_model_info(x, value)
+
+\S4method{set_model_info}{eQTLObject}(x, value)
 }
 \arguments{
-\item{x}{A eQTLObject object.}
+\item{x}{An \code{eQTLObject}.}
 
-\item{value}{The used model information to set to eQTLObject.}
+\item{value}{A character string specifying the model (e.g., "zinb",
+"poisson", "linear").}
 }
 \value{
-eQTLObject.
+An updated \code{eQTLObject} with the new model specification.
+
+An updated \code{eQTLObject}.
 }
 \description{
-Generic to set eQTLObject used model information
+Set model specification in an eQTLObject
+
+Method to set eQTLObject used model information.
 }
 \examples{
+  data(testEQTL)
+  useModel <- "zinb"
+  set_model_info(testEQTL, useModel)
+
   data(testEQTL)
   useModel <- "zinb"
   set_model_info(testEQTL, useModel)

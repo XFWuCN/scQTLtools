@@ -2,15 +2,15 @@
 % Please edit documentation in R/plots_theme_opts.R
 \name{plots_theme_opts}
 \alias{plots_theme_opts}
-\title{Theme options for customized plots}
+\title{Customized ggplot2 Theme for Plots}
 \usage{
 plots_theme_opts()
 }
 \value{
-A ggplot2 theme object with customized settings.
+A \code{ggplot2} theme object for styling plots.
 }
 \description{
-Theme options for customized plots
+Customized ggplot2 Theme for Plots
 }
 \examples{
 library(ggplot2)

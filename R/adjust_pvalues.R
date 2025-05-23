@@ -1,15 +1,14 @@
-#' Adjust p-values and perform threshold filtering based on the adjusted
-#' p-values.
+#' Adjust p-values and filter gene-SNP pairs based on the adjusted p-values.
 #'
-#' @param result  Dataframe that contains gene-SNP pairs' information.
-#' @param pAdjustThreshold  Only SNP-Gene pairs with adjusted p-values meeting
+#' @param result  A data frame that contains information of gene-SNP pairs.
+#' @param pAdjustThreshold  Only gene-SNP pairs with adjusted p-values meeting
 #' the threshold will be displayed. Default by 0.05.
-#' @param pAdjustMethod  Methods for p-value adjusting, one of "bonferroni",
+#' @param pAdjustMethod  Method for p-value adjustment. One of "bonferroni",
 #' "holm", "hochberg", "hommel" or "BH". The default option is "bonferroni".
 #'
 #' @importFrom stats p.adjust
-#' @return A dataframe that has been adjusted and filtered, containing
-#' information on gene-SNP pairs.
+#' @return A data frame with adjusted p-values, filtered by threshold,
+#' containing information on gene-SNP pairs.
 #' @export
 #' @examples
 #' example_data <- data.frame(

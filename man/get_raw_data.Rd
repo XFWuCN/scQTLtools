@@ -2,18 +2,25 @@
 % Please edit documentation in R/generics.R
 \name{get_raw_data}
 \alias{get_raw_data}
-\title{Generic to access eQTLObject raw data}
+\alias{get_raw_data,eQTLObject-method}
+\title{Access raw data stored in an eQTLObject.}
 \usage{
 get_raw_data(x)
+
+\S4method{get_raw_data}{eQTLObject}(x)
 }
 \arguments{
-\item{x}{A eQTLObject object.}
+\item{x}{An \code{eQTLObject}.}
 }
 \value{
 raw data matrix.
+
+raw data matrix.
 }
 \description{
-Generic to access eQTLObject raw data
+Access raw data stored in an eQTLObject.
+
+Method to access eQTLObject raw data.
 }
 \examples{
   data(testEQTL)

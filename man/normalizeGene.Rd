@@ -2,24 +2,27 @@
 % Please edit documentation in R/normalizeGene.R
 \name{normalizeGene}
 \alias{normalizeGene}
-\title{normalizeGene: Normalize the gene expression data.}
+\title{Normalize gene expression data.}
 \usage{
 normalizeGene(eQTLObject, method = "logNormalize")
 }
 \arguments{
-\item{eQTLObject}{An S4 object of class eQTLObject.}
+\item{eQTLObject}{An S4 object of class \code{eQTLObject} containing the raw
+gene expression matrix.}
 
-\item{method}{Method for normalizing for gene expression dataframe, one of
-"logNormalize", "CPM", "TPM", "DESeq" or "limma"}
+\item{method}{Character string specifying the normalization method to use.
+Must be one of \code{"logNormalize"}, \code{"CPM"}, \code{"TPM"},
+\code{"DESeq"}, or \code{"limma"}. Default is \code{"logNormalize"}.}
 }
 \value{
-A normalized gene expression matrix.
+An \code{eQTLObject} with the normalized gene expression matrix
+stored in the slot named \code{"normExpMat"}.
 }
 \description{
-Gene expression matrix normalization is necessary to eliminate
-technical biases and variabilities, ensuring accurate and comparable
-analysis of gene expression data. Here we provide `normalizeGene()`to
-normalize the data.
+This function performs normalization of the gene expression matrix stored
+within an \code{eQTLObject}, aiming to remove technical biases and
+improve comparability across cells. Multiple normalization methods are
+supported, including "logNormalize", "CPM", "TPM", "DESeq", and "limma".
 }
 \examples{
 data(testEQTL)

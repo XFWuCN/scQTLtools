@@ -7,19 +7,20 @@
 get_cell_groups(snpMatrix, SNPid, biClassify)
 }
 \arguments{
-\item{snpMatrix}{A matrix containing SNP data where rows represent SNPs
-and columns represent cells.}
+\item{snpMatrix}{A genotype matrix where each row is a snp and each column
+is a cell. Encoding should be 0, 1, 2, 3.}
 
 \item{SNPid}{A character string or numeric index representing the specific
 SNP of interest in the SNP matrix.}
 
-\item{biClassify}{The user chooses whether to convert the counting method of
-the snpMatrix to 0/1/2, TRUE indicates conversion,
-and FALSE indicates no conversion, default is no conversion.}
+\item{biClassify}{Logical; whether to convert genotype encoding in snpMatrix
+to 0, 1, and 2. \code{TRUE} indicates conversion; \code{FALSE} indicates no
+conversion (default).}
 }
 \value{
-A list of cell names (column names of the SNP matrix)
-        that correspond to the specified genotype value for the given SNP.
+A list of character vectors. Each vector contains the names of cells
+(i.e., column names of \code{snpMatrix}) corresponding to a specific
+genotype value at the given SNP.
 }
 \description{
 This function extracts the names of cells from a SNP matrix that correspond

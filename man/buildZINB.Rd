@@ -2,18 +2,18 @@
 % Please edit documentation in R/buildZINB-callQTL.R
 \name{buildZINB}
 \alias{buildZINB}
-\title{Build zinb model.}
+\title{Build a ZINB model.}
 \usage{
 buildZINB(counts)
 }
 \arguments{
-\item{counts}{a vector for gene expression.}
+\item{counts}{A numeric vector of gene expression values.}
 }
 \value{
-Four parameters
+A list containing four parameters estimated from the ZINB model.
 }
 \description{
-Build zinb model.
+Build a ZINB model.
 }
 \examples{
 data(testGene)

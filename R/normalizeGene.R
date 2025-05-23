@@ -1,17 +1,21 @@
-#' normalizeGene: Normalize the gene expression data.
-#' @description Gene expression matrix normalization is necessary to eliminate
-#' technical biases and variabilities, ensuring accurate and comparable
-#' analysis of gene expression data. Here we provide `normalizeGene()`to
-#' normalize the data.
+#' Normalize gene expression data.
 #'
-#' @param eQTLObject An S4 object of class eQTLObject.
-#' @param method Method for normalizing for gene expression dataframe, one of
-#' "logNormalize", "CPM", "TPM", "DESeq" or "limma"
+#' This function performs normalization of the gene expression matrix stored
+#' within an \code{eQTLObject}, aiming to remove technical biases and
+#' improve comparability across cells. Multiple normalization methods are
+#' supported, including "logNormalize", "CPM", "TPM", "DESeq", and "limma".
+#'
+#' @param eQTLObject  An S4 object of class \code{eQTLObject} containing the raw
+#' gene expression matrix.
+#' @param method  Character string specifying the normalization method to use.
+#' Must be one of \code{"logNormalize"}, \code{"CPM"}, \code{"TPM"},
+#' \code{"DESeq"}, or \code{"limma"}. Default is \code{"logNormalize"}.
 #'
 #' @importFrom DESeq2 DESeqDataSetFromMatrix DESeq counts
 #' @importFrom limma normalizeBetweenArrays
 #'
-#' @return A normalized gene expression matrix.
+#' @return An \code{eQTLObject} with the normalized gene expression matrix
+#' stored in the slot named \code{"normExpMat"}.
 #'
 #' @export
 #' @examples

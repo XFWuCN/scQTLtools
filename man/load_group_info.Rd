@@ -2,18 +2,25 @@
 % Please edit documentation in R/generics.R
 \name{load_group_info}
 \alias{load_group_info}
-\title{Generic to access eQTLObject cell grouping information}
+\alias{load_group_info,eQTLObject-method}
+\title{Access cell grouping information from an eQTLObject}
 \usage{
 load_group_info(x)
+
+\S4method{load_group_info}{eQTLObject}(x)
 }
 \arguments{
-\item{x}{A eQTLObject object.}
+\item{x}{An \code{eQTLObject}.}
 }
 \value{
-A dataframe.
+A data frame with grouping information.
+
+A data frame with cell group assignments.
 }
 \description{
-Generic to access eQTLObject cell grouping information
+Access cell grouping information from an eQTLObject
+
+Method to access eQTLObject cell grouping information.
 }
 \examples{
   data(testEQTL)

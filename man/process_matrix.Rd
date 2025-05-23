@@ -2,23 +2,25 @@
 % Please edit documentation in R/process_matrix.R
 \name{process_matrix}
 \alias{process_matrix}
-\title{Process a matrix to extract a row and convert it to a data frame}
+\title{Process a matrix to extract a row and convert it to a data frame.}
 \usage{
 process_matrix(id, matrix, name)
 }
 \arguments{
-\item{id}{The identifier for the row to be extracted from the matrix.}
+\item{id}{Character string specifying the row name to extract from the
+matrix.}
 
-\item{matrix}{The input matrix from which the row will be extracted.}
+\item{matrix}{A matrix from which the row will be extracted.}
 
-\item{name}{The column names for the resulting data frame.}
+\item{name}{Character string specifying the column name for the extracted
+values.}
 }
 \value{
 A data frame containing the extracted row and a column with the
 row names.
 }
 \description{
-Process a matrix to extract a row and convert it to a data frame
+Process a matrix to extract a row and convert it to a data frame.
 }
 \examples{
 rownames <- c("CNN2", "TIGD2", "DTD2")

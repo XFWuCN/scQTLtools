@@ -1,11 +1,11 @@
-#' Create a combined plot with violin, boxplot, and scatter point overlay.
+#' Create a combined violin-box-scatter plot.
 #'
-#' `draw_QTLplot()` generates a combined plot using ggplot2, showing the
-#' distribution of expression values across different SNPs. It combines a
-#' violin plot, boxplot, and scatter points for each SNP category.
-#' @param df Data frames listed as gene expression data, genotype data,
-#' and groups
-#' @param unique_group name of unique group
+#' \code{draw_QTLplot()} creates a composite plot that overlays violin plots,
+#' boxplots, and scatter points to illustrate the distribution and variability
+#' of gene expression across SNP groups.
+#' @param df A data frame containing gene expression values, SNP genotypes,
+#' and group labels.
+#' @param unique_group A character string indicating the unique group name.
 #' @import ggplot2
 #' @return ggplot
 #' @export

@@ -2,18 +2,25 @@
 % Please edit documentation in R/generics.R
 \name{get_filter_data}
 \alias{get_filter_data}
-\title{Generic to access eQTLObject filter data}
+\alias{get_filter_data,eQTLObject-method}
+\title{Access filtered data stored in an eQTLObject.}
 \usage{
 get_filter_data(x)
+
+\S4method{get_filter_data}{eQTLObject}(x)
 }
 \arguments{
-\item{x}{A eQTLObject object.}
+\item{x}{An \code{eQTLObject}.}
 }
 \value{
 filtered matrices.
+
+Filtered matrices.
 }
 \description{
-Generic to access eQTLObject filter data
+Access filtered data stored in an eQTLObject.
+
+Method to access eQTLObject filter data.
 }
 \examples{
   data(testEQTL)

@@ -7,20 +7,20 @@
 createSNPsLoc(snpList, snp_mart = NULL, snpDataset = "hsapiens_snp")
 }
 \arguments{
-\item{snpList}{a list of SNPs id.}
+\item{snpList}{A list of SNPs IDs.}
 
-\item{snp_mart}{An object of class `Mart` representing the BioMart database
-connect to for SNPs. If provided, this should be a `Mart` object obtained by
-calling `useEnsembl()`, which allows specifying a mirror in case of
-connection issues. If `NULL`, the function will create and use a `Mart`
-object pointing to the Ensembl SNP BioMart using the specified `snpDataset`
-and a default mirror.}
+\item{snp_mart}{An object of class Mart representing the BioMart SNP
+database to connect to. If provided, this should be a Mart object obtained
+by calling \code{useEnsembl()}, which allows specifying a mirror in case of
+connection issues. If \code{NULL}, the function will create and use a Mart
+object pointing to the Ensembl SNP BioMart, using the specified
+\code{snpDataset} and a default mirror.}
 
 \item{snpDataset}{A character string specifying the SNP dataset to use from
-ENSEMBL. The default is 'hsapiens_snp' for human SNPs.}
+Ensembl. Default is \code{hsapiens_snp} for human SNPs.}
 }
 \value{
-data.frame
+A data frame containing the SNP genomic locations.
 }
 \description{
 Create SNP location dataframe.

@@ -1,31 +1,33 @@
-#' callQTL: Uncover single-cell eQTLs exclusively using scRNA-seq data.
-#' A function designed to identify eQTLs from scRNA-seq data.
-#' @param useModel Model for fitting dataframe, one of 'possion', 'zinb', or
-#' 'linear'.
-#' @param pAdjustThreshold Only SNP-Gene pairs with adjusted p-values meeting
-#' the threshold will be displayed. Default by 0.05.
-#' @param pAdjustMethod Methods for p-value adjusting, one of 'bonferroni',
-#' 'holm', 'hochberg', 'hommel' or 'BH'. Default by 'bonferroni'.
-#' @param eQTLObject An S4 object of class eQTLObject.
-#' @param gene_ids A gene ID or a list of gene IDS.
-#' @param downstream Being used to match SNPs within a base range defined by
-#' the start position of genes.
-#' @param upstream Being used to match SNPs within a base range defined by the
-#' end position of genes.
-#' @param gene_mart An object of class Mart representing the BioMart database
-#' to connect to. If NULL, the function will use the Ensembl Gene BioMart.
-#' @param snp_mart An object of class Mart representing the BioMart database to
-#' connect to. If NULL, the function will use the Ensembl SNP BioMart.
-#' @param logfcThreshold Represents the minimum beta threshold for fitting
-#' SNP-Gene pairs.
+#' Identify single-cell eQTLs exclusively using scRNA-seq data.
+#'
+#' This function detects eQTLs using only scRNA-seq data.
+#' @param useModel  Model used for fitting. One of "possion", "zinb", or
+#' "linear."
+#' @param pAdjustThreshold  Only gene-SNP pairs with adjusted p-values below
+#' the threshold will be retained. Default is 0.05.
+#' @param pAdjustMethod  Method used for multiple testing correction. One of
+#' \code{"bonferroni"}, \code{"holm"}, \code{"hochberg"}, \code{"hommel"}, or
+#' \code{"BH"}. Default is \code{"bonferroni"}.
+#' @param eQTLObject  An S4 object of class \code{eQTLObject}.
+#' @param gene_ids  A gene ID or a list of gene IDS.
+#' @param downstream  Distance (in base pairs) downstream of the gene start
+#' site to search for associated SNPs.
+#' @param upstream  Distance (in base pairs) upstream of the gene end site to
+#' search for associated SNPs.
+#' @param gene_mart  A Mart object representing the BioMart gene database.
+#' If NULL, the Ensembl Gene BioMart will be used.
+#' @param snp_mart  A Mart object representing the BioMart SNP database.
+#' If NULL, the Ensembl SNP BioMart will be used.
+#' @param logfcThreshold  The minimum beta coefficient (effect size) required
+#' to report a gene-SNP pair as an eQTL.
 #' @importFrom Matrix Matrix
 #' @importFrom stringr str_split
 #' @importFrom dplyr mutate_all mutate
 #' @importFrom GOSemSim load_OrgDb
 #' @importFrom stats na.omit
 #' @import magrittr
-#' @return A dataframe, each row describes eQTL discovering result of a
-#' SNP-Gene pair.
+#' @return A data frame in which each row corresponds to a detected gene-SNP
+#' eQTL pair, including statistical and model fitting results.
 #' @export
 #' @examples
 #' data(testEQTL)

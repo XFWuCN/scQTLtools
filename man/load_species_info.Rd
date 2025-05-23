@@ -2,18 +2,25 @@
 % Please edit documentation in R/generics.R
 \name{load_species_info}
 \alias{load_species_info}
-\title{Generic to access eQTLObject species information}
+\alias{load_species_info,eQTLObject-method}
+\title{Access species information from an eQTLObject.}
 \usage{
 load_species_info(x)
+
+\S4method{load_species_info}{eQTLObject}(x)
 }
 \arguments{
-\item{x}{A eQTLObject object.}
+\item{x}{An \code{eQTLObject}.}
 }
 \value{
+A character string indicating the species.
+
 species information of eQTLObject.
 }
 \description{
-Generic to access eQTLObject species information
+Access species information from an eQTLObject.
+
+Method to access eQTLObject species information.
 }
 \examples{
   data(testEQTL)

@@ -2,25 +2,36 @@
 % Please edit documentation in R/generics.R
 \name{set_raw_data}
 \alias{set_raw_data}
-\title{Generic to set eQTLObject raw data}
+\alias{set_raw_data,eQTLObject-method}
+\title{Set raw data in an eQTLObject.}
 \usage{
 set_raw_data(x, value, name)
+
+\S4method{set_raw_data}{eQTLObject}(x, value, name)
 }
 \arguments{
-\item{x}{A eQTLObject object.}
+\item{x}{An \code{eQTLObject}.}
 
 \item{value}{The raw data.}
 
-\item{name}{The matrix named 'name' is stored under the 'rawData' slot as an
-element within its list.}
+\item{name}{A character string indicating the key under which the matrix is
+stored in \code{rawData}.}
 }
 \value{
 eQTLObject.
+
+An updated \code{eQTLObject}.
 }
 \description{
-Generic to set eQTLObject raw data
+Set raw data in an eQTLObject.
+
+Method to set eQTLObject raw data.
 }
 \examples{
+  data(testEQTL)
+  data123 <- matrix(0, nrow = 3, ncol = 3)
+  set_raw_data(testEQTL, data123, "rawExpMat")
+
   data(testEQTL)
   data123 <- matrix(0, nrow = 3, ncol = 3)
   set_raw_data(testEQTL, data123, "rawExpMat")

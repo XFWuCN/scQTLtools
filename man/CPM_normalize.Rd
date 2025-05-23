@@ -2,19 +2,20 @@
 % Please edit documentation in R/CPM_normalize-normalizeGene.R
 \name{CPM_normalize}
 \alias{CPM_normalize}
-\title{Normalize the gene expression matrix with CPM.}
+\title{Normalize gene expression using CPM.}
 \usage{
 CPM_normalize(expressionMatrix)
 }
 \arguments{
-\item{expressionMatrix}{Input raw gene expression matrix.}
+\item{expressionMatrix}{A numeric matrix of raw gene expression counts,
+with genes as rows and cells as columns.}
 }
 \value{
-A gene expression matrix after normalized.
+A normalized gene expression matrix after applying CPM normalization.
 }
 \description{
-`CPM_normalize()` scales an expression matrix using Counts Per Million (CPM)
-normalization, applying logarithm and scaling operations to adjust data.
+\code{CPM_normalize()} applies Counts Per Million (CPM) normalization to a
+raw gene expression matrix.
 }
 \examples{
 data(testGene)

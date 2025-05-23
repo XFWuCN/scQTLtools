@@ -1,10 +1,13 @@
-#' Normalize the gene expression matrix with DESeq.
+#' Normalize the gene expression matrix with DESeq2.
 #'
-#' `DESeq_normalize()`normalizes an expression matrix using the DESeq2 package.
+#' \code{DESeq_normalize()} normalizes a raw gene expression matrix using the
+#' \pkg{DESeq2} package.
 #'
-#' @param expressionMatrix Input raw gene expression matrix.
+#' @param expressionMatrix  A numeric matrix of raw gene expression counts,
+#' with genes as rows and cells as columns.
 #' @importFrom DESeq2 DESeqDataSetFromMatrix DESeq counts
-#' @return A gene expression matrix after normalized.
+#' @return A normalized gene expression matrix after applying DESeq
+#' normalization.
 #' @export
 #'
 #' @examples

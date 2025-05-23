@@ -1,12 +1,15 @@
-#' visualizeQTL: Visualize the gene-snp pairs by group.
+#' Visualize eQTL results by gene-SNP pair across groups
+#'
 #' @param SNPid ID of SNP.
 #' @param Geneid ID of Gene.
-#' @param plottype Types of plot,one of "QTLplot","violin","boxplot" or
-#' "histplot".
-#' @param eQTLObject An S4 object of class eQTLObject.
-#' @param groupName Users can choose one or more than one single cell groups.
-#' @param removeoutlier Whether identify and remove the outliers.
-#' Default by FALSE.
+#' @param plottype A \code{character} string specifying the type of plot to
+#' generate. Must be one of \code{"QTLplot"}, \code{"violin"},
+#' \code{"boxplot"}, or \code{"histplot"}.
+#' @param eQTLObject An S4 object of class \code{eQTLObject}.
+#' @param groupName A \code{character} vector specifying one or more cell group
+#' names to include in the plot.
+#' @param removeoutlier Logical; whether to identify and remove outliers.
+#' Default is \code{FALSE}.
 #'
 #' @import ggplot2
 #' @importFrom patchwork wrap_plots plot_annotation

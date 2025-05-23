@@ -1,17 +1,19 @@
-#' Remove outliers from gene expression data and update cell lists
+#' Remove outliers from gene expression data and update cell groups.
 #'
-#' remove_outliers() is a function designed to process gene expression data
-#' stored in an expression matrix. It identifies outliers within the data based
-#' on the MAD method and filters them out. The function updates specified cell
-#' lists by retaining only those cells that have non-outlier expression values
-#' for a specified gene.
-#' @param exprsMat Input gene expression matrix
-#' @param Geneid Chosen gene id.
-#' @param A_cells A genotype cells
-#' @param B_cells B genotype cells
-#' @param C_cells C genotype cells
+#' This function identifies and removes outlier expression values for a
+#' specified gene based on the Median Absolute Deviation (MAD) method.
+#' It then filters provided genotype-based cell groups, returning only
+#' cells with non-outlier expression values.
+#'
+#' @param exprsMat Input gene expression matrix with genes as rows and cells as
+#' columns.
+#' @param Geneid Character string specifying the gene ID to examine.
+#' @param A_cells Character vector of cell names belonging to genotype group A.
+#' @param B_cells Character vector of cell names belonging to genotype group B.
+#' @param C_cells Optional character vector of cell names belonging to genotype
+#' group C; if \code{NULL}, function returns two genotype groups.
 #' @importFrom stats median
-#' @return a list of cells ids
+#' @return A named list of filtered cell vectors.
 #' @export
 #'
 #' @examples

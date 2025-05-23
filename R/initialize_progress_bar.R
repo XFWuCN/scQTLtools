@@ -1,17 +1,17 @@
 #' Progress Bar for Model Analysis.
 #'
-#' This function initializes a progress bar for use in the `linearModel`
-#' , `poissonModel` and `zinbModel` function. It is designed to provide
-#' feedback on the progress of the analysis by displaying the current step and
-#' a percentage completion.
+#' Initializes a progress bar to track the computation progress during model
+#' fitting procedures such as \code{linearModel}, \code{poissonModel}, and
+#' \code{zinbModel}. This helps users monitor the status of long-running
+#' analyses.
 #'
-#' @param total The total number of steps or iterations for which the progress
-#' bar will be updated.
-#' @param k A label or identifier for the specific group or iteration for which
-#' the progress bar is being initialized.
+#' @param total Integer. The total number of iterations or steps to be
+#' completed in the analysis.
+#' @param k Character. An identifier or label for the specific group or subset
+#' being analyzed, used to annotate progress messages.
 #'
-#' @return A `progress_bar` object from the `progress` package,
-#' which is used to track and display the progress.
+#' @return An object of class \code{progress_bar} from the \pkg{progress}
+#' package, which can be updated using the \code{$tick()} method.
 #'
 #' @export
 #'

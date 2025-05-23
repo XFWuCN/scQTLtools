@@ -1,18 +1,19 @@
-#' filterGeneSNP: Filter gene expression matrix and genotype matrix.
+#' Filter gene expression and genotype matrices by cell percentage thresholds.
 #'
-#' @param eQTLObject An S4 object of class eQTLObject.
-#' @param snpNumOfCellsPercent Only SNPs where cells with each of the
-#' different genotypes (REF and ALT, or AA, Aa, and aa) individually account
-#' for at least `snpNumOfCellsPercent`% of the total cells will be considered.
-#' Default by 10.
-#' @param expressionMin threshold for valid gene expression levels, utilized
-#' alongside another parameter,expression.number.of.cells.Default by 0.
-#' @param expressionNumOfCellsPercent Only genes with expression levels
-#' exceeding `expressionMin` in at least `expressionNumOfCellsPercent`%
-#' of cells are considered. The default value is 10.
+#' @param eQTLObject An S4 object of class \code{eQTLObject}.
+#' @param snpNumOfCellsPercent Numeric. Minimum percentage of cells required
+#' for each SNP genotype (e.g., AA, AG, and GG). Only SNPs where each genotype
+#' occurs in at least this proportion of cells are retained. Default is 10.
+#' @param expressionMin Numeric. Expression threshold used in combination with
+#' \code{expressionNumOfCellsPercent} to filter lowly expressed genes.
+#' Default is 0.
+#' @param expressionNumOfCellsPercent Numeric. Minimum percentage of cells in
+#' which a gene's expression must exceed \code{expressionMin} for the gene to
+#' be retained. Default is 10.
 #' @importFrom progress progress_bar
 #'
-#' @return filtered matrices.
+#' @return An updated \code{eQTLObject} with filtered gene expression and SNP
+#' matrices.
 #' @export
 #'
 #' @examples

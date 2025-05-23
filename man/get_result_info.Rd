@@ -2,18 +2,26 @@
 % Please edit documentation in R/generics.R
 \name{get_result_info}
 \alias{get_result_info}
-\title{Generic to access the result of identifying eQTLs from scRNA-seq data}
+\alias{get_result_info,eQTLObject-method}
+\title{Access eQTLs results from an eQTLObject.}
 \usage{
 get_result_info(x)
+
+\S4method{get_result_info}{eQTLObject}(x)
 }
 \arguments{
-\item{x}{A eQTLObject object.}
+\item{x}{An \code{eQTLObject}.}
 }
 \value{
-A dataframe.
+A data frame where each row corresponds to an identified gene-SNP
+pair.
+
+A data frame with eQTL results.
 }
 \description{
-Generic to access the result of identifying eQTLs from scRNA-seq data
+Access eQTLs results from an eQTLObject.
+
+Method to access the result of identifying eQTLs.
 }
 \examples{
   data(testEQTL)

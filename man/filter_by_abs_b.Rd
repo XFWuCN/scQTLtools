@@ -2,23 +2,23 @@
 % Please edit documentation in R/filter_by_abs_b.R
 \name{filter_by_abs_b}
 \alias{filter_by_abs_b}
-\title{Filters data frame by absolute b-values, returning rows meeting or
-exceeding a threshold.}
+\title{Filter a data frame of gene–SNP pairs by absolute beta.}
 \usage{
 filter_by_abs_b(result, logfcThreshold)
 }
 \arguments{
-\item{result}{Dataframe that contains gene-SNP pairs' information.}
+\item{result}{A data frame that containing gene-SNP pairs and their beta
+values (b-value).}
 
-\item{logfcThreshold}{Represents the minimum beta threshold for fitting
-SNP-Gene pairs. Default by 0.1.}
+\item{logfcThreshold}{A numeric value specifying the minimum absolute
+b-value to retain. Default is 0.1.}
 }
 \value{
-A dataframe filtered by absolute b-values.
+A data frame containing only rows with absolute b-values above the
+specified threshold.
 }
 \description{
-Filters data frame by absolute b-values, returning rows meeting or
-exceeding a threshold.
+Filter a data frame of gene–SNP pairs by absolute beta.
 }
 \examples{
 example_result <- data.frame(

@@ -26,10 +26,7 @@ Authors@R: c(
     )
 Description: This package specializes in analyzing and visualizing eQTL at the
     single-cell level. It can read gene expression matrices or Seurat data, or
-    SingleCellExperiment object along with genotype data. It offers a function 
-    for cis-eQTL analysis to  detect eQTL within a given range, and another 
-    function to fit models with three methods. Using this package, users can 
-    also generate single-cell level visualization result.
+    SingleCellExperiment object along with genotype data.
 Depends: R (>= 4.4.1.0)
 Imports:
     ggplot2(>= 3.5.1),

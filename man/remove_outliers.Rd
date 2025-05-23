@@ -2,30 +2,31 @@
 % Please edit documentation in R/remove_outliers-visualizeQTL.R
 \name{remove_outliers}
 \alias{remove_outliers}
-\title{Remove outliers from gene expression data and update cell lists}
+\title{Remove outliers from gene expression data and update cell groups.}
 \usage{
 remove_outliers(exprsMat, Geneid, A_cells, B_cells, C_cells = NULL)
 }
 \arguments{
-\item{exprsMat}{Input gene expression matrix}
+\item{exprsMat}{Input gene expression matrix with genes as rows and cells as
+columns.}
 
-\item{Geneid}{Chosen gene id.}
+\item{Geneid}{Character string specifying the gene ID to examine.}
 
-\item{A_cells}{A genotype cells}
+\item{A_cells}{Character vector of cell names belonging to genotype group A.}
 
-\item{B_cells}{B genotype cells}
+\item{B_cells}{Character vector of cell names belonging to genotype group B.}
 
-\item{C_cells}{C genotype cells}
+\item{C_cells}{Optional character vector of cell names belonging to genotype
+group C; if \code{NULL}, function returns two genotype groups.}
 }
 \value{
-a list of cells ids
+A named list of filtered cell vectors.
 }
 \description{
-remove_outliers() is a function designed to process gene expression data
-stored in an expression matrix. It identifies outliers within the data based
-on the MAD method and filters them out. The function updates specified cell
-lists by retaining only those cells that have non-outlier expression values
-for a specified gene.
+This function identifies and removes outlier expression values for a
+specified gene based on the Median Absolute Deviation (MAD) method.
+It then filters provided genotype-based cell groups, returning only
+cells with non-outlier expression values.
 }
 \examples{
 ## Mock expression matrix

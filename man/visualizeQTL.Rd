@@ -2,7 +2,7 @@
 % Please edit documentation in R/visualizeQTL.R
 \name{visualizeQTL}
 \alias{visualizeQTL}
-\title{visualizeQTL: Visualize the gene-snp pairs by group.}
+\title{Visualize eQTL results by gene-SNP pair across groups}
 \usage{
 visualizeQTL(
   eQTLObject,
@@ -14,25 +14,27 @@ visualizeQTL(
 )
 }
 \arguments{
-\item{eQTLObject}{An S4 object of class eQTLObject.}
+\item{eQTLObject}{An S4 object of class \code{eQTLObject}.}
 
 \item{SNPid}{ID of SNP.}
 
 \item{Geneid}{ID of Gene.}
 
-\item{groupName}{Users can choose one or more than one single cell groups.}
+\item{groupName}{A \code{character} vector specifying one or more cell group
+names to include in the plot.}
 
-\item{plottype}{Types of plot,one of "QTLplot","violin","boxplot" or
-"histplot".}
+\item{plottype}{A \code{character} string specifying the type of plot to
+generate. Must be one of \code{"QTLplot"}, \code{"violin"},
+\code{"boxplot"}, or \code{"histplot"}.}
 
-\item{removeoutlier}{Whether identify and remove the outliers.
-Default by FALSE.}
+\item{removeoutlier}{Logical; whether to identify and remove outliers.
+Default is \code{FALSE}.}
 }
 \value{
 list
 }
 \description{
-visualizeQTL: Visualize the gene-snp pairs by group.
+Visualize eQTL results by gene-SNP pair across groups
 }
 \examples{
 data(testEQTL)

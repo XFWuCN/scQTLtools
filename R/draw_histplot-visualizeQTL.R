@@ -1,10 +1,10 @@
-#' Generate a hist plot of expression levels by SNP factor.
+#' Generate a histogram of gene expression by SNP genotype.
 #'
-#' `draw_histplot()` generates histograms using ggplot2, displaying the
-#' distribution of expression values categorized by SNP type.
-#' @param df Data frames listed as gene expression data, genotype data,
-#' and groups
-#' @param unique_group name of unique group
+#' \code{draw_histplot()} shows the distribution of expression values for each
+#' SNP genotype using histograms.
+#' @param df A data frame containing gene expression values, SNP genotypes,
+#' and group labels.
+#' @param unique_group A character string indicating the unique group name.
 #' @import ggplot2
 #' @return ggplot
 #' @export

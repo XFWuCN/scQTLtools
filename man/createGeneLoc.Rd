@@ -2,7 +2,7 @@
 % Please edit documentation in R/createGeneLoc-callQTL.R
 \name{createGeneLoc}
 \alias{createGeneLoc}
-\title{Create gene location dataframe.}
+\title{Create a gene location data frame.}
 \usage{
 createGeneLoc(
   geneList,
@@ -12,25 +12,26 @@ createGeneLoc(
 )
 }
 \arguments{
-\item{geneList}{A gene id or a list of genes id.}
+\item{geneList}{A gene ID or a list of genes IDs.}
 
-\item{gene_mart}{An object of class `Mart` representing the BioMart database
-connect to for gene. If provided, this should be a `Mart` object obtained by
-calling `useEnsembl()`, which allows specifying a mirror in case of
-connection issues. If `NULL`, the function will create and use a `Mart`
-object pointing to the Ensembl Gene BioMart using the specified
-`geneDataset` and a default mirror.}
+\item{gene_mart}{An object of class Mart representing the BioMart gene
+database to connect to. If provided, this should be a Mart object obtained
+by calling \code{useEnsembl()}, which allows specifying a mirror in case of
+connection issues. If \code{NULL}, the function will create and use a Mart
+object pointing to the Ensembl Gene BioMart, using the specified
+\code{geneDataset} and a default mirror.}
 
 \item{geneDataset}{A character string specifying the gene dataset to use
-from ENSEMBL. The default is "hsapiens_gene_ensembl" for human genes.}
+from Ensembl. Default is \code{hsapiens_gene_ensembl} for human genes.}
 
-\item{OrgDb}{OrgDb name:"org.Hs.eg.db", "org.Mm.eg.db".}
+\item{OrgDb}{The name of the OrgDb package to use for gene annotation.
+Supported values include \code{org.Hs.eg.db} and \code{org.Mm.eg.db}.}
 }
 \value{
-data.frame
+A \code{data.frame} containing gene location information.
 }
 \description{
-Create gene location dataframe.
+Create a gene location data frame.
 }
 \examples{
 data(testGene)

@@ -1,8 +1,10 @@
-#' Process a matrix to extract a row and convert it to a data frame
+#' Process a matrix to extract a row and convert it to a data frame.
 #'
-#' @param id The identifier for the row to be extracted from the matrix.
-#' @param matrix The input matrix from which the row will be extracted.
-#' @param name The column names for the resulting data frame.
+#' @param id Character string specifying the row name to extract from the
+#' matrix.
+#' @param matrix A matrix from which the row will be extracted.
+#' @param name Character string specifying the column name for the extracted
+#' values.
 #'
 #' @return A data frame containing the extracted row and a column with the
 #' row names.
