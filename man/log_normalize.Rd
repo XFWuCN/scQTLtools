@@ -7,13 +7,15 @@
 log_normalize(expressionMatrix)
 }
 \arguments{
-\item{expressionMatrix}{Input raw gene expression matrix.}
+\item{expressionMatrix}{A numeric matrix of raw gene expression counts,
+with genes as rows and cells as columns.}
 }
 \value{
-A gene expression matrix after normalized.
+A normalized gene expression matrix after applying logNormalize
+normalization.
 }
 \description{
-`log_normalize()` transforms an expression matrix by applying logarithm and
+\code{log_normalize()} transforms an expression matrix by applying logarithm and
 scaling operations to normalize data.
 }
 \examples{

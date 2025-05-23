@@ -3,15 +3,15 @@
 #' This function retrieves expression counts for a specified gene from an
 #' expression matrix, based on the provided list of cells.
 #'
-#' @param expressionMatrix A matrix containing gene expression data where
-#'                         rows represent genes and columns represent cells.
-#' @param Geneid A character string or numeric index representing the
-#'                specific gene of interest in the expression matrix.
-#' @param cells A character vector of cell names (column names of the
-#'              expression matrix) from which to extract counts for the
-#'              specified gene.
-#' @return A numeric vector of expression counts for the specified gene
-#'         in the selected cells.
+#' @param expressionMatrix A numeric matrix of gene expression counts,
+#' with genes as rows and cells as columns.
+#' @param Geneid A character string or numeric index representing the specific
+#' gene of interest in \code{expressionMatrix}.
+#' @param cells A character vector of cell names (column names of
+#' \code{expressionMatrix}) from which to extract counts for the specified gene.
+#'
+#' @return A numeric vector containing the expression counts of the specified
+#' gene in the selected cells.
 #' @export
 #' @examples
 #' data(testGene)
@@ -26,16 +26,17 @@ get_counts <- function(expressionMatrix, Geneid, cells) {
 #' This function extracts the names of cells from a SNP matrix that correspond
 #' to a specified value for a given SNP.
 #'
-#' @param snpMatrix A matrix containing SNP data where rows represent SNPs
-#'                  and columns represent cells.
+#' @param snpMatrix A genotype matrix where each row is a snp and each column
+#' is a cell. Encoding should be 0, 1, 2, 3.
 #' @param SNPid A character string or numeric index representing the specific
 #'               SNP of interest in the SNP matrix.
-#' @param biClassify The user chooses whether to convert the counting method of
-#' the snpMatrix to 0/1/2, TRUE indicates conversion,
-#' and FALSE indicates no conversion, default is no conversion.
+#' @param biClassify Logical; whether to convert genotype encoding in snpMatrix
+#' to 0, 1, and 2. \code{TRUE} indicates conversion; \code{FALSE} indicates no
+#' conversion (default).
 #'
-#' @return A list of cell names (column names of the SNP matrix)
-#'         that correspond to the specified genotype value for the given SNP.
+#' @return A list of character vectors. Each vector contains the names of cells
+#' (i.e., column names of \code{snpMatrix}) corresponding to a specific
+#' genotype value at the given SNP.
 #' @export
 #' @examples
 #' data(testSNP)

@@ -2,23 +2,23 @@
 % Please edit documentation in R/draw_QTLplot-visualizeQTL.R
 \name{draw_QTLplot}
 \alias{draw_QTLplot}
-\title{Create a combined plot with violin, boxplot, and scatter point overlay.}
+\title{Create a combined violin-box-scatter plot.}
 \usage{
 draw_QTLplot(df, unique_group)
 }
 \arguments{
-\item{df}{Data frames listed as gene expression data, genotype data,
-and groups}
+\item{df}{A data frame containing gene expression values, SNP genotypes,
+and group labels.}
 
-\item{unique_group}{name of unique group}
+\item{unique_group}{A character string indicating the unique group name.}
 }
 \value{
 ggplot
 }
 \description{
-`draw_QTLplot()` generates a combined plot using ggplot2, showing the
-distribution of expression values across different SNPs. It combines a
-violin plot, boxplot, and scatter points for each SNP category.
+\code{draw_QTLplot()} creates a composite plot that overlays violin plots,
+boxplots, and scatter points to illustrate the distribution and variability
+of gene expression across SNP groups.
 }
 \examples{
 set.seed(123)

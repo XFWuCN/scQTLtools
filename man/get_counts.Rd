@@ -7,19 +7,18 @@
 get_counts(expressionMatrix, Geneid, cells)
 }
 \arguments{
-\item{expressionMatrix}{A matrix containing gene expression data where
-rows represent genes and columns represent cells.}
+\item{expressionMatrix}{A numeric matrix of gene expression counts,
+with genes as rows and cells as columns.}
 
-\item{Geneid}{A character string or numeric index representing the
-specific gene of interest in the expression matrix.}
+\item{Geneid}{A character string or numeric index representing the specific
+gene of interest in \code{expressionMatrix}.}
 
-\item{cells}{A character vector of cell names (column names of the
-expression matrix) from which to extract counts for the
-specified gene.}
+\item{cells}{A character vector of cell names (column names of
+\code{expressionMatrix}) from which to extract counts for the specified gene.}
 }
 \value{
-A numeric vector of expression counts for the specified gene
-        in the selected cells.
+A numeric vector containing the expression counts of the specified
+gene in the selected cells.
 }
 \description{
 This function retrieves expression counts for a specified gene from an

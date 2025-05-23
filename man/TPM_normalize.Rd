@@ -7,15 +7,17 @@
 TPM_normalize(expressionMatrix)
 }
 \arguments{
-\item{expressionMatrix}{Input raw gene expression matrix.}
+\item{expressionMatrix}{A numeric matrix of raw gene expression counts,
+with genes as rows and cells as columns.}
 }
 \value{
-A gene expression matrix after normalized.
+A normalized gene expression matrix after applying TPM
+normalization.
 }
 \description{
-`TPM_normalize()` scales an expression matrix using Transcripts Per Million
-(TPM) normalization, applying logarithm and scaling operations to adjust
-data based on library size.
+\code{TPM_normalize()} scales an expression matrix using Transcripts Per
+Million (TPM) normalization, applying logarithm and scaling operations to
+adjust data based on library size.
 }
 \examples{
 data(testGene)

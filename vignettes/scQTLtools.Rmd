@@ -73,9 +73,12 @@ Each module is summarized as shown below.
 
 scQTLtools requires two key input matrices: a genotype matrix and a gene 
 expression matrix. The gene expression data object can be provided as a Seurat
-v4 or a Bioconductor SingleCellExperiment object. It enables the analysis of genotype matrices in two forms: (1) ref and alt, and (2) ref/ref, alt/alt, and ref/alt. Additionally, the package includes functionality to filter Gene-SNP
+v4 or a Bioconductor SingleCellExperiment object. It enables the analysis of 
+genotype matrices in two forms: (1) ref and alt, and (2) ref/ref, alt/alt, and 
+ref/alt. Additionally, the package includes functionality to filter Gene-SNP
 pairs that are closely positioned in the genome, as nearby SNPs are more likely 
-to influence gene expression. Moreover, visualization at the single-cell level demonstrates the specificity of eQTLs across distinct cell types or cellular 
+to influence gene expression. Moreover, visualization at the single-cell level 
+demonstrates the specificity of eQTLs across distinct cell types or cellular 
 states.
 
 ## Comparison and advantages compared to similar works

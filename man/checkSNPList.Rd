@@ -2,28 +2,28 @@
 % Please edit documentation in R/checkSNPList-callQTL.R
 \name{checkSNPList}
 \alias{checkSNPList}
-\title{Check if the SNP ids in the input genotype matrix are valid.}
+\title{Validate SNP IDs in the input genotype matrix.}
 \usage{
 checkSNPList(snpList, snp_mart = NULL, snpDataset = "hsapiens_snp")
 }
 \arguments{
-\item{snpList}{a list of SNPs id.}
+\item{snpList}{A list of SNPs IDs.}
 
-\item{snp_mart}{An object of class `Mart` representing the BioMart database
-connect to for SNPs. If provided, this should be a `Mart` object obtained by
-calling `useEnsembl()`, which allows specifying a mirror in case of
-connection issues. If `NULL`, the function will create and use a `Mart`
-object pointing to the Ensembl SNP BioMart using the specified `snpDataset`
-and a default mirror.}
+\item{snp_mart}{An object of class Mart representing the BioMart SNP
+database to connect to. If provided, this should be a Mart object obtained
+by calling \code{useEnsembl()}, which allows specifying a mirror in case of
+connection issues. If \code{NULL}, the function will create and use a Mart
+object pointing to the Ensembl SNP BioMart, using the specified
+\code{snpDataset} and a default mirror.}
 
 \item{snpDataset}{A character string specifying the SNP dataset to use from
-ENSEMBL. The default is 'hsapiens_snp' for human SNPs.}
+Ensembl. Default is \code{hsapiens_snp} for human SNPs.}
 }
 \value{
-SNP location dataframe
+A data frame containing the genomic locations of the valid SNPs.
 }
 \description{
-Check if the SNP ids in the input genotype matrix are valid.
+Validate SNP IDs in the input genotype matrix.
 }
 \examples{
 data(testSNP2)

@@ -1,11 +1,12 @@
-#' Normalize the gene expression matrix with CPM.
+#' Normalize gene expression using CPM.
 #'
-#'`CPM_normalize()` scales an expression matrix using Counts Per Million (CPM)
-#' normalization, applying logarithm and scaling operations to adjust data.
+#' \code{CPM_normalize()} applies Counts Per Million (CPM) normalization to a
+#' raw gene expression matrix.
 #'
-#' @param expressionMatrix Input raw gene expression matrix.
+#' @param expressionMatrix  A numeric matrix of raw gene expression counts,
+#' with genes as rows and cells as columns.
 #'
-#' @return A gene expression matrix after normalized.
+#' @return A normalized gene expression matrix after applying CPM normalization.
 #' @export
 #'
 #' @examples

@@ -2,18 +2,25 @@
 % Please edit documentation in R/generics.R
 \name{get_model_info}
 \alias{get_model_info}
-\title{Generic to access eQTLObject used model information}
+\alias{get_model_info,eQTLObject-method}
+\title{Access model specification from an eQTLObject}
 \usage{
 get_model_info(x)
+
+\S4method{get_model_info}{eQTLObject}(x)
 }
 \arguments{
-\item{x}{A eQTLObject object.}
+\item{x}{An \code{eQTLObject}.}
 }
 \value{
+A character string indicating the model.
+
 used model information of eQTLObject.
 }
 \description{
-Generic to access eQTLObject used model information
+Access model specification from an eQTLObject
+
+Method to access eQTLObject used model information.
 }
 \examples{
   data(testEQTL)

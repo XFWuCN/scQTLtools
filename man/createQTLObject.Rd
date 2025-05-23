@@ -2,9 +2,7 @@
 % Please edit documentation in R/createQTLObject.R
 \name{createQTLObject}
 \alias{createQTLObject}
-\title{createObject:Create the eQTLObject.
-We next create a S4 object. The object serves as a container that contains
-both data (like the count matrix) and meta.data.}
+\title{Create an eQTLObject for storing sc-eQTL analysis data.}
 \usage{
 createQTLObject(
   snpMatrix,
@@ -16,30 +14,30 @@ createQTLObject(
 )
 }
 \arguments{
-\item{snpMatrix}{A genotype matrix where each row is one variant and
-each column is one sample, and the scoring method is 0/1/2/3.}
+\item{snpMatrix}{A genotype matrix where each row is a snp and each column
+is a cell. Encoding should be 0, 1, 2, 3.}
 
-\item{genedata}{A gene expression matrix or a Seurat object, or a
+\item{genedata}{A gene expression matrix, or a Seurat object or
 SingleCellExperiment object.}
 
-\item{biClassify}{The user chooses whether to convert the counting method of
-the snpMatrix to 0/1/2, TRUE indicates conversion,
-and FALSE indicates no conversion, default is no conversion.}
+\item{biClassify}{Logical; whether to convert genotype encoding in snpMatrix
+to 0, 1, and 2. \code{TRUE} indicates conversion; \code{FALSE} indicates no
+conversion (default).}
 
 \item{species}{The species that the user wants to select, human or mouse.}
 
-\item{group}{Provided by Seurat's meta.data, such as celltypes, cellstatus
-and so on. By default, it is NULL.}
+\item{group}{A column name in the metadata of the Seurat or
+SingleCellExperiment object indicating cell groups (e.g., celltype or
+condition).}
 
 \item{...}{other parameters}
 }
 \value{
-eQTLObject
+An S4 object of class \code{eQTLObject}.
 }
 \description{
-createObject:Create the eQTLObject.
-We next create a S4 object. The object serves as a container that contains
-both data (like the count matrix) and meta.data.
+This function creates an S4 object to store genotype and expression data,
+along with sample grouping and metadata for eQTL analysis.
 }
 \examples{
 data(testSNP)

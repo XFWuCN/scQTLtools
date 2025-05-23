@@ -1,6 +1,6 @@
-#' Theme options for customized plots
+#' Customized ggplot2 Theme for Plots
 #'
-#' @return A ggplot2 theme object with customized settings.
+#' @return A \code{ggplot2} theme object for styling plots.
 #' @import ggplot2
 #' @export
 #'

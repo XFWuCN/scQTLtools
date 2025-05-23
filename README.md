@@ -1,11 +1,11 @@
-# scQTLtools:An R package for single-cell eQTL analysis.
+# scQTLtools: An R package for single-cell eQTL analysis.
 
 
 ## Introduction
 Expression quantitative trait loci (eQTL) analysis links variations in 
 gene expression levels to genotypes. This package attempts to identify genetic
 variants that affect the expression of genes at a single-cell level, and can 
-also do cis-eQTL analysis, visualize the results. 
+also visualize the results. 
 
 ## Citation
 
@@ -16,6 +16,8 @@ If you find this tool useful, please cite:
 ***[https://github.com/XFWuCN/scQTLtools](https://github.com/XFWuCN/scQTLtools)***
 
 ***[https://bioconductor.org/packages/3.21/bioc/html/scQTLtools.html](https://bioconductor.org/packages/3.21/bioc/html/scQTLtools.html)***
+
+***[https://bioconductor.org/packages/devel/bioc/html/scQTLtools.html](https://bioconductor.org/packages/devel/bioc/html/scQTLtools.html)***
 
 
 ------------------------------------------------------------------------

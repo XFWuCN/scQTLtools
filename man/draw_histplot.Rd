@@ -2,22 +2,22 @@
 % Please edit documentation in R/draw_histplot-visualizeQTL.R
 \name{draw_histplot}
 \alias{draw_histplot}
-\title{Generate a hist plot of expression levels by SNP factor.}
+\title{Generate a histogram of gene expression by SNP genotype.}
 \usage{
 draw_histplot(df, unique_group)
 }
 \arguments{
-\item{df}{Data frames listed as gene expression data, genotype data,
-and groups}
+\item{df}{A data frame containing gene expression values, SNP genotypes,
+and group labels.}
 
-\item{unique_group}{name of unique group}
+\item{unique_group}{A character string indicating the unique group name.}
 }
 \value{
 ggplot
 }
 \description{
-`draw_histplot()` generates histograms using ggplot2, displaying the
-distribution of expression values categorized by SNP type.
+\code{draw_histplot()} shows the distribution of expression values for each
+SNP genotype using histograms.
 }
 \examples{
 set.seed(123)

@@ -1,11 +1,13 @@
 #' Normalize the gene expression matrix with limma
 #'
-#' `limma_normalize()`normalizes an expression matrix using the quantile
+#' \code{limma_normalize()} normalizes an expression matrix using the quantile
 #' normalization method provided by the limma package.
 #'
-#' @param expressionMatrix Input raw gene expression matrix.
+#' @param expressionMatrix  A numeric matrix of raw gene expression counts,
+#' with genes as rows and cells as columns.
 #' @importFrom limma normalizeBetweenArrays
-#' @return A gene expression matrix after normalized.
+#' @return A normalized gene expression matrix after applying limma
+#' normalization.
 #' @export
 #'
 #' @examples

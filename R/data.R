@@ -1,86 +1,61 @@
 #' Test Gene Expression Dataset
 #'
 #' A dataset containing example gene expression data for testing purposes.
-#' 100 rows and 2705 colnums. The row names represent gene IDs or SYMBOL and
-#' the column names represent cell IDs.
+#' It contains 100 rows and 2705 columns. The row names represent gene IDs or
+#' SYMBOLs, and the column names represent cell IDs.
+#'
+#' @name DataSet
+#' @aliases testGene
 #' @docType data
-#' @usage data(testGene)
-#' @format A simple \code{matrix}.
 #' @keywords datasets
-#' @examples
-#' data(testGene)
-"testGene"
+#' @format A numeric matrix with 100 rows (genes) and 2705 columns (cells).
+NULL
 
 #' Test Genotype Dataset
 #'
-#' A dataset containing single nucleotide variant data. 1000 rows and 2705
-#' colnums. Each row is one variant and each column is one cell.
-#' @docType data
-#' @usage data(testSNP)
-#' @format A simple \code{matrix}.
-#' @keywords datasets
-#' @examples
-#' data(testSNP)
-"testSNP"
-
-#' Test SeuratObject
+#' A dataset containing single nucleotide variant data. Each row is one variant
+#' and each column is one cell.
 #'
-#' A Seurat object for single-cell RNA-seq data.
+#' @name DataSet
+#' @aliases testSNP
 #' @docType data
-#' @usage data(testSeurat)
-#' @format A \code{object}
 #' @keywords datasets
-#' @examples
-#' data(testSeurat)
-"testSeurat"
+#' @format A numeric matrix with variants as rows and cells as columns.
+NULL
+
+#' Test Seurat Object
+#'
+#' A Seurat object representing single-cell RNA-seq data.
+#'
+#' @name DataSet
+#' @aliases testSeurat
+#' @docType data
+#' @keywords datasets
+#' @format An object of class \code{eQTLObject}.
+NULL
 
 #' Test Genotype Dataset
 #'
-#' A dataset containing single nucleotide variant data.500 rows and 500 colnums
+#' A smaller dataset containing single nucleotide variant data for testing.
 #' Each row is one variant and each column is one cell.
+#'
+#' @name DataSet
+#' @aliases testSNP2
 #' @docType data
-#' @usage data(testSNP2)
-#' @format A simple \code{matrix}.
 #' @keywords datasets
-#' @examples
-#' data(testSNP2)
-"testSNP2"
+#' @format A numeric matrix with variants as rows and cells as columns.
+NULL
 
 #' Test eqtl object
 #'
-#' An `eqtlObject` created by the `createQTLObject` function, where the raw
-#' expression matrix is normalized using `normalizeGene()`, and both the
-#' genotype matrix and the normalized gene expression matrix are filtered
-#' by `filterGeneSNP()`.
-#' @docType data
-#' @usage data(testEQTL)
-#' @format A simple \code{object}.
-#' @keywords datasets
-#' @examples
-#' data(testEQTL)
-"testEQTL"
-
-#' R Data Serialization of testEQTL.
+#' An \code{eQTLObject} created using \code{createQTLObject()}, where the raw
+#' expression matrix is normalized using \code{normalizeGene()}, and both the
+#' genotype matrix and normalized expression matrix are filtered using
+#' \code{filterGeneSNP()}.
 #'
-#' testEQTL.rds is the RDS format versions of the original testEQTL.rda,
-#' providing the same normalized eQTL object for easier loading and use in R.
+#' @name DataSet
+#' @aliases testEQTL
 #' @docType data
-#' @usage data(testEQTL)
-#' @format A \code{eqtlObject} read by the `readRDS` function.
 #' @keywords datasets
-#' @examples
-#' data(testEQTL)
-"testEQTL"
-
-#' R Data Serialization of testSeurat.
-#'
-#'testSeurat.rds datasets are the RDS format versions of the original
-#'testSeurat.rda files, providing the preprocessed Seurat object for easier
-#'loading and use in R.
-#' @docType data
-#' @usage data(testSeurat)
-#' @format A \code{Seurat} read by the `readRDS` function.
-#' @keywords datasets
-#' @examples
-#' data(testSeurat)
-"testSeurat"
+#' An object of class \code{eQTLObject}.
+NULL

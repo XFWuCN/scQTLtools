@@ -2,23 +2,22 @@
 % Please edit documentation in R/draw_boxplot-visualizeQTL.R
 \name{draw_boxplot}
 \alias{draw_boxplot}
-\title{Generate a boxplot of expression levels by SNP factor}
+\title{Generate a boxplot of gene expression by SNP genotype.}
 \usage{
 draw_boxplot(df, unique_group)
 }
 \arguments{
-\item{df}{Data frames listed as gene expression data, genotype data,
-and groups}
+\item{df}{A data frame containing gene expression values, SNP genotypes,
+and group labels.}
 
-\item{unique_group}{name of unique group}
+\item{unique_group}{A character string indicating the unique group name.}
 }
 \value{
 ggplot
 }
 \description{
-`draw_boxplot()` creates a boxplot visualizing expression levels across
-different SNP factors in the dataframe. It uses ggplot2 to produce a plot
-with customizable aesthetics for clarity and presentation.
+\code{draw_boxplot()} visualizes gene expression levels across different SNP
+genotypes using a boxplot.
 }
 \examples{
 set.seed(123)

@@ -2,25 +2,36 @@
 % Please edit documentation in R/generics.R
 \name{set_filter_data}
 \alias{set_filter_data}
-\title{Generic to set eQTLObject filter data}
+\alias{set_filter_data,eQTLObject-method}
+\title{Set filtered data in an eQTLObject.}
 \usage{
 set_filter_data(x, value, name)
+
+\S4method{set_filter_data}{eQTLObject}(x, value, name)
 }
 \arguments{
-\item{x}{A eQTLObject object.}
+\item{x}{An \code{eQTLObject}.}
 
-\item{value}{The filtered data.}
+\item{value}{A matrix to be stored as filtered data.}
 
-\item{name}{The matrix named 'name' is stored under the 'filterData' slot as
-an element within its list.}
+\item{name}{A character string indicating the key under which the matrix is
+stored in \code{filterData}.}
 }
 \value{
-eQTLObject.
+An updated \code{eQTLObject}.
+
+An updated \code{eQTLObject}.
 }
 \description{
-Generic to set eQTLObject filter data
+Set filtered data in an eQTLObject.
+
+Method to set eQTLObject filter data.
 }
 \examples{
+  data(testEQTL)
+  data123 <- matrix(0, nrow = 3, ncol = 3)
+  set_filter_data(testEQTL, data123, "expMat")
+
   data(testEQTL)
   data123 <- matrix(0, nrow = 3, ncol = 3)
   set_filter_data(testEQTL, data123, "expMat")

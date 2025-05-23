@@ -2,7 +2,7 @@
 % Please edit documentation in R/filterGeneSNP.R
 \name{filterGeneSNP}
 \alias{filterGeneSNP}
-\title{filterGeneSNP: Filter gene expression matrix and genotype matrix.}
+\title{Filter gene expression and genotype matrices by cell percentage thresholds.}
 \usage{
 filterGeneSNP(
   eQTLObject,
@@ -12,25 +12,26 @@ filterGeneSNP(
 )
 }
 \arguments{
-\item{eQTLObject}{An S4 object of class eQTLObject.}
+\item{eQTLObject}{An S4 object of class \code{eQTLObject}.}
 
-\item{snpNumOfCellsPercent}{Only SNPs where cells with each of the
-different genotypes (REF and ALT, or AA, Aa, and aa) individually account
-for at least `snpNumOfCellsPercent`% of the total cells will be considered.
-Default by 10.}
+\item{snpNumOfCellsPercent}{Numeric. Minimum percentage of cells required
+for each SNP genotype (e.g., AA, AG, and GG). Only SNPs where each genotype
+occurs in at least this proportion of cells are retained. Default is 10.}
 
-\item{expressionMin}{threshold for valid gene expression levels, utilized
-alongside another parameter,expression.number.of.cells.Default by 0.}
+\item{expressionMin}{Numeric. Expression threshold used in combination with
+\code{expressionNumOfCellsPercent} to filter lowly expressed genes.
+Default is 0.}
 
-\item{expressionNumOfCellsPercent}{Only genes with expression levels
-exceeding `expressionMin` in at least `expressionNumOfCellsPercent`%
-of cells are considered. The default value is 10.}
+\item{expressionNumOfCellsPercent}{Numeric. Minimum percentage of cells in
+which a gene's expression must exceed \code{expressionMin} for the gene to
+be retained. Default is 10.}
 }
 \value{
-filtered matrices.
+An updated \code{eQTLObject} with filtered gene expression and SNP
+matrices.
 }
 \description{
-filterGeneSNP: Filter gene expression matrix and genotype matrix.
+Filter gene expression and genotype matrices by cell percentage thresholds.
 }
 \examples{
 data(testSNP)

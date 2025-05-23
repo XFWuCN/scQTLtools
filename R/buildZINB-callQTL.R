@@ -1,8 +1,8 @@
-#' Build zinb model.
+#' Build a ZINB model.
 #'
-#' @param counts a vector for gene expression.
+#' @param counts  A numeric vector of gene expression values.
 #' @importFrom gamlss gamlssML
-#' @return Four parameters
+#' @return A list containing four parameters estimated from the ZINB model.
 #' @export
 #' @examples
 #' data(testGene)

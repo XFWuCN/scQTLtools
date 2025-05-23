@@ -2,7 +2,7 @@
 % Please edit documentation in R/linearModel-utils.R
 \name{linearModel}
 \alias{linearModel}
-\title{Linear model fitting the gene expression matrix and genotype matrix.}
+\title{Fit Linear Model for eQTL Mapping}
 \usage{
 linearModel(
   eQTLObject,
@@ -15,30 +15,34 @@ linearModel(
 )
 }
 \arguments{
-\item{eQTLObject}{An S4 object of class eQTLObject.}
+\item{eQTLObject}{An S4 object of class \code{eQTLObject}.}
 
-\item{geneIDs}{Matching genes can be used to fit data.}
+\item{geneIDs}{Character vector of gene IDs to include in the model fitting.}
 
-\item{snpIDs}{Matching SNPs can be used to fit data.}
+\item{snpIDs}{Character vector of SNP IDs to include in the model fitting.}
 
-\item{biClassify}{The user chooses whether to convert the counting method of
-the snpMatrix to 0/1/2, TRUE indicates conversion, and FALSE indicates no
-conversion, default is no conversion.}
+\item{biClassify}{Logical; whether to convert genotype encoding in snpMatrix
+to 0, 1, and 2. \code{TRUE} indicates conversion; \code{FALSE} indicates no
+conversion (default).}
 
-\item{pAdjustMethod}{Methods for p-value adjusting, one of "bonferroni",
-"holm", "hochberg", "hommel" or "BH". The default option is "bonferroni".}
+\item{pAdjustMethod}{Method used for multiple testing correction. One of
+\code{"bonferroni"}, \code{"holm"}, \code{"hochberg"}, \code{"hommel"}, or
+\code{"BH"}. Default is \code{"bonferroni"}.}
 
-\item{pAdjustThreshold}{Only SNP-Gene pairs with adjusted p-values meeting
-the threshold will be displayed. Default by 0.05.}
+\item{pAdjustThreshold}{Only gene-SNP pairs with adjusted p-values below
+the threshold will be retained. Default is 0.05.}
 
-\item{logfcThreshold}{Represents the minimum beta threshold for fitting
-SNP-Gene pairs. Default by 0.1.}
+\item{logfcThreshold}{The minimum beta coefficient (effect size) required
+to report a gene-SNP pair as an eQTL.}
 }
 \value{
-Dataframe that contains gene-SNP pairs' information.
+A data frame of gene–SNP pairs that pass the filtering criteria,
+including beta coefficients, p-values, adjusted p-values, and group labels.
 }
 \description{
-Linear model fitting the gene expression matrix and genotype matrix.
+This function performs linear regression to identify gene–SNP associations
+based on single-cell expression and genotype data stored in an
+\code{eQTLObject}.
 }
 \examples{
 data(testEQTL)

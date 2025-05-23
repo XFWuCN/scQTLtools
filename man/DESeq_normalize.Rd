@@ -2,18 +2,21 @@
 % Please edit documentation in R/DESeq_normalize-normalizeGene.R
 \name{DESeq_normalize}
 \alias{DESeq_normalize}
-\title{Normalize the gene expression matrix with DESeq.}
+\title{Normalize the gene expression matrix with DESeq2.}
 \usage{
 DESeq_normalize(expressionMatrix)
 }
 \arguments{
-\item{expressionMatrix}{Input raw gene expression matrix.}
+\item{expressionMatrix}{A numeric matrix of raw gene expression counts,
+with genes as rows and cells as columns.}
 }
 \value{
-A gene expression matrix after normalized.
+A normalized gene expression matrix after applying DESeq
+normalization.
 }
 \description{
-`DESeq_normalize()`normalizes an expression matrix using the DESeq2 package.
+\code{DESeq_normalize()} normalizes a raw gene expression matrix using the
+\pkg{DESeq2} package.
 }
 \examples{
 data(testGene)

@@ -1,28 +1,28 @@
-# defines a new class union named 'AnyMatrixOrDataframe' This class
-# union allows objects of class 'matrix', 'dgCMatrix', or
-# 'data.frame' to be treated interchangeably in certain contexts.
+# Defines a new class union named "AnyMatrixOrDataframe."
+# This union allows objects of class "matrix", "dgCMatrix", or
+# "data.frame" to be treated interchangeably in certain contexts.
 
 setClassUnion(name = "AnyMatrixOrDataframe",
             members = c("matrix", "data.frame"))
 
-#' Class 'eQTLObject'
-#' The eQTLObject class is an R object designed to store data related to eQTL
-#' analysis, encompassing data lists, result data frames, and layers for
-#' biClassify, species, and grouping information.
+#' Class \code{eQTLObject}
+#' The eQTLObject class is designed to store data related to eQTL analysis,
+#' including data lists, result data frames, and additional metadata such as
+#' classification, species, and grouping information.
 #' @name eQTLObject-class
 #' @slot rawData A gene expression dataframe, the row names represent gene IDs
 #' and the column names represent cell IDs.
 #' @slot filterData Gene expression matrix after normalizing.
 #' @slot eQTLResult The result dataframe obtained the sc-eQTL results.
-#' @slot biClassify The user chooses whether to convert the counting method of
-#' the snpMatrix to 0, 1, 2, TRUE indicates conversion, and FALSE indicates no
-#' conversion, default is no conversion.
+#' @slot biClassify Logical; whether to convert genotype encoding in snpMatrix
+#' to 0, 1, and 2. \code{TRUE} indicates conversion; \code{FALSE} indicates no
+#' conversion (default).
 #' @slot species The species that the user wants to select, human or mouse.
 #' @slot groupBy Options for cell grouping, users can choose celltype,
 #' cellstatus, etc., depending on metadata.
 #' @slot useModel model for fitting dataframe.
 #'
-#' @return eQTLObject
+#' @return An S4 object of class \code{eQTLObject}.
 #' @export
 setClass(Class = "eQTLObject",
         slots = c(rawData = "list",
@@ -73,26 +73,27 @@ setMethod(f = "show", signature = "eQTLObject",
     })
 
 
-#' createObject:Create the eQTLObject.
-#' We next create a S4 object. The object serves as a container that contains
-#' both data (like the count matrix) and meta.data.
+#' Create an eQTLObject for storing sc-eQTL analysis data.
 #'
-#' @param snpMatrix A genotype matrix where each row is one variant and
-#' each column is one sample, and the scoring method is 0/1/2/3.
-#' @param genedata A gene expression matrix or a Seurat object, or a
+#' This function creates an S4 object to store genotype and expression data,
+#' along with sample grouping and metadata for eQTL analysis.
+#' @param snpMatrix A genotype matrix where each row is a snp and each column
+#' is a cell. Encoding should be 0, 1, 2, 3.
+#' @param genedata A gene expression matrix, or a Seurat object or
 #' SingleCellExperiment object.
-#' @param biClassify The user chooses whether to convert the counting method of
-#' the snpMatrix to 0/1/2, TRUE indicates conversion,
-#' and FALSE indicates no conversion, default is no conversion.
+#' @param biClassify Logical; whether to convert genotype encoding in snpMatrix
+#' to 0, 1, and 2. \code{TRUE} indicates conversion; \code{FALSE} indicates no
+#' conversion (default).
 #' @param species The species that the user wants to select, human or mouse.
-#' @param group Provided by Seurat's meta.data, such as celltypes, cellstatus
-#' and so on. By default, it is NULL.
+#' @param group A column name in the metadata of the Seurat or
+#' SingleCellExperiment object indicating cell groups (e.g., celltype or
+#' condition).
 #' @param ... other parameters
 #' @importFrom SeuratObject GetAssayData
 #' @importFrom methods is new
 #' @importFrom SingleCellExperiment colData
 #' @importFrom SummarizedExperiment assayNames assay
-#' @return eQTLObject
+#' @return An S4 object of class \code{eQTLObject}.
 #' @export
 #'
 #' @examples

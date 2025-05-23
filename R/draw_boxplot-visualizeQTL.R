@@ -1,11 +1,10 @@
-#' Generate a boxplot of expression levels by SNP factor
+#' Generate a boxplot of gene expression by SNP genotype.
 #'
-#' `draw_boxplot()` creates a boxplot visualizing expression levels across
-#' different SNP factors in the dataframe. It uses ggplot2 to produce a plot
-#' with customizable aesthetics for clarity and presentation.
-#' @param df Data frames listed as gene expression data, genotype data,
-#' and groups
-#' @param unique_group name of unique group
+#' \code{draw_boxplot()} visualizes gene expression levels across different SNP
+#' genotypes using a boxplot.
+#' @param df A data frame containing gene expression values, SNP genotypes,
+#' and group labels.
+#' @param unique_group A character string indicating the unique group name.
 #' @import ggplot2
 #' @return ggplot
 #' @export

@@ -7,13 +7,15 @@
 limma_normalize(expressionMatrix)
 }
 \arguments{
-\item{expressionMatrix}{Input raw gene expression matrix.}
+\item{expressionMatrix}{A numeric matrix of raw gene expression counts,
+with genes as rows and cells as columns.}
 }
 \value{
-A gene expression matrix after normalized.
+A normalized gene expression matrix after applying limma
+normalization.
 }
 \description{
-`limma_normalize()`normalizes an expression matrix using the quantile
+\code{limma_normalize()} normalizes an expression matrix using the quantile
 normalization method provided by the limma package.
 }
 \examples{
