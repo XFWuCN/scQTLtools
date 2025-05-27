@@ -19,8 +19,8 @@
 #'
 #' @export
 #' @examples
-#' data(testEQTL)
-#' eqtl <- normalizeGene(testEQTL, method = "logNormalize")
+#' data(EQTL_obj)
+#' eqtl <- normalizeGene(EQTL_obj, method = "logNormalize")
 normalizeGene <- function(eQTLObject, method = "logNormalize") {
     expressionMatrix <- get_raw_data(eQTLObject)[["rawExpMat"]]
     method <- method

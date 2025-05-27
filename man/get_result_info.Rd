@@ -13,7 +13,7 @@ get_result_info(x)
 \item{x}{An \code{eQTLObject}.}
 }
 \value{
-A data frame where each row corresponds to an identified gene-SNP
+A data frame where each row corresponds to an identified SNP–gene
 pair.
 
 A data frame with eQTL results.
@@ -24,7 +24,7 @@ Access eQTLs results from an eQTLObject.
 Method to access the result of identifying eQTLs.
 }
 \examples{
-  data(testEQTL)
-  get_result_info(testEQTL)
+  data(EQTL_obj)
+  get_result_info(EQTL_obj)
 
 }

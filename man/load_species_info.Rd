@@ -23,7 +23,7 @@ Access species information from an eQTLObject.
 Method to access eQTLObject species information.
 }
 \examples{
-  data(testEQTL)
-  load_species_info(testEQTL)
+  data(EQTL_obj)
+  load_species_info(EQTL_obj)
 
 }

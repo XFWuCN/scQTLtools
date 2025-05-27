@@ -23,7 +23,7 @@ Access cell grouping information from an eQTLObject
 Method to access eQTLObject cell grouping information.
 }
 \examples{
-  data(testEQTL)
-  load_group_info(testEQTL)
+  data(EQTL_obj)
+  load_group_info(EQTL_obj)
 
 }

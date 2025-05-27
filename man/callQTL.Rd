@@ -2,7 +2,7 @@
 % Please edit documentation in R/callQTL.R
 \name{callQTL}
 \alias{callQTL}
-\title{Identify single-cell eQTLs exclusively using scRNA-seq data.}
+\title{Identify single-cell eQTLs.}
 \usage{
 callQTL(
   eQTLObject,
@@ -29,10 +29,10 @@ site to search for associated SNPs.}
 search for associated SNPs.}
 
 \item{gene_mart}{A Mart object representing the BioMart gene database.
-If NULL, the Ensembl Gene BioMart will be used.}
+If \code{NULL}, the Ensembl Gene BioMart will be used.}
 
 \item{snp_mart}{A Mart object representing the BioMart SNP database.
-If NULL, the Ensembl SNP BioMart will be used.}
+If \code{NULL}, the Ensembl SNP BioMart will be used.}
 
 \item{pAdjustMethod}{Method used for multiple testing correction. One of
 \code{"bonferroni"}, \code{"holm"}, \code{"hochberg"}, \code{"hommel"}, or
@@ -41,21 +41,21 @@ If NULL, the Ensembl SNP BioMart will be used.}
 \item{useModel}{Model used for fitting. One of "possion", "zinb", or
 "linear."}
 
-\item{pAdjustThreshold}{Only gene-SNP pairs with adjusted p-values below
+\item{pAdjustThreshold}{Only SNP–gene pairs with adjusted p-values below
 the threshold will be retained. Default is 0.05.}
 
-\item{logfcThreshold}{The minimum beta coefficient (effect size) required
-to report a gene-SNP pair as an eQTL.}
+\item{logfcThreshold}{The minimum beta coefficient required to report a
+SNP–gene pair as an eQTL.}
 }
 \value{
-A data frame in which each row corresponds to a detected gene-SNP
+A data frame in which each row corresponds to a detected SNP–gene
 eQTL pair, including statistical and model fitting results.
 }
 \description{
-This function detects eQTLs using only scRNA-seq data.
+This function detects eQTLs using scRNA-seq data and genotype data.
 }
 \examples{
-data(testEQTL)
+data(EQTL_obj)
 library(biomaRt)
 gene_mart <- useEnsembl(biomart = "genes",
                         dataset = "hsapiens_gene_ensembl",
@@ -64,7 +64,7 @@ snp_mart <- useEnsembl(biomart = "snps",
                         dataset = "hsapiens_snp",
                         mirror = 'asia')
 eqtl <- callQTL(
-  eQTLObject = testEQTL,
+  eQTLObject = EQTL_obj,
   gene_ids = NULL,
   downstream = NULL,
   upstream = NULL,

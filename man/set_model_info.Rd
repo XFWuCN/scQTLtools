@@ -26,12 +26,12 @@ Set model specification in an eQTLObject
 Method to set eQTLObject used model information.
 }
 \examples{
-  data(testEQTL)
+  data(EQTL_obj)
   useModel <- "zinb"
-  set_model_info(testEQTL, useModel)
+  set_model_info(EQTL_obj, useModel)
 
-  data(testEQTL)
+  data(EQTL_obj)
   useModel <- "zinb"
-  set_model_info(testEQTL, useModel)
+  set_model_info(EQTL_obj, useModel)
 
 }

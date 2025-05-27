@@ -10,8 +10,8 @@
 #' @export
 #'
 #' @examples
-#' data(testGene)
-#' CPM_normalize(testGene)
+#' data(GeneData)
+#' CPM_normalize(GeneData)
 CPM_normalize <- function(expressionMatrix) {
     total_counts <- colSums(expressionMatrix)
     normalizedData <- log1p(

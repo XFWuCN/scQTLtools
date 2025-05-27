@@ -19,6 +19,6 @@ normalization.
 normalization method provided by the limma package.
 }
 \examples{
-data(testGene)
-limma_normalize(testGene)
+data(GeneData)
+limma_normalize(GeneData)
 }

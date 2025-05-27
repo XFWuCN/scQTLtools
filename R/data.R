@@ -1,61 +1,68 @@
-#' Test Gene Expression Dataset
+#' The package includes five examplt datasets: a gene expression matrix, two SNP
+#' genotype matrices, a Seurat object, and an eQTL object.
 #'
-#' A dataset containing example gene expression data for testing purposes.
-#' It contains 100 rows and 2705 columns. The row names represent gene IDs or
-#' SYMBOLs, and the column names represent cell IDs.
+#' GeneData: A dataset containing example gene expression data. Each row
+#' represents a gene and each column represents a cell.
 #'
 #' @name DataSet
-#' @aliases testGene
+#' @aliases GeneData
 #' @docType data
 #' @keywords datasets
 #' @format A numeric matrix with 100 rows (genes) and 2705 columns (cells).
 NULL
 
-#' Test Genotype Dataset
+#' SNP Genotype Dataset
 #'
-#' A dataset containing single nucleotide variant data. Each row is one variant
-#' and each column is one cell.
+#' SNPData: A dataset containing single nucleotide (SNP) data. Each row
+#' represents a variant and each column represents a cell.
 #'
 #' @name DataSet
-#' @aliases testSNP
+#' @aliases SNPData
 #' @docType data
 #' @keywords datasets
-#' @format A numeric matrix with variants as rows and cells as columns.
+#' @format A numeric matrix with 1000 rows (SNPs) and 2705 columns (cells).
 NULL
 
-#' Test Seurat Object
+#' Seurat Object
 #'
-#' A Seurat object representing single-cell RNA-seq data.
+#' Seurat_obj: A Seurat object containing \code{GeneData} along with associated
+#' metadata stored in the \code{meta.data} slot.
 #'
 #' @name DataSet
-#' @aliases testSeurat
+#' @aliases Seurat_obj
 #' @docType data
 #' @keywords datasets
-#' @format An object of class \code{eQTLObject}.
+#' @format An object of class \code{Seurat}.
 NULL
 
-#' Test Genotype Dataset
+#' Genotype Dataset
 #'
-#' A smaller dataset containing single nucleotide variant data for testing.
-#' Each row is one variant and each column is one cell.
+#' SNPData2: A smaller SNP dataset containing fewer variants and cells. Each row
+#' represents a variant and each column represents a cell.
 #'
 #' @name DataSet
-#' @aliases testSNP2
+#' @aliases SNPData2
 #' @docType data
 #' @keywords datasets
-#' @format A numeric matrix with variants as rows and cells as columns.
+#' @format A numeric matrix with 500 rows (SNPs) and 500 columns (cells).
 NULL
 
-#' Test eqtl object
+#' EQTL Object
 #'
-#' An \code{eQTLObject} created using \code{createQTLObject()}, where the raw
-#' expression matrix is normalized using \code{normalizeGene()}, and both the
-#' genotype matrix and normalized expression matrix are filtered using
-#' \code{filterGeneSNP()}.
+#' EQTL_obj: An \code{eQTLObject} created using
+#' \code{\link{createQTLObject}}, where the raw expression matrix is
+#' normalized using \code{\link{normalizeGene}}, and both the genotype matrix
+#' and normalized expression matrix were filtered using
+#' \code{\link{filterGeneSNP}}.
 #'
 #' @name DataSet
-#' @aliases testEQTL
+#' @aliases EQTL_obj
 #' @docType data
 #' @keywords datasets
+#'
+#' @seealso
+#' \code{\link{createQTLObject}}, \code{\link{normalizeGene}} and
+#' \code{\link{filterGeneSNP}}, for the underlying functions that do the work.
+#'
 #' An object of class \code{eQTLObject}.
 NULL

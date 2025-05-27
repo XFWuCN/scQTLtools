@@ -25,7 +25,7 @@ This function retrieves expression counts for a specified gene from an
 expression matrix, based on the provided list of cells.
 }
 \examples{
-data(testGene)
-get_counts(testGene, "CNN2",
+data(GeneData)
+get_counts(GeneData, "CNN2",
           c("CGGCAGTGTAGCCCTG", "GGAGGATTCCCGTTCA"))
 }

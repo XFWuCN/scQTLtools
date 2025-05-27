@@ -26,8 +26,8 @@ A data frame containing the genomic locations of the valid SNPs.
 Validate SNP IDs in the input genotype matrix.
 }
 \examples{
-data(testSNP2)
-snpList <- rownames(testSNP2)
+data(SNPData2)
+snpList <- rownames(SNPData2)
 snpDataset <- 'hsapiens_snp'
 snps_loc <- checkSNPList(snpList = snpList,
                         snpDataset = snpDataset)

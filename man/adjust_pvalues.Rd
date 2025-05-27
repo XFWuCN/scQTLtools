@@ -2,25 +2,26 @@
 % Please edit documentation in R/adjust_pvalues.R
 \name{adjust_pvalues}
 \alias{adjust_pvalues}
-\title{Adjust p-values and filter gene-SNP pairs based on the adjusted p-values.}
+\title{Adjust p-values and filter SNP–gene pairs based on the adjusted p-values.}
 \usage{
 adjust_pvalues(result, pAdjustMethod = "bonferroni", pAdjustThreshold = 0.05)
 }
 \arguments{
-\item{result}{A data frame that contains information of gene-SNP pairs.}
+\item{result}{A data frame that contains information of SNP–gene pairs and
+raw p values.}
 
 \item{pAdjustMethod}{Method for p-value adjustment. One of "bonferroni",
 "holm", "hochberg", "hommel" or "BH". The default option is "bonferroni".}
 
-\item{pAdjustThreshold}{Only gene-SNP pairs with adjusted p-values meeting
+\item{pAdjustThreshold}{Only SNP–gene pairs with adjusted p-values meeting
 the threshold will be displayed. Default by 0.05.}
 }
 \value{
 A data frame with adjusted p-values, filtered by threshold,
-containing information on gene-SNP pairs.
+containing information on SNP–gene pairs.
 }
 \description{
-Adjust p-values and filter gene-SNP pairs based on the adjusted p-values.
+Adjust p-values and filter SNP–gene pairs based on the adjusted p-values.
 }
 \examples{
 example_data <- data.frame(

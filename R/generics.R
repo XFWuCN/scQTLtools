@@ -2,8 +2,8 @@
 #' @param x An \code{eQTLObject}.
 #'
 #' @examples
-#'   data(testEQTL)
-#'   get_raw_data(testEQTL)
+#'   data(EQTL_obj)
+#'   get_raw_data(EQTL_obj)
 #'
 #' @return raw data matrix.
 #'
@@ -30,9 +30,9 @@ setMethod("get_raw_data", "eQTLObject", function(x) {
 #' stored in the \code{rawData} list.
 #'
 #' @examples
-#'   data(testEQTL)
+#'   data(EQTL_obj)
 #'   data123 <- matrix(0, nrow = 3, ncol = 3)
-#'   set_raw_data(testEQTL, data123, "rawExpMat")
+#'   set_raw_data(EQTL_obj, data123, "rawExpMat")
 #'
 #' @return eQTLObject.
 #'
@@ -47,9 +47,9 @@ setGeneric("set_raw_data", function(x, value, name)
 #' stored in \code{rawData}.
 #'
 #' @examples
-#'   data(testEQTL)
+#'   data(EQTL_obj)
 #'   data123 <- matrix(0, nrow = 3, ncol = 3)
-#'   set_raw_data(testEQTL, data123, "rawExpMat")
+#'   set_raw_data(EQTL_obj, data123, "rawExpMat")
 #'
 #' @return An updated \code{eQTLObject}.
 #' @rdname set_raw_data
@@ -64,10 +64,10 @@ setMethod("set_raw_data", "eQTLObject", function(x, value, name) {
 #' @param x An \code{eQTLObject}.
 #'
 #' @examples
-#'   data(testEQTL)
-#'   get_filter_data(testEQTL)
+#'   data(EQTL_obj)
+#'   get_filter_data(EQTL_obj)
 #'
-#' @return filtered matrices.
+#' @return Filtered matrices.
 #'
 #' @export
 setGeneric("get_filter_data", function(x) standardGeneric("get_filter_data"))
@@ -91,9 +91,9 @@ setMethod("get_filter_data", "eQTLObject", function(x) {
 #' stored in the \code{filterData} list.
 #'
 #' @examples
-#'   data(testEQTL)
+#'   data(EQTL_obj)
 #'   data123 <- matrix(0, nrow = 3, ncol = 3)
-#'   set_filter_data(testEQTL, data123, "expMat")
+#'   set_filter_data(EQTL_obj, data123, "expMat")
 #'
 #' @return An updated \code{eQTLObject}.
 #'
@@ -108,9 +108,9 @@ setGeneric("set_filter_data", function(x, value, name)
 #' stored in \code{filterData}.
 #'
 #' @examples
-#'   data(testEQTL)
+#'   data(EQTL_obj)
 #'   data123 <- matrix(0, nrow = 3, ncol = 3)
-#'   set_filter_data(testEQTL, data123, "expMat")
+#'   set_filter_data(EQTL_obj, data123, "expMat")
 #'
 #' @return An updated \code{eQTLObject}.
 #' @rdname set_filter_data
@@ -125,10 +125,10 @@ setMethod("set_filter_data", "eQTLObject", function(x, value, name) {
 #' @param x An \code{eQTLObject}.
 #'
 #' @examples
-#'   data(testEQTL)
-#'   get_result_info(testEQTL)
+#'   data(EQTL_obj)
+#'   get_result_info(EQTL_obj)
 #'
-#' @return A data frame where each row corresponds to an identified gene-SNP
+#' @return A data frame where each row corresponds to an identified SNP–gene
 #' pair.
 #'
 #' @export
@@ -149,12 +149,12 @@ setMethod("get_result_info", "eQTLObject", function(x) {
 #' Set eQTL results in an eQTLObject.
 #' @param x An \code{eQTLObject}.
 #' @param value A data frame in which each row describes the result for a
-#' gene-SNP pair.
+#' SNP–gene pair.
 #'
 #' @examples
-#'   data(testEQTL)
+#'   data(EQTL_obj)
 #'   result <- data.frame(0, nrow = 3, ncol = 3)
-#'   set_result_info(testEQTL, result)
+#'   set_result_info(EQTL_obj, result)
 #'
 #' @return An updated \code{eQTLObject}.
 #'
@@ -164,12 +164,12 @@ setGeneric("set_result_info", function(x, value)
 
 #' Method to set the result of identifying eQTLs from scRNA-seq data.
 #' @param x An \code{eQTLObject}.
-#' @param value A data frame where each row corresponds to a gene-SNP pair.
+#' @param value A data frame where each row corresponds to a SNP–gene pair.
 #'
 #' @examples
-#'   data(testEQTL)
+#'   data(EQTL_obj)
 #'   result <- matrix(0, nrow = 3, ncol = 3)
-#'   set_result_info(testEQTL, result)
+#'   set_result_info(EQTL_obj, result)
 #'
 #' @return An updated \code{eQTLObject}.
 #' @rdname set_result_info
@@ -184,8 +184,8 @@ setMethod("set_result_info", "eQTLObject", function(x, value) {
 #' @param x An \code{eQTLObject}.
 #'
 #' @examples
-#'   data(testEQTL)
-#'   load_biclassify_info(testEQTL)
+#'   data(EQTL_obj)
+#'   load_biclassify_info(EQTL_obj)
 #' @return A character or list containing biclassification information.
 #'
 #' @export
@@ -209,8 +209,8 @@ setMethod("load_biclassify_info", "eQTLObject", function(x) {
 #' @param x An \code{eQTLObject}.
 #'
 #' @examples
-#'   data(testEQTL)
-#'   load_species_info(testEQTL)
+#'   data(EQTL_obj)
+#'   load_species_info(EQTL_obj)
 #'
 #' @return A character string indicating the species.
 #'
@@ -235,8 +235,8 @@ setMethod("load_species_info", "eQTLObject", function(x) {
 #' @param x An \code{eQTLObject}.
 #'
 #' @examples
-#'   data(testEQTL)
-#'   load_group_info(testEQTL)
+#'   data(EQTL_obj)
+#'   load_group_info(EQTL_obj)
 #'
 #' @return A data frame with grouping information.
 #'
@@ -260,8 +260,8 @@ setMethod("load_group_info", "eQTLObject", function(x) {
 #' @param x An \code{eQTLObject}.
 #'
 #' @examples
-#'   data(testEQTL)
-#'   get_model_info(testEQTL)
+#'   data(EQTL_obj)
+#'   get_model_info(EQTL_obj)
 #'
 #' @return A character string indicating the model.
 #'
@@ -287,9 +287,9 @@ setMethod("get_model_info", "eQTLObject", function(x) {
 #' \code{"poisson"}, or \code{"linear"}).
 #'
 #' @examples
-#'   data(testEQTL)
+#'   data(EQTL_obj)
 #'   useModel <- "zinb"
-#'   set_model_info(testEQTL, useModel)
+#'   set_model_info(EQTL_obj, useModel)
 #'
 #' @return An updated \code{eQTLObject} with the new model specification.
 #'
@@ -303,9 +303,9 @@ setGeneric("set_model_info", function(x, value)
 #' "poisson", "linear").
 #'
 #' @examples
-#'   data(testEQTL)
+#'   data(EQTL_obj)
 #'   useModel <- "zinb"
-#'   set_model_info(testEQTL, useModel)
+#'   set_model_info(EQTL_obj, useModel)
 #'
 #' @return An updated \code{eQTLObject}.
 #' @rdname set_model_info

@@ -18,6 +18,6 @@ A normalized gene expression matrix after applying CPM normalization.
 raw gene expression matrix.
 }
 \examples{
-data(testGene)
-CPM_normalize(testGene)
+data(GeneData)
+CPM_normalize(GeneData)
 }

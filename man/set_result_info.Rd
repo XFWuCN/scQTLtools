@@ -12,7 +12,7 @@ set_result_info(x, value)
 \arguments{
 \item{x}{An \code{eQTLObject}.}
 
-\item{value}{A data frame where each row corresponds to a gene-SNP pair.}
+\item{value}{A data frame where each row corresponds to a SNP–gene pair.}
 }
 \value{
 An updated \code{eQTLObject}.
@@ -25,12 +25,12 @@ Set eQTL results in an eQTLObject.
 Method to set the result of identifying eQTLs from scRNA-seq data.
 }
 \examples{
-  data(testEQTL)
+  data(EQTL_obj)
   result <- data.frame(0, nrow = 3, ncol = 3)
-  set_result_info(testEQTL, result)
+  set_result_info(EQTL_obj, result)
 
-  data(testEQTL)
+  data(EQTL_obj)
   result <- matrix(0, nrow = 3, ncol = 3)
-  set_result_info(testEQTL, result)
+  set_result_info(EQTL_obj, result)
 
 }

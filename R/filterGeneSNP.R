@@ -17,9 +17,9 @@
 #' @export
 #'
 #' @examples
-#' data(testSNP)
-#' data(testGene)
-#' eqtl <- createQTLObject(snpMatrix = testSNP, genedata = testGene)
+#' data(SNPData)
+#' data(GeneData)
+#' eqtl <- createQTLObject(snpMatrix = SNPData, genedata = GeneData)
 #' eqtl <- normalizeGene(eqtl)
 #' eqtl <- filterGeneSNP(eqtl,
 #'   snpNumOfCellsPercent = 2,

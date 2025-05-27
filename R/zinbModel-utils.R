@@ -15,15 +15,15 @@
 #' @importFrom stats pchisq plogis
 #' @importFrom methods is
 #' @importFrom VGAM dzinegbin
-#' @return A data frame of gene–SNP pairs that pass the filtering criteria,
+#' @return A data frame of SNP–gene pairs that pass the filtering criteria,
 #' including p-values, adjusted p-values, and group labels.
 #' @export
 #' @examples
-#' data(testEQTL)
-#' Gene <- rownames(slot(testEQTL, 'filterData')$expMat)
-#' SNP <- rownames(slot(testEQTL, 'filterData')$snpMat)
+#' data(EQTL_obj)
+#' Gene <- rownames(slot(EQTL_obj, 'filterData')$expMat)
+#' SNP <- rownames(slot(EQTL_obj, 'filterData')$snpMat)
 #' zinbResult <- zinbModel(
-#'   eQTLObject = testEQTL,
+#'   eQTLObject = EQTL_obj,
 #'   geneIDs = Gene,
 #'   snpIDs = SNP,
 #'   biClassify = FALSE,

@@ -13,7 +13,7 @@ get_filter_data(x)
 \item{x}{An \code{eQTLObject}.}
 }
 \value{
-filtered matrices.
+Filtered matrices.
 
 Filtered matrices.
 }
@@ -23,7 +23,7 @@ Access filtered data stored in an eQTLObject.
 Method to access eQTLObject filter data.
 }
 \examples{
-  data(testEQTL)
-  get_filter_data(testEQTL)
+  data(EQTL_obj)
+  get_filter_data(EQTL_obj)
 
 }

@@ -23,6 +23,6 @@ Access biclassification information from an eQTLObject.
 Method to access eQTLObject biclassify information.
 }
 \examples{
-  data(testEQTL)
-  load_biclassify_info(testEQTL)
+  data(EQTL_obj)
+  load_biclassify_info(EQTL_obj)
 }

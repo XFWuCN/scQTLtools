@@ -29,11 +29,11 @@ conversion (default).}
 \code{"bonferroni"}, \code{"holm"}, \code{"hochberg"}, \code{"hommel"}, or
 \code{"BH"}. Default is \code{"bonferroni"}.}
 
-\item{pAdjustThreshold}{Only gene-SNP pairs with adjusted p-values below
+\item{pAdjustThreshold}{Only SNP–gene pairs with adjusted p-values below
 the threshold will be retained. Default is 0.05.}
 
 \item{logfcThreshold}{The minimum beta coefficient (effect size) required
-to report a gene-SNP pair as an eQTL.}
+to report a SNP–gene pair as an eQTL.}
 }
 \value{
 A data frame of gene–SNP pairs that pass the filtering criteria,
@@ -43,11 +43,11 @@ including beta coefficients, p-values, adjusted p-values, and group labels.
 Poisson model fitting the gene expression matrix and genotype matrix.
 }
 \examples{
-data(testEQTL)
-Gene <- rownames(slot(testEQTL, "filterData")$expMat)
-SNP <- rownames(slot(testEQTL, "filterData")$snpMat)
+data(EQTL_obj)
+Gene <- rownames(slot(EQTL_obj, "filterData")$expMat)
+SNP <- rownames(slot(EQTL_obj, "filterData")$snpMat)
 poissonResult <- poissonModel(
-  eQTLObject = testEQTL,
+  eQTLObject = EQTL_obj,
   geneIDs = Gene,
   snpIDs = SNP,
   biClassify = FALSE,

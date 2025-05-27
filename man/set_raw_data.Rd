@@ -28,12 +28,12 @@ Set raw data in an eQTLObject.
 Method to set eQTLObject raw data.
 }
 \examples{
-  data(testEQTL)
+  data(EQTL_obj)
   data123 <- matrix(0, nrow = 3, ncol = 3)
-  set_raw_data(testEQTL, data123, "rawExpMat")
+  set_raw_data(EQTL_obj, data123, "rawExpMat")
 
-  data(testEQTL)
+  data(EQTL_obj)
   data123 <- matrix(0, nrow = 3, ncol = 3)
-  set_raw_data(testEQTL, data123, "rawExpMat")
+  set_raw_data(EQTL_obj, data123, "rawExpMat")
 
 }

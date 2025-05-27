@@ -3,42 +3,45 @@
 \docType{data}
 \name{DataSet}
 \alias{DataSet}
-\alias{testGene}
-\alias{testSNP}
-\alias{testSeurat}
-\alias{testSNP2}
-\alias{testEQTL}
-\title{Test Gene Expression Dataset}
+\alias{GeneData}
+\alias{SNPData}
+\alias{Seurat_obj}
+\alias{SNPData2}
+\alias{EQTL_obj}
+\title{The package includes five examplt datasets: a gene expression matrix, two SNP
+genotype matrices, a Seurat object, and an eQTL object.}
 \format{
 A numeric matrix with 100 rows (genes) and 2705 columns (cells).
 
-A numeric matrix with variants as rows and cells as columns.
+A numeric matrix with 1000 rows (SNPs) and 2705 columns (cells).
 
-An object of class \code{eQTLObject}.
+An object of class \code{Seurat}.
 
-A numeric matrix with variants as rows and cells as columns.
+A numeric matrix with 500 rows (SNPs) and 500 columns (cells).
 }
 \description{
-A dataset containing example gene expression data for testing purposes.
-It contains 100 rows and 2705 columns. The row names represent gene IDs or
-SYMBOLs, and the column names represent cell IDs.
+GeneData: A dataset containing example gene expression data. Each row
+represents a gene and each column represents a cell.
 
-A dataset containing single nucleotide variant data. Each row is one variant
-and each column is one cell.
+SNPData: A dataset containing single nucleotide (SNP) data. Each row
+represents a variant and each column represents a cell.
 
-A Seurat object representing single-cell RNA-seq data.
+Seurat_obj: A Seurat object containing \code{GeneData} along with associated
+metadata stored in the \code{meta.data} slot.
 
-A smaller dataset containing single nucleotide variant data for testing.
-Each row is one variant and each column is one cell.
+SNPData2: A smaller SNP dataset containing fewer variants and cells. Each row
+represents a variant and each column represents a cell.
 
-An \code{eQTLObject} created using \code{createQTLObject()}, where the raw
-expression matrix is normalized using \code{normalizeGene()}, and both the
-genotype matrix and normalized expression matrix are filtered using
-\code{filterGeneSNP()}.
+EQTL_obj: An \code{eQTLObject} created using
+\code{\link{createQTLObject}}, where the raw expression matrix is
+normalized using \code{\link{normalizeGene}}, and both the genotype matrix
+and normalized expression matrix were filtered using
+\code{\link{filterGeneSNP}}.
 }
-\keyword{An}
-\keyword{\code{eQTLObject}.}
-\keyword{class}
+\seealso{
+\code{\link{createQTLObject}}, \code{\link{normalizeGene}} and
+\code{\link{filterGeneSNP}}, for the underlying functions that do the work.
+
+An object of class \code{eQTLObject}.
+}
 \keyword{datasets}
-\keyword{object}
-\keyword{of}

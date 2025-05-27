@@ -2,7 +2,7 @@
 % Please edit documentation in R/visualizeQTL.R
 \name{visualizeQTL}
 \alias{visualizeQTL}
-\title{Visualize eQTL results by gene-SNP pair across groups}
+\title{Visualize eQTL results by SNP–gene pair across groups}
 \usage{
 visualizeQTL(
   eQTLObject,
@@ -34,12 +34,12 @@ Default is \code{FALSE}.}
 list
 }
 \description{
-Visualize eQTL results by gene-SNP pair across groups
+Visualize eQTL results by SNP–gene pair across groups
 }
 \examples{
-data(testEQTL)
-## We have to call the eQTLs firstly using `callQTL()`.
-eqtl <- callQTL(eQTLObject = testEQTL, useModel = "linear")
+data(EQTL_obj)
+## We have to call the eQTLs firstly using \code{\link{callQTL()}}.
+eqtl <- callQTL(eQTLObject = EQTL_obj, useModel = "linear")
 visualizeQTL(eQTLObject = eqtl,
 SNPid = "1:632647",
 Geneid = "RPS27",

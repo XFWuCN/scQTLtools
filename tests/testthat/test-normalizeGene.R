@@ -2,10 +2,10 @@ library(DESeq2)
 library(limma)
 
 # Load test data and create a mock eQTLObject
-data(testGene)
-data(testSNP)
-eqtl <- createQTLObject(snpMatrix = testSNP,
-                        genedata = testGene,
+data(GeneData)
+data(SNPData)
+eqtl <- createQTLObject(snpMatrix = SNPData,
+                        genedata = GeneData,
                         biClassify = FALSE,
                         species = 'human',
                         group = NULL)

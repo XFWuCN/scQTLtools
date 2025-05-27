@@ -1,7 +1,7 @@
-data(testGene)
-data(testSNP)
-eqtl <- createQTLObject(snpMatrix = testSNP,
-                        genedata = testGene,
+data(GeneData)
+data(SNPData)
+eqtl <- createQTLObject(snpMatrix = SNPData,
+                        genedata = GeneData,
                         biClassify = FALSE,
                         species = 'human',
                         group = NULL)
@@ -42,10 +42,10 @@ test_that("visualizeQTL function behaves as expected", {
   expect_true(is.list(plot4))
 
   # when specific group
-  data(testSeurat)
-  data("testSNP2")
-  eqtl <- createQTLObject(snpMatrix = testSNP2,
-                          genedata = testSeurat,
+  data(Seurat_obj)
+  data(SNPData2)
+  eqtl <- createQTLObject(snpMatrix = SNPData2,
+                          genedata = Seurat_obj,
                           biClassify = FALSE,
                           species = 'human',
                           group = "celltype")

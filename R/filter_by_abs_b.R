@@ -1,6 +1,6 @@
-#' Filter a data frame of gene–SNP pairs by absolute beta.
+#' Filter a data frame of SNP–gene pairs by absolute beta.
 #'
-#' @param result  A data frame that containing gene-SNP pairs and their beta
+#' @param result  A data frame that containing SNP–gene pairs and their beta
 #' values (b-value).
 #' @param logfcThreshold A numeric value specifying the minimum absolute
 #' b-value to retain. Default is 0.1.

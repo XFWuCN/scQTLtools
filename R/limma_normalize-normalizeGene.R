@@ -11,8 +11,8 @@
 #' @export
 #'
 #' @examples
-#' data(testGene)
-#' limma_normalize(testGene)
+#' data(GeneData)
+#' limma_normalize(GeneData)
 limma_normalize <- function(expressionMatrix) {
     normalizedData <- normalizeBetweenArrays(expressionMatrix,
                                                     method = "quantile")

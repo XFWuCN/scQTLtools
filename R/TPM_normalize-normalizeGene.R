@@ -12,8 +12,8 @@
 #' @export
 #'
 #' @examples
-#' data(testGene)
-#' TPM_normalize(testGene)
+#' data(GeneData)
+#' TPM_normalize(GeneData)
 TPM_normalize <- function(expressionMatrix) {
     library_size <- colSums(expressionMatrix)
     normalizedData <- log1p(expressionMatrix / library_size * 1e6)

@@ -28,12 +28,12 @@ Set filtered data in an eQTLObject.
 Method to set eQTLObject filter data.
 }
 \examples{
-  data(testEQTL)
+  data(EQTL_obj)
   data123 <- matrix(0, nrow = 3, ncol = 3)
-  set_filter_data(testEQTL, data123, "expMat")
+  set_filter_data(EQTL_obj, data123, "expMat")
 
-  data(testEQTL)
+  data(EQTL_obj)
   data123 <- matrix(0, nrow = 3, ncol = 3)
-  set_filter_data(testEQTL, data123, "expMat")
+  set_filter_data(EQTL_obj, data123, "expMat")
 
 }
