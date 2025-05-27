@@ -11,8 +11,8 @@
 #' @export
 #'
 #' @examples
-#' data(testGene)
-#' DESeq_normalize(testGene)
+#' data(GeneData)
+#' DESeq_normalize(GeneData)
 DESeq_normalize <- function(expressionMatrix) {
     sampleDataframe <- colnames(expressionMatrix)
     sampleDataframe <- as.data.frame(sampleDataframe)

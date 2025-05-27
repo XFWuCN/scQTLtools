@@ -14,8 +14,8 @@
 #' gene in the selected cells.
 #' @export
 #' @examples
-#' data(testGene)
-#' get_counts(testGene, "CNN2",
+#' data(GeneData)
+#' get_counts(GeneData, "CNN2",
 #'           c("CGGCAGTGTAGCCCTG", "GGAGGATTCCCGTTCA"))
 get_counts <- function(expressionMatrix, Geneid, cells) {
     return(unlist(expressionMatrix[Geneid, cells, drop = TRUE]))
@@ -39,9 +39,9 @@ get_counts <- function(expressionMatrix, Geneid, cells) {
 #' genotype value at the given SNP.
 #' @export
 #' @examples
-#' data(testSNP)
+#' data(SNPData)
 #' biClassify <- FALSE
-#' get_cell_groups(testSNP, "1:632445", biClassify)
+#' get_cell_groups(SNPData, "1:632445", biClassify)
 get_cell_groups <- function(snpMatrix, SNPid, biClassify) {
     if (biClassify) {
     snpMatrix[snpMatrix == 3] <- 2

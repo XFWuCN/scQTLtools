@@ -16,7 +16,7 @@ A list containing four parameters estimated from the ZINB model.
 Build a ZINB model.
 }
 \examples{
-data(testGene)
-gene <- unlist(testGene[1, ])
+data(GeneData)
+gene <- unlist(GeneData[1, ])
 result <-buildZINB(gene)
 }

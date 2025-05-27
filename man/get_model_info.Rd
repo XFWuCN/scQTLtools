@@ -23,7 +23,7 @@ Access model specification from an eQTLObject
 Method to access eQTLObject used model information.
 }
 \examples{
-  data(testEQTL)
-  get_model_info(testEQTL)
+  data(EQTL_obj)
+  get_model_info(EQTL_obj)
 
 }

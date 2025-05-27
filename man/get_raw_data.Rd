@@ -23,7 +23,7 @@ Access raw data stored in an eQTLObject.
 Method to access eQTLObject raw data.
 }
 \examples{
-  data(testEQTL)
-  get_raw_data(testEQTL)
+  data(EQTL_obj)
+  get_raw_data(EQTL_obj)
 
 }

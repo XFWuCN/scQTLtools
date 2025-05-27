@@ -20,6 +20,6 @@ Million (TPM) normalization, applying logarithm and scaling operations to
 adjust data based on library size.
 }
 \examples{
-data(testGene)
-TPM_normalize(testGene)
+data(GeneData)
+TPM_normalize(GeneData)
 }

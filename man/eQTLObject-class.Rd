@@ -3,15 +3,11 @@
 \docType{class}
 \name{eQTLObject-class}
 \alias{eQTLObject-class}
-\title{Class \code{eQTLObject}
-The eQTLObject class is designed to store data related to eQTL analysis,
-including data lists, result data frames, and additional metadata such as
-classification, species, and grouping information.}
+\title{Class \code{eQTLObject}}
 \value{
 An S4 object of class \code{eQTLObject}.
 }
 \description{
-Class \code{eQTLObject}
 The eQTLObject class is designed to store data related to eQTL analysis,
 including data lists, result data frames, and additional metadata such as
 classification, species, and grouping information.

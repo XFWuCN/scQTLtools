@@ -6,6 +6,7 @@ setClassUnion(name = "AnyMatrixOrDataframe",
             members = c("matrix", "data.frame"))
 
 #' Class \code{eQTLObject}
+#'
 #' The eQTLObject class is designed to store data related to eQTL analysis,
 #' including data lists, result data frames, and additional metadata such as
 #' classification, species, and grouping information.
@@ -34,17 +35,14 @@ setClass(Class = "eQTLObject",
                     useModel = "ANY"))
 
 
-#' Show Method for eQTLObject Class
-#'
-#' This method is to display information about an object of class eQTLObject.
-#' When called on an eQTLObject, it prints a descriptive message to the console
-#'
-#' @param object An S4 object of class eQTLObject.
-#' @importFrom methods setMethod
-#' @return information of eQTLObject
-#' @examples
-#' data(testEQTL)
-#' testEQTL
+## Show Method for eQTLObject Class
+##
+## This method is to display information about an object of class eQTLObject.
+## When called on an eQTLObject, it prints a descriptive message to the console
+##
+## @param object An S4 object of class eQTLObject.
+## @importFrom methods setMethod
+## @return information of eQTLObject
 setMethod(f = "show", signature = "eQTLObject",
             definition = function(object) {
             cat("An object of class eQTLObject\n")
@@ -97,10 +95,10 @@ setMethod(f = "show", signature = "eQTLObject",
 #' @export
 #'
 #' @examples
-#' data(testSNP)
-#' data(testGene)
-#' eqtl <- createQTLObject(snpMatrix = testSNP,
-#'                      genedata = testGene,
+#' data(SNPData)
+#' data(GeneData)
+#' eqtl <- createQTLObject(snpMatrix = SNPData,
+#'                      genedata = GeneData,
 #'                      biClassify = FALSE,
 #'                      species = 'human',
 #'                      group = NULL)

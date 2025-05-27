@@ -15,10 +15,10 @@ A normalized gene expression matrix after applying logNormalize
 normalization.
 }
 \description{
-\code{log_normalize()} transforms an expression matrix by applying logarithm and
-scaling operations to normalize data.
+\code{log_normalize()} transforms an expression matrix by applying logarithm
+and scaling operations to normalize data.
 }
 \examples{
-data(testGene)
-log_normalize(testGene)
+data(GeneData)
+log_normalize(GeneData)
 }

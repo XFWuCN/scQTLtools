@@ -1,9 +1,9 @@
-#' Identify single-cell eQTLs exclusively using scRNA-seq data.
+#' Identify single-cell eQTLs.
 #'
-#' This function detects eQTLs using only scRNA-seq data.
+#' This function detects eQTLs using scRNA-seq data and genotype data.
 #' @param useModel  Model used for fitting. One of "possion", "zinb", or
 #' "linear."
-#' @param pAdjustThreshold  Only gene-SNP pairs with adjusted p-values below
+#' @param pAdjustThreshold  Only SNP–gene pairs with adjusted p-values below
 #' the threshold will be retained. Default is 0.05.
 #' @param pAdjustMethod  Method used for multiple testing correction. One of
 #' \code{"bonferroni"}, \code{"holm"}, \code{"hochberg"}, \code{"hommel"}, or
@@ -15,22 +15,22 @@
 #' @param upstream  Distance (in base pairs) upstream of the gene end site to
 #' search for associated SNPs.
 #' @param gene_mart  A Mart object representing the BioMart gene database.
-#' If NULL, the Ensembl Gene BioMart will be used.
+#' If \code{NULL}, the Ensembl Gene BioMart will be used.
 #' @param snp_mart  A Mart object representing the BioMart SNP database.
-#' If NULL, the Ensembl SNP BioMart will be used.
-#' @param logfcThreshold  The minimum beta coefficient (effect size) required
-#' to report a gene-SNP pair as an eQTL.
+#' If \code{NULL}, the Ensembl SNP BioMart will be used.
+#' @param logfcThreshold  The minimum beta coefficient required to report a
+#' SNP–gene pair as an eQTL.
 #' @importFrom Matrix Matrix
 #' @importFrom stringr str_split
 #' @importFrom dplyr mutate_all mutate
 #' @importFrom GOSemSim load_OrgDb
 #' @importFrom stats na.omit
 #' @import magrittr
-#' @return A data frame in which each row corresponds to a detected gene-SNP
+#' @return A data frame in which each row corresponds to a detected SNP–gene
 #' eQTL pair, including statistical and model fitting results.
 #' @export
 #' @examples
-#' data(testEQTL)
+#' data(EQTL_obj)
 #' library(biomaRt)
 #' gene_mart <- useEnsembl(biomart = "genes",
 #'                         dataset = "hsapiens_gene_ensembl",
@@ -39,7 +39,7 @@
 #'                         dataset = "hsapiens_snp",
 #'                         mirror = 'asia')
 #' eqtl <- callQTL(
-#'   eQTLObject = testEQTL,
+#'   eQTLObject = EQTL_obj,
 #'   gene_ids = NULL,
 #'   downstream = NULL,
 #'   upstream = NULL,

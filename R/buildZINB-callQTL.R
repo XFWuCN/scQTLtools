@@ -5,8 +5,8 @@
 #' @return A list containing four parameters estimated from the ZINB model.
 #' @export
 #' @examples
-#' data(testGene)
-#' gene <- unlist(testGene[1, ])
+#' data(GeneData)
+#' gene <- unlist(GeneData[1, ])
 #' result <-buildZINB(gene)
 buildZINB <- function(counts) {
     options(show.error.messages = FALSE)

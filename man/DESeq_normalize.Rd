@@ -19,6 +19,6 @@ normalization.
 \pkg{DESeq2} package.
 }
 \examples{
-data(testGene)
-DESeq_normalize(testGene)
+data(GeneData)
+DESeq_normalize(GeneData)
 }

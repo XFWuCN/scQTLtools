@@ -40,10 +40,10 @@ This function creates an S4 object to store genotype and expression data,
 along with sample grouping and metadata for eQTL analysis.
 }
 \examples{
-data(testSNP)
-data(testGene)
-eqtl <- createQTLObject(snpMatrix = testSNP,
-                     genedata = testGene,
+data(SNPData)
+data(GeneData)
+eqtl <- createQTLObject(snpMatrix = SNPData,
+                     genedata = GeneData,
                      biClassify = FALSE,
                      species = 'human',
                      group = NULL)

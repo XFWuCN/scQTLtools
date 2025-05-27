@@ -34,8 +34,8 @@ A \code{data.frame} containing gene location information.
 Create a gene location data frame.
 }
 \examples{
-data(testGene)
-geneList <- rownames(testGene)
+data(GeneData)
+geneList <- rownames(GeneData)
 library(GOSemSim)
 library(biomaRt)
 OrgDb <- load_OrgDb("org.Hs.eg.db")

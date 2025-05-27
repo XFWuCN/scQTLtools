@@ -6,24 +6,24 @@
 #' @param biClassify Logical; whether to convert genotype encoding in snpMatrix
 #' to 0, 1, and 2. \code{TRUE} indicates conversion; \code{FALSE} indicates no
 #' conversion (default).
-#' @param pAdjustThreshold  Only gene-SNP pairs with adjusted p-values below
+#' @param pAdjustThreshold  Only SNP–gene pairs with adjusted p-values below
 #' the threshold will be retained. Default is 0.05.
 #' @param pAdjustMethod  Method used for multiple testing correction. One of
 #' \code{"bonferroni"}, \code{"holm"}, \code{"hochberg"}, \code{"hommel"}, or
 #' \code{"BH"}. Default is \code{"bonferroni"}.
 #' @param logfcThreshold  The minimum beta coefficient (effect size) required
-#' to report a gene-SNP pair as an eQTL.
+#' to report a SNP–gene pair as an eQTL.
 #'
 #' @importFrom stats p.adjust poisson glm
 #' @return A data frame of gene–SNP pairs that pass the filtering criteria,
 #' including beta coefficients, p-values, adjusted p-values, and group labels.
 #' @export
 #' @examples
-#' data(testEQTL)
-#' Gene <- rownames(slot(testEQTL, "filterData")$expMat)
-#' SNP <- rownames(slot(testEQTL, "filterData")$snpMat)
+#' data(EQTL_obj)
+#' Gene <- rownames(slot(EQTL_obj, "filterData")$expMat)
+#' SNP <- rownames(slot(EQTL_obj, "filterData")$snpMat)
 #' poissonResult <- poissonModel(
-#'   eQTLObject = testEQTL,
+#'   eQTLObject = EQTL_obj,
 #'   geneIDs = Gene,
 #'   snpIDs = SNP,
 #'   biClassify = FALSE,

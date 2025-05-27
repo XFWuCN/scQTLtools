@@ -27,7 +27,7 @@ This function extracts the names of cells from a SNP matrix that correspond
 to a specified value for a given SNP.
 }
 \examples{
-data(testSNP)
+data(SNPData)
 biClassify <- FALSE
-get_cell_groups(testSNP, "1:632445", biClassify)
+get_cell_groups(SNPData, "1:632445", biClassify)
 }

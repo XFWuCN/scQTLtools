@@ -25,6 +25,6 @@ improve comparability across cells. Multiple normalization methods are
 supported, including "logNormalize", "CPM", "TPM", "DESeq", and "limma".
 }
 \examples{
-data(testEQTL)
-eqtl <- normalizeGene(testEQTL, method = "logNormalize")
+data(EQTL_obj)
+eqtl <- normalizeGene(EQTL_obj, method = "logNormalize")
 }

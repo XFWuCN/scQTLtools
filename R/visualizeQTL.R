@@ -1,4 +1,4 @@
-#' Visualize eQTL results by gene-SNP pair across groups
+#' Visualize eQTL results by SNP–gene pair across groups
 #'
 #' @param SNPid ID of SNP.
 #' @param Geneid ID of Gene.
@@ -19,9 +19,9 @@
 #' @return list
 #' @export
 #' @examples
-#' data(testEQTL)
-#' ## We have to call the eQTLs firstly using `callQTL()`.
-#' eqtl <- callQTL(eQTLObject = testEQTL, useModel = "linear")
+#' data(EQTL_obj)
+#' ## We have to call the eQTLs firstly using \code{\link{callQTL()}}.
+#' eqtl <- callQTL(eQTLObject = EQTL_obj, useModel = "linear")
 #' visualizeQTL(eQTLObject = eqtl,
 #' SNPid = "1:632647",
 #' Geneid = "RPS27",
