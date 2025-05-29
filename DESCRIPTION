@@ -1,7 +1,8 @@
 Package: scQTLtools
 Type: Package
-Title: An R package for single-cell eQTL analysis and visualization
-Version: 1.1.4
+Title: scQTLtools: an R/Bioconductor package for comprehensive identification 
+    and visualization of single-cell eQTLs.
+Version: 1.1.5
 Authors@R: c(
     person(given = "Xiaofeng", 
            family = "Wu",    
@@ -17,16 +18,16 @@ Authors@R: c(
            family = "Kang",  
            email = "1203178107@qq.com",     
            role = "com",
-           comment = c(ORCID = " 0009-0008-8343-3456")),
+           comment = c(ORCID = "0009-0008-8343-3456")),
     person(given = "Siwen",    
            family = "Xu",    
            email = "siwxu@gdpu.edu.cn",      
            role  = c("aut", "cph"),
-           comment = c(ORCID = " 0000-0001-7936-0639"))
+           comment = c(ORCID = "0000-0001-7936-0639"))
     )
-Description: This package specializes in analyzing and visualizing eQTL at the
-    single-cell level. It can read gene expression matrices or Seurat data, or
-    SingleCellExperiment object along with genotype data.
+Description: scQTLtools is a comprehensive R/Bioconductor package that 
+    facilitates end-to-end single-cell eQTL analysis, from preprocessing to 
+    visualization.
 Depends: R (>= 4.4.1.0)
 Imports:
     ggplot2(>= 3.5.1),
@@ -60,10 +61,10 @@ License: MIT + file LICENSE
 URL: https://github.com/XFWuCN/scQTLtools
 VignetteBuilder: knitr
 BugReports: https://github.com/XFWuCN/scQTLtools/issues
-biocViews: Software,GeneExpression,GeneticVariability,SNP,
-        DifferentialExpression,GenomicVariation,VariantDetection,Genetics,
-        FunctionalGenomics,SystemsBiology,Regression,SingleCell,Normalization,
-        Visualization
+biocViews: Software, GeneExpression, GeneticVariability, SNP,
+        DifferentialExpression, GenomicVariation, VariantDetection, Genetics,
+        FunctionalGenomics, SystemsBiology, Regression, SingleCell, 
+        Normalization, Visualization
 Encoding: UTF-8
 RoxygenNote: 7.3.2
 LazyData: false
