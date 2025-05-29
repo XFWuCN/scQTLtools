@@ -1,3 +1,8 @@
+# Changes in version 1.1.4 (2025-05-29)
+
++ Updated vignettes and README.
+
+
 # Changes in version 1.1.3 (2025-05-26)
 
 + Updated dataset names.

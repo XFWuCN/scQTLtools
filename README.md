@@ -1,13 +1,25 @@
-# scQTLtools: An R package for single-cell eQTL analysis.
+# scQTLtools: an R/Bioconductor package for comprehensive identification and visualization of single-cell eQTLs.
 
 
 ## Introduction
-Expression quantitative trait loci (eQTL) analysis links variations in gene 
-expression levels to genotypes. scQTLtools is designed to identify genetic 
-variants that influence gene expression at the single-cell level, and can 
-also visualize the results. Our package includes data preprocessing and 
-multiple visualization options, providing researchers with a powerful tool for
-exploring sc-eQTLs within specific cellular contexts.
+Single-cell RNA sequencing (scRNA-seq) enables expression quantitative trait 
+locus (eQTL) analysis at cellular resolution, offering new opportunities to 
+uncover regulatory variants with cell-type-specific effects. However, existing 
+tools are often limited in functionality, input compatibility, or scalability 
+for sparse single-cell data. To address these challenges, we developed 
+scQTLtools, a comprehensive R/Bioconductor package that facilitates end-to-end single-cell eQTL analysis, from preprocessing to visualization. The toolkit 
+supports flexible input formats, including Seurat and SingleCellExperiment 
+objects, handles both binary and three-class genotype encodings, and provides 
+dedicated functions for gene expression normalization, SNP and gene filtering, 
+eQTL mapping, and versatile result visualization. To accommodate diverse data characteristics, scQTLtools implements three statistical models—linear 
+regression, Poisson regression, and zero-inflated negative binomial regression. 
+We applied scQTLtools to scRNA-seq data from human acute myeloid leukemia and identified eQTLs with regulatory effects that varied across cell types. 
+Visualization of SNP–gene pairs revealed both positive and negative 
+associations between genotype and gene expression. These results demonstrate 
+the ability of scQTLtools to uncover cell-type-specific regulatory variation 
+that is often missed by bulk eQTL analyses. Overall, scQTLtools offers a 
+robust, flexible, and user-friendly framework for dissecting 
+genotype-expression relationships in heterogeneous cellular populations.
 
 ## Citation
 
@@ -43,7 +55,7 @@ brief descriptions are summarized below.
 
 Each module is summarized as shown below.
 
-***[Overview](vignettes/Overview.png)***
+![Overview](./vignettes/Overview.png)
 
 scQTLtools requires two key input data: a single-cell gene expression dataset 
 and a corresponding SNP genotype matrix. The single-cell gene expression
@@ -63,13 +75,13 @@ of eQTLs across distinct cell types or cellular states.
 ## Comparison and advantages compared to similar works
 
 We compared scQTLtools to other packages with similar functionality, including 
-eQTLsingle, SCeQTL, MatrixEQTL, and iBMQ, as shown in the table below.
+eQTLsingle, SCeQTL, Matrix eQTL, and iBMQ, as shown in the table below.
 
-***[Comparison](vignettes/Comparison.png)***
+![Comparison](./vignettes/Comparison.png)
 
 Among these tools, scQTLtools stands out for its comprehensive features:
 
-(1) scQTLtools accepts SingleCellExperiment objects and Seurat objects as
+(1) scQTLtools accepts SingleCellExperiment object and Seurat object as
 input data formats, which are particularly beneficial for users working with
 single-cell RNA-seq data, and promote the interoperability with the current
 Bioconductor ecosystem. 
@@ -114,7 +126,7 @@ The columns (cells) of the genotype matrix should correspond to the columns
 
 **Example**
 
-```{r input, message=FALSE}
+```{r input, message = FALSE}
 library(scQTLtools)
 # gene expression matrix
 data(GeneData)
@@ -133,7 +145,7 @@ biClassify, species, and group information.
 
 **Example**
 
-```{r createObject_matrix, message=FALSE}
+```{r createObject_matrix, message = FALSE}
 eqtl_matrix <- createQTLObject(
     snpMatrix = SNPData,
     genedata = GeneData,
@@ -146,7 +158,7 @@ Users can set `biClassify` to TRUE to change the genotype encoding mode.
 
 **Example**
 
-```{r createObject_matrix_bi, message=FALSE}
+```{r createObject_matrix_bi, message = FALSE}
 eqtl_matrix_bi <- createQTLObject(
     snpMatrix = SNPData,
     genedata = GeneData,
@@ -159,7 +171,7 @@ Users can use Seurat object instead of gene expression matrix.
 
 **Example**
 
-```{r createObject_seuratobject, message=FALSE}
+```{r createObject_seuratobject, message = FALSE}
 eqtl_seurat <- createQTLObject(
     snpMatrix = SNPData2,
     genedata = Seurat_obj,
@@ -172,7 +184,7 @@ Users can also take SingleCellExperiment object as input.
 
 **Example**
 
-```{r createObject_sceobject, message=FALSE}
+```{r createObject_sceobject, message = FALSE}
 # Create a SingleCellExperiment object
 library(SingleCellExperiment)
 sce <- SingleCellExperiment(assays = list(counts = GeneData))
@@ -190,13 +202,13 @@ Use `normalizeGene()` to normalize the raw gene expression matrix.
 
 **Example**
 
-```{r Normalize_matrix, message=FALSE}
+```{r Normalize_matrix, message = FALSE}
 eqtl_matrix  <- normalizeGene(
     eQTLObject = eqtl_matrix, 
     method = "logNormalize")
 ```
 
-```{r Normalize_sceobject, message=FALSE}
+```{r Normalize_sceobject, message = FALSE}
 eqtl_sce  <- normalizeGene(
     eQTLObject = eqtl_sce, 
     method = "logNormalize")
@@ -207,7 +219,7 @@ Here we use `filterGeneSNP()` to filter SNP–gene pairs.
 
 **Example**
 
-```{r filter_matrix, message=FALSE}
+```{r filter_matrix, message = FALSE}
 eqtl_matrix <- filterGeneSNP(
     eQTLObject = eqtl_matrix,
     snpNumOfCellsPercent = 2,
@@ -215,7 +227,7 @@ eqtl_matrix <- filterGeneSNP(
     expressionNumOfCellsPercent = 2)
 ```
 
-```{r filter_seuratobject, message=FALSE}
+```{r filter_seuratobject, message = FALSE}
 eqtl_seurat <- filterGeneSNP(
     eQTLObject = eqtl_seurat,
     snpNumOfCellsPercent = 2,
@@ -223,7 +235,7 @@ eqtl_seurat <- filterGeneSNP(
     expressionNumOfCellsPercent = 2)
 ```
 
-```{r filter_sceobject, message=FALSE}
+```{r filter_sceobject, message = FALSE}
 eqtl_sce <- filterGeneSNP(
     eQTLObject = eqtl_sce,
     snpNumOfCellsPercent = 2,
@@ -237,7 +249,7 @@ Here we use `callQTL()` to perform single cell eQTL analysis.
 
 **Example**
 
-```{r callQTL1_matrix, message=FALSE}
+```{r callQTL1_matrix, message = FALSE}
 eqtl1_matrix <- callQTL(
     eQTLObject = eqtl_matrix,
     gene_ids = NULL,
@@ -251,7 +263,7 @@ eqtl1_matrix <- callQTL(
     logfcThreshold = 0.1)
 ```
 
-```{r callQTL1_seuratobject, message=FALSE}
+```{r callQTL1_seuratobject, message = FALSE}
 eqtl1_seurat <- callQTL(
     eQTLObject = eqtl_seurat,
     gene_ids = NULL,
@@ -265,7 +277,7 @@ eqtl1_seurat <- callQTL(
     logfcThreshold = 0.025)
 ```
 
-```{r callQTL1_sceobject, message=FALSE}
+```{r callQTL1_sceobject, message = FALSE}
 eqtl1_sce <- callQTL(
     eQTLObject = eqtl_sce,
     gene_ids = NULL,
@@ -284,7 +296,7 @@ interest for identifying sc-eQTLs.
 
 **Example**
 
-```{r callQTL2_matrix, message=FALSE}
+```{r callQTL2_matrix, message = FALSE}
 eqtl2_matrix <- callQTL(
     eQTLObject = eqtl_matrix,
     gene_ids = c("CNN2", 
@@ -307,7 +319,7 @@ gene in the genome.
 
 **Example**
 
-```{r callQTL3_matrix, message=FALSE} 
+```{r callQTL3_matrix, message = FALSE} 
 eqtl3_matrix <- callQTL(
     eQTLObject = eqtl_matrix,
     gene_ids = NULL,
@@ -330,7 +342,7 @@ supported: "histplot", "violin", "boxplot", or "QTLplot".
 
 violin plot:
 
-```{r visualizeQTL_matrix, message=FALSE}
+```{r visualizeQTL_matrix, message = FALSE}
 visualizeQTL(
     eQTLObject = eqtl1_matrix,
     SNPid = "1:632647",
@@ -345,7 +357,7 @@ QTLplot:
 By incorporating cell annotation from Seurat or SingleCellExperiment objects, 
 scQTLtools can reveal cell-type-specific patterns of eQTL effects.
 
-```{r visualizeQTL_seuratobject, message=FALSE}
+```{r visualizeQTL_seuratobject, message = FALSE}
 visualizeQTL(
     eQTLObject = eqtl1_seurat,
     SNPid = "1:632647",
@@ -358,7 +370,7 @@ visualizeQTL(
 In addition, the parameter `groupName` is used to specify a particular
 single-cell group of interest.
 
-```{r visualizeQTL_seuratobject_groupName, message=FALSE}
+```{r visualizeQTL_seuratobject_groupName, message = FALSE}
 visualizeQTL(
     eQTLObject = eqtl1_seurat,
     SNPid = "1:632647",
@@ -370,7 +382,7 @@ visualizeQTL(
 
 boxplot:
 
-```{r visualizeQTL_sceobject, message=FALSE}
+```{r visualizeQTL_sceobject, message = FALSE}
 visualizeQTL(
     eQTLObject = eqtl1_sce,
     SNPid = "1:632647",
