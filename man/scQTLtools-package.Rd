@@ -4,9 +4,9 @@
 \name{scQTLtools-package}
 \alias{scQTLtools}
 \alias{scQTLtools-package}
-\title{scQTLtools: An R package for single-cell eQTL analysis and visualization}
+\title{scQTLtools: scQTLtools: an R/Bioconductor package for comprehensive identification and visualization of single-cell eQTLs}
 \description{
-This package specializes in analyzing and visualizing eQTL at the single-cell level. It can read gene expression matrices or Seurat data, or SingleCellExperiment object along with genotype data.
+scQTLtools is a comprehensive R/Bioconductor package that facilitates end-to-end single-cell eQTL analysis, from preprocessing to visualization
 }
 \seealso{
 Useful links:

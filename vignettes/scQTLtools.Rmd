@@ -1,5 +1,5 @@
 ---
-title: "scQTLtools: an R/Bioconductor package for comprehensive identification and visualization of single-cell eQTLs."
+title: "scQTLtools: an R/Bioconductor package for comprehensive identification and visualization of single-cell eQTLs"
 author: 
 - Xiaofeng Wu
 - Xin Huang
@@ -19,7 +19,7 @@ output:
     df_print: kable
   BiocStyle::pdf_document: default
 vignette: >
-  %\VignetteIndexEntry{scQTLtools: an R/Bioconductor package for comprehensive identification and visualization of single-cell eQTLs.}
+  %\VignetteIndexEntry{scQTLtools: an R/Bioconductor package for comprehensive identification and visualization of single-cell eQTLs}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -30,13 +30,16 @@ locus (eQTL) analysis at cellular resolution, offering new opportunities to
 uncover regulatory variants with cell-type-specific effects. However, existing 
 tools are often limited in functionality, input compatibility, or scalability 
 for sparse single-cell data. To address these challenges, we developed 
-scQTLtools, a comprehensive R/Bioconductor package that facilitates end-to-end single-cell eQTL analysis, from preprocessing to visualization. The toolkit 
+scQTLtools, a comprehensive R/Bioconductor package that facilitates end-to-end
+single-cell eQTL analysis, from preprocessing to visualization. The toolkit 
 supports flexible input formats, including Seurat and SingleCellExperiment 
 objects, handles both binary and three-class genotype encodings, and provides 
 dedicated functions for gene expression normalization, SNP and gene filtering, 
-eQTL mapping, and versatile result visualization. To accommodate diverse data characteristics, scQTLtools implements three statistical models—linear 
-regression, Poisson regression, and zero-inflated negative binomial regression. 
-We applied scQTLtools to scRNA-seq data from human acute myeloid leukemia and identified eQTLs with regulatory effects that varied across cell types. 
+eQTL mapping, and versatile result visualization. To accommodate diverse data
+characteristics, scQTLtools implements three statistical models—linear 
+regression, Poisson regression, and zero-inflated negative binomial regression.
+We applied scQTLtools to scRNA-seq data from human acute myeloid leukemia and
+identified eQTLs with regulatory effects that varied across cell types. 
 Visualization of SNP–gene pairs revealed both positive and negative 
 associations between genotype and gene expression. These results demonstrate 
 the ability of scQTLtools to uncover cell-type-specific regulatory variation 

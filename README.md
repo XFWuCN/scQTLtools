@@ -1,4 +1,4 @@
-# scQTLtools: an R/Bioconductor package for comprehensive identification and visualization of single-cell eQTLs.
+# scQTLtools: an R/Bioconductor package for comprehensive identification and visualization of single-cell eQTLs
 
 
 ## Introduction
