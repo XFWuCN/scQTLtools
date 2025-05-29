@@ -3,7 +3,7 @@ citHeader("scQTLtools can be cited as:")
 citEntry(
    entry = "article",
    title = "scQTLtools: an R/Bioconductor package for comprehensive
-   identification and visualization of single-cell eQTLs.",
+   identification and visualization of single-cell eQTLs",
    author = c(
               person("Xiaofeng", "Wu"),
               person("Xin Huang"),

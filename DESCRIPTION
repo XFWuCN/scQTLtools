@@ -1,7 +1,7 @@
 Package: scQTLtools
 Type: Package
 Title: scQTLtools: an R/Bioconductor package for comprehensive identification 
-    and visualization of single-cell eQTLs.
+    and visualization of single-cell eQTLs
 Version: 1.1.5
 Authors@R: c(
     person(given = "Xiaofeng", 
@@ -27,7 +27,7 @@ Authors@R: c(
     )
 Description: scQTLtools is a comprehensive R/Bioconductor package that 
     facilitates end-to-end single-cell eQTL analysis, from preprocessing to 
-    visualization.
+    visualization
 Depends: R (>= 4.4.1.0)
 Imports:
     ggplot2(>= 3.5.1),
@@ -64,7 +64,7 @@ BugReports: https://github.com/XFWuCN/scQTLtools/issues
 biocViews: Software, GeneExpression, GeneticVariability, SNP,
         DifferentialExpression, GenomicVariation, VariantDetection, Genetics,
         FunctionalGenomics, SystemsBiology, Regression, SingleCell, 
-        Normalization, Visualization
+        Normalization, Visualization, Preprocessing
 Encoding: UTF-8
 RoxygenNote: 7.3.2
 LazyData: false
