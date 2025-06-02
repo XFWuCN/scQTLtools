@@ -2,7 +2,7 @@ Package: scQTLtools
 Type: Package
 Title: scQTLtools: an R/Bioconductor package for comprehensive identification 
     and visualization of single-cell eQTLs
-Version: 1.1.5
+Version: 1.1.6
 Authors@R: c(
     person(given = "Xiaofeng", 
            family = "Wu",    
