@@ -38,7 +38,7 @@ If \code{NULL}, the Ensembl SNP BioMart will be used.}
 \code{"bonferroni"}, \code{"holm"}, \code{"hochberg"}, \code{"hommel"}, or
 \code{"BH"}. Default is \code{"bonferroni"}.}
 
-\item{useModel}{Model used for fitting. One of "possion", "zinb", or
+\item{useModel}{Model used for fitting. One of "poisson", "zinb", or
 "linear."}
 
 \item{pAdjustThreshold}{Only SNP–gene pairs with adjusted p-values below

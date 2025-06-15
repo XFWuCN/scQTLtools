@@ -1,7 +1,7 @@
 #' Identify single-cell eQTLs.
 #'
 #' This function detects eQTLs using scRNA-seq data and genotype data.
-#' @param useModel  Model used for fitting. One of "possion", "zinb", or
+#' @param useModel  Model used for fitting. One of "poisson", "zinb", or
 #' "linear."
 #' @param pAdjustThreshold  Only SNP–gene pairs with adjusted p-values below
 #' the threshold will be retained. Default is 0.05.
