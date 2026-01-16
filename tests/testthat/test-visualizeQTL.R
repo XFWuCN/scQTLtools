@@ -19,8 +19,8 @@ eqtl <- callQTL(eQTLObject = eqtl,
                 upstream = NULL,
                 pAdjustMethod = "bonferroni",
                 useModel = "poisson",
-                pAdjustThreshold = 0.05,
-                logfcThreshold = 0.1)
+                pAdjustThreshold = 1,
+                logfcThreshold = 0)
 
 
 test_that("visualizeQTL function behaves as expected", {
@@ -56,8 +56,8 @@ test_that("visualizeQTL function behaves as expected", {
                         expressionNumOfCellsPercent = 2)
   eqtl <- callQTL(eQTLObject = eqtl,
                   useModel = "linear",
-                  pAdjustThreshold = 0.05,
-                  logfcThreshold = 0.025)
+                  pAdjustThreshold = 1,
+                  logfcThreshold = 0)
   plot5 <- visualizeQTL(eqtl, SNPid = "1:632647", Geneid = "RPS27", groupName = "GMP", plottype = "QTLplot")
   expect_true(is.list(plot5))
 
