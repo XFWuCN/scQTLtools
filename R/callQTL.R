@@ -23,9 +23,10 @@
 #' @importFrom Matrix Matrix
 #' @importFrom stringr str_split
 #' @importFrom dplyr mutate_all mutate
-#' @importFrom GOSemSim load_OrgDb
+#' @import GOSemSim
 #' @importFrom stats na.omit
 #' @import magrittr
+#' @import yulab.utils
 #' @return A data frame in which each row corresponds to a detected SNP–gene
 #' eQTL pair, including statistical and model fitting results.
 #' @export
