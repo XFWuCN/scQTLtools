@@ -23,7 +23,8 @@
 #' @importFrom Matrix Matrix
 #' @importFrom stringr str_split
 #' @importFrom dplyr mutate_all mutate
-#' @importFrom GOSemSim load_OrgDb
+#' @import GOSemSim
+#' @import yulab.utils
 #' @importFrom stats na.omit
 #' @import magrittr
 #' @return A data frame in which each row corresponds to a detected SNP–gene
