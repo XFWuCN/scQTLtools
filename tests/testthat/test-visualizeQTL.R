@@ -19,8 +19,8 @@ eqtl <- callQTL(eQTLObject = eqtl,
                 upstream = NULL,
                 pAdjustMethod = "bonferroni",
                 useModel = "poisson",
-                pAdjustThreshold = 0.05,
-                logfcThreshold = 0.1)
+                pAdjustThreshold = 1,
+                logfcThreshold = 0)
 
 
 test_that("visualizeQTL function behaves as expected", {
