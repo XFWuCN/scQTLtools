@@ -27,6 +27,7 @@
 #' @import yulab.utils
 #' @importFrom stats na.omit
 #' @import magrittr
+#' @import yulab.utils
 #' @return A data frame in which each row corresponds to a detected SNP–gene
 #' eQTL pair, including statistical and model fitting results.
 #' @export

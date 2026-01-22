@@ -27,19 +27,19 @@ test_that("visualizeQTL function behaves as expected", {
 
   # test QTLplot result
   plot1 <- visualizeQTL(eqtl, SNPid = "1:632647", Geneid = "RPS27", plottype = "QTLplot")
-  expect_true(is.list(plot1))
+  expect_s3_class(plot1, "ggplot")
 
   # test violin result
   plot2 <- visualizeQTL(eqtl, SNPid = "1:632647", Geneid = "RPS27", plottype = "violin")
-  expect_true(is.list(plot2))
+  expect_s3_class(plot2, "ggplot")
 
   # test boxplot result
   plot3 <- visualizeQTL(eqtl, SNPid = "1:632647", Geneid = "RPS27", plottype = "boxplot")
-  expect_true(is.list(plot3))
+  expect_s3_class(plot3, "ggplot")
 
   # test histplot result
   plot4 <- visualizeQTL(eqtl, SNPid = "1:632647", Geneid = "RPS27", plottype = "histplot")
-  expect_true(is.list(plot4))
+  expect_s3_class(plot4, "ggplot")
 
   # when specific group
   data(Seurat_obj)
@@ -59,7 +59,7 @@ test_that("visualizeQTL function behaves as expected", {
                   pAdjustThreshold = 1,
                   logfcThreshold = 0)
   plot5 <- visualizeQTL(eqtl, SNPid = "1:632647", Geneid = "RPS27", groupName = "GMP", plottype = "QTLplot")
-  expect_true(is.list(plot5))
+  expect_s3_class(plot5, "ggplot")
 
   # test invalid plot types
   expect_error(visualizeQTL(eqtl, SNPid = "1:632647", Geneid = "RPS27", plottype = "invalid_type"),
