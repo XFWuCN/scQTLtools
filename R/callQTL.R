@@ -23,7 +23,6 @@
 #' @importFrom Matrix Matrix
 #' @importFrom stringr str_split
 #' @importFrom dplyr mutate_all mutate
-#' @import GOSemSim
 #' @importFrom stats na.omit
 #' @import magrittr
 #' @import yulab.utils
