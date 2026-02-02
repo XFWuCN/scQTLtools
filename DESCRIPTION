@@ -47,7 +47,7 @@ Imports:
     gamlss (>= 5.4-22),
     SingleCellExperiment(>= 1.27.2),
     SummarizedExperiment(>= 1.32.0),
-    yulab.utils (>= 0.1.7)
+    yulab.utils (>= 0.2.3)
 Suggests: 
     BiocStyle,
     knitr,

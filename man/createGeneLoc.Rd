@@ -36,7 +36,7 @@ Create a gene location data frame.
 \examples{
 data(GeneData)
 geneList <- rownames(GeneData)
-library(GOSemSim)
+library(yulab.utils)
 library(biomaRt)
 OrgDb <- load_OrgDb("org.Hs.eg.db")
 gene_mart <- useEnsembl(biomart = "genes",
